@@ -12,7 +12,6 @@
   <title>MHSI Inventory Scanner</title>
 
 
-  <!-- GOOGLE IDENTITY SERVICES -->
   <script
     src="https://accounts.google.com/gsi/client"
     async
@@ -20,7 +19,6 @@
   </script>
 
 
-  <!-- ZXING -->
   <script
     src="https://unpkg.com/@zxing/browser@latest">
   </script>
@@ -78,8 +76,7 @@
       padding: 18px;
       margin-bottom: 15px;
       box-shadow:
-        0 4px 18px
-        rgba(0,0,0,.055);
+        0 4px 18px rgba(0,0,0,.055);
     }
 
     .hidden {
@@ -92,7 +89,7 @@
     }
 
     .login-icon {
-      font-size: 52px;
+      font-size: 48px;
       margin-bottom: 12px;
     }
 
@@ -105,9 +102,8 @@
     .login-text {
       color: #667085;
       font-size: 13px;
-      line-height: 1.55;
-      max-width: 380px;
-      margin: auto auto 22px;
+      line-height: 1.5;
+      margin-bottom: 22px;
     }
 
     #googleButton {
@@ -117,9 +113,9 @@
 
     .user-top {
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      gap: 15px;
+      align-items: center;
+      gap: 12px;
     }
 
     .user-name {
@@ -134,27 +130,18 @@
       line-height: 1.5;
     }
 
-    .logout-button {
-      width: auto;
-      margin: 0;
-      padding: 10px 13px;
-      background: #fff0f0;
-      color: #b42318;
-      white-space: nowrap;
-    }
-
     .permission-list {
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
-      margin-top: 13px;
+      margin-top: 12px;
     }
 
     .permission {
-      padding: 6px 9px;
-      border-radius: 20px;
       background: #edf4ff;
       color: #2764c5;
+      padding: 6px 9px;
+      border-radius: 20px;
       font-size: 10px;
       font-weight: 800;
     }
@@ -208,8 +195,7 @@
       right: 7%;
       top: 34%;
       height: 32%;
-      border:
-        2px solid rgba(255,255,255,.9);
+      border: 2px solid rgba(255,255,255,.9);
       border-radius: 12px;
       pointer-events: none;
     }
@@ -245,18 +231,47 @@
       color: #2764c5;
     }
 
+    .receive {
+      background: #16794f;
+      color: white;
+    }
+
+    .logout {
+      width: auto;
+      margin: 0;
+      padding: 10px 13px;
+      background: #fff0f0;
+      color: #b42318;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      border: 1px solid #d7dee8;
+      border-radius: 12px;
+      padding: 13px;
+      font-size: 16px;
+      background: white;
+      margin-bottom: 13px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 12px;
+      font-weight: 800;
+      color: #667085;
+    }
+
     .manual-row {
       display: grid;
       grid-template-columns: 1fr auto;
       gap: 8px;
     }
 
-    input {
-      width: 100%;
-      border: 1px solid #d7dee8;
-      border-radius: 12px;
-      padding: 13px;
-      font-size: 16px;
+    .manual-row input {
+      margin: 0;
     }
 
     .manual-row button {
@@ -266,9 +281,9 @@
     }
 
     .section-title {
+      color: #687386;
       font-size: 11px;
       font-weight: 800;
-      color: #687386;
       margin-bottom: 8px;
     }
 
@@ -356,6 +371,22 @@
       color: #b42318;
     }
 
+    .receive-title {
+      font-size: 21px;
+      font-weight: 800;
+      margin-bottom: 5px;
+    }
+
+    .receive-item {
+      color: #667085;
+      font-size: 13px;
+      margin-bottom: 18px;
+    }
+
+    .required {
+      color: #b42318;
+    }
+
     .loading {
       position: fixed;
       inset: 0;
@@ -437,10 +468,7 @@
     </div>
 
     <div class="login-text">
-      Sign in using your authorized
-      MHSI Google account to access
-      your assigned Primary Care Clinic
-      inventory.
+      Use your authorized MHSI Google account.
     </div>
 
     <div id="googleButton"></div>
@@ -454,8 +482,6 @@
     id="appArea"
     class="hidden">
 
-
-    <!-- USER -->
 
     <div class="card">
 
@@ -477,7 +503,7 @@
 
 
         <button
-          class="logout-button"
+          class="logout"
           onclick="logout()">
 
           LOG OUT
@@ -572,7 +598,7 @@
     </div>
 
 
-    <!-- ITEM -->
+    <!-- ITEM CARD -->
 
     <div
       id="itemCard"
@@ -597,36 +623,47 @@
       <div class="stock-grid">
 
         <div class="stock-box">
+
           <div
             id="availableStock"
             class="stock-number">
             0
           </div>
+
           <div class="stock-label">
             AVAILABLE
           </div>
+
         </div>
 
+
         <div class="stock-box">
+
           <div
             id="quarantineStock"
             class="stock-number">
             0
           </div>
+
           <div class="stock-label">
             QUARANTINE
           </div>
+
         </div>
 
+
         <div class="stock-box">
+
           <div
             id="transitStock"
             class="stock-number">
             0
           </div>
+
           <div class="stock-label">
             IN TRANSIT
           </div>
+
         </div>
 
       </div>
@@ -642,10 +679,153 @@
 
 
       <button
+        id="receiveButton"
+        class="receive hidden"
+        onclick="openReceive()">
+
+        + RECEIVE STOCK
+
+      </button>
+
+
+      <button
         class="primary"
         onclick="scanAnother()">
 
         SCAN ANOTHER ITEM
+
+      </button>
+
+    </div>
+
+
+    <!-- RECEIVE FORM -->
+
+    <div
+      id="receiveCard"
+      class="card hidden">
+
+      <div class="receive-title">
+        Receive Stock
+      </div>
+
+      <div
+        id="receiveItemName"
+        class="receive-item">
+      </div>
+
+
+      <label>
+        Quantity
+        <span class="required">*</span>
+      </label>
+
+      <input
+        id="receiveQty"
+        type="number"
+        min="0.01"
+        step="0.01"
+        inputmode="decimal"
+        placeholder="Quantity received">
+
+
+      <div id="batchField">
+
+        <label>
+          Batch / Lot Number
+          <span
+            id="batchRequired"
+            class="required">
+          </span>
+        </label>
+
+        <input
+          id="receiveBatch"
+          type="text"
+          placeholder="Batch / Lot Number">
+
+      </div>
+
+
+      <div id="expiryField">
+
+        <label>
+          Expiry Date
+          <span
+            id="expiryRequired"
+            class="required">
+          </span>
+        </label>
+
+        <input
+          id="receiveExpiry"
+          type="date">
+
+      </div>
+
+
+      <label>
+        Storage Location
+        <span class="required">*</span>
+      </label>
+
+      <select id="receiveLocation">
+
+        <option value="">
+          Select location
+        </option>
+
+      </select>
+
+
+      <label>
+        Unit Cost
+      </label>
+
+      <input
+        id="receiveUnitCost"
+        type="number"
+        min="0"
+        step="0.01"
+        inputmode="decimal"
+        placeholder="Optional">
+
+
+      <label>
+        Reference No.
+      </label>
+
+      <input
+        id="receiveReference"
+        type="text"
+        placeholder="PO / DR / Delivery Reference">
+
+
+      <label>
+        Notes
+      </label>
+
+      <textarea
+        id="receiveNotes"
+        rows="3"
+        placeholder="Optional notes">
+      </textarea>
+
+
+      <button
+        class="receive"
+        onclick="submitReceive()">
+
+        CONFIRM RECEIVE
+
+      </button>
+
+
+      <button
+        class="secondary"
+        onclick="closeReceive()">
+
+        CANCEL
 
       </button>
 
@@ -664,17 +844,16 @@
    SETTINGS
 ========================================================= */
 
-
 const GOOGLE_CLIENT_ID =
   '717366343479-qjs60uj0gumr9m326phdtjp5kp0o6vrq.apps.googleusercontent.com';
 
 
 /*
-  REPLACE WITH YOUR EXISTING
-  APPS SCRIPT /exec URL
+  REPLACE THIS WITH YOUR
+  CURRENT /exec URL
 */
 
-const API_URL =
+const _URL =
   'https://script.google.com/macros/s/AKfycbwSGG51EMk-47M9QqAfGUosXfslYvrq8MB6sSdVAO8NMFKL3YjzDsLXoLxsO-JvbMKwCA/exec';
 
 
@@ -682,7 +861,6 @@ const API_URL =
 /* =========================================================
    STATE
 ========================================================= */
-
 
 let sessionToken =
   localStorage.getItem(
@@ -692,6 +870,14 @@ let sessionToken =
 
 let currentUser =
   null;
+
+
+let currentItemResult =
+  null;
+
+
+let locations =
+  [];
 
 
 let codeReader =
@@ -712,9 +898,8 @@ let scanLocked =
 
 
 /* =========================================================
-   GOOGLE INITIALIZATION
+   START
 ========================================================= */
-
 
 window.addEventListener(
   'load',
@@ -734,7 +919,7 @@ function initialize() {
   }
 
 
-  const wait =
+  const timer =
     setInterval(
       function() {
 
@@ -745,7 +930,7 @@ function initialize() {
         ) {
 
           clearInterval(
-            wait
+            timer
           );
 
           initializeGoogleLogin();
@@ -759,6 +944,11 @@ function initialize() {
 }
 
 
+
+/* =========================================================
+   GOOGLE LOGIN
+========================================================= */
+
 function initializeGoogleLogin() {
 
 
@@ -771,52 +961,34 @@ function initializeGoogleLogin() {
       handleGoogleCredential,
 
     auto_select:
-      false,
-
-    cancel_on_tap_outside:
-      true
+      false
 
   });
 
 
   google.accounts.id.renderButton(
 
-    document
-      .getElementById(
-        'googleButton'
-      ),
+    document.getElementById(
+      'googleButton'
+    ),
 
     {
-
-      type:
-        'standard',
-
       theme:
         'outline',
 
       size:
         'large',
 
-      text:
-        'signin_with',
-
-      shape:
-        'rectangular',
-
       width:
-        280
+        280,
 
+      text:
+        'signin_with'
     }
 
   );
 
 }
-
-
-
-/* =========================================================
-   GOOGLE CREDENTIAL
-========================================================= */
 
 
 function handleGoogleCredential(
@@ -829,7 +1001,7 @@ function handleGoogleCredential(
     !response.credential
   ) {
 
-    showLoginError(
+    alert(
       'Google sign-in failed.'
     );
 
@@ -839,11 +1011,11 @@ function handleGoogleCredential(
 
 
   showLoading(
-    'Verifying your MHSI account...'
+    'Verifying MHSI account...'
   );
 
 
-  apiCall(
+  Call(
     'login',
     {
       credential:
@@ -861,9 +1033,11 @@ function handleGoogleCredential(
         result.success !== true
       ) {
 
-        showLoginError(
-          result?.message ||
-          'Access denied.'
+        alert(
+          result &&
+          result.message
+            ? result.message
+            : 'Access denied.'
         );
 
         return;
@@ -896,14 +1070,13 @@ function handleGoogleCredential(
 
 
 /* =========================================================
-   STORED SESSION
+   SESSION
 ========================================================= */
-
 
 function validateStoredSession() {
 
 
-  apiCall(
+  Call(
     'session',
     {
       session:
@@ -928,7 +1101,7 @@ function validateStoredSession() {
 
       else {
 
-        clearLocalSession();
+        clearSession();
 
       }
 
@@ -937,12 +1110,6 @@ function validateStoredSession() {
   );
 
 }
-
-
-
-/* =========================================================
-   OPEN APP
-========================================================= */
 
 
 function openApp() {
@@ -1003,6 +1170,9 @@ function openApp() {
   renderPermissions();
 
 
+  loadLocations();
+
+
   showStatus(
     'Signed in successfully. Ready to scan.',
     'success'
@@ -1011,20 +1181,7 @@ function openApp() {
 }
 
 
-
-/* =========================================================
-   PERMISSIONS
-========================================================= */
-
-
 function renderPermissions() {
-
-
-  const container =
-    document
-      .getElementById(
-        'permissionList'
-      );
 
 
   const p =
@@ -1035,44 +1192,46 @@ function renderPermissions() {
 
 
   if (p.receive) {
-    labels.push('RECEIVE');
+    labels.push(
+      'RECEIVE'
+    );
   }
 
   if (p.issue) {
-    labels.push('ISSUE');
+    labels.push(
+      'ISSUE'
+    );
   }
 
   if (p.transfer) {
-    labels.push('TRANSFER');
+    labels.push(
+      'TRANSFER'
+    );
   }
 
   if (p.count) {
-    labels.push('COUNT');
-  }
-
-  if (p.approveAdjustment) {
     labels.push(
-      'APPROVE ADJUSTMENT'
+      'COUNT'
     );
   }
 
-  if (p.reportAccess) {
 
-    labels.push(
-      'REPORTS: ' +
-      p.reportAccess
-    );
+  document
+    .getElementById(
+      'permissionList'
+    )
+    .innerHTML =
 
-  }
+      labels.map(
+        function(label) {
 
+          return (
+            '<span class="permission">' +
+            escapeHtml(label) +
+            '</span>'
+          );
 
-  container.innerHTML =
-    labels
-      .map(
-        label =>
-          '<span class="permission">' +
-          escapeHtml(label) +
-          '</span>'
+        }
       )
       .join('');
 
@@ -1084,7 +1243,6 @@ function renderPermissions() {
    LOGOUT
 ========================================================= */
 
-
 function logout() {
 
 
@@ -1095,7 +1253,7 @@ function logout() {
     sessionToken
   ) {
 
-    apiCall(
+    Call(
       'logout',
       {
         session:
@@ -1107,20 +1265,17 @@ function logout() {
   }
 
 
-  /*
-    Disable auto account selection.
-  */
-
   try {
 
     google.accounts.id
       .disableAutoSelect();
 
   }
+
   catch (error) {}
 
 
-  clearLocalSession();
+  clearSession();
 
 
   location.reload();
@@ -1128,12 +1283,14 @@ function logout() {
 }
 
 
-function clearLocalSession() {
+function clearSession() {
 
 
   sessionToken = '';
 
   currentUser = null;
+
+  currentItemResult = null;
 
 
   localStorage.removeItem(
@@ -1145,9 +1302,95 @@ function clearLocalSession() {
 
 
 /* =========================================================
-   ZXING CAMERA
+   LOCATIONS
 ========================================================= */
 
+function loadLocations() {
+
+
+  Call(
+    'locations',
+    {
+      session:
+        sessionToken
+    },
+
+    function(result) {
+
+
+      if (
+        !result ||
+        result.success !== true
+      ) {
+
+        return;
+
+      }
+
+
+      locations =
+        result.locations || [];
+
+
+      const select =
+        document
+          .getElementById(
+            'receiveLocation'
+          );
+
+
+      select.innerHTML =
+
+        '<option value="">' +
+        'Select location' +
+        '</option>';
+
+
+      locations.forEach(
+        function(location) {
+
+
+          const option =
+            document
+              .createElement(
+                'option'
+              );
+
+
+          option.value =
+            location.locationId;
+
+
+          option.textContent =
+
+            location.locationName +
+
+            (
+              location.locationType
+                ? ' • ' +
+                  location.locationType
+                : ''
+            );
+
+
+          select.appendChild(
+            option
+          );
+
+        }
+      );
+
+    }
+
+  );
+
+}
+
+
+
+/* =========================================================
+   CAMERA
+========================================================= */
 
 async function openScanner() {
 
@@ -1181,7 +1424,7 @@ async function openScanner() {
 
     if (
       !devices ||
-      devices.length === 0
+      !devices.length
     ) {
 
       throw new Error(
@@ -1197,18 +1440,30 @@ async function openScanner() {
 
     const rear =
       devices.find(
-        d => {
+        function(device) {
+
 
           const label =
             String(
-              d.label || ''
+              device.label || ''
             )
             .toLowerCase();
 
+
           return (
-            label.includes('back') ||
-            label.includes('rear') ||
-            label.includes('environment')
+
+            label.includes(
+              'back'
+            ) ||
+
+            label.includes(
+              'rear'
+            ) ||
+
+            label.includes(
+              'environment'
+            )
+
           );
 
         }
@@ -1217,7 +1472,8 @@ async function openScanner() {
 
     if (rear) {
 
-      selected = rear;
+      selected =
+        rear;
 
     }
 
@@ -1241,10 +1497,12 @@ async function openScanner() {
               !scanLocked
             ) {
 
+
               const value =
                 String(
                   result.getText()
-                ).trim();
+                )
+                .trim();
 
 
               if (value) {
@@ -1269,8 +1527,7 @@ async function openScanner() {
       .getElementById(
         'openButton'
       )
-      .classList
-      .add(
+      .classList.add(
         'hidden'
       );
 
@@ -1279,8 +1536,7 @@ async function openScanner() {
       .getElementById(
         'stopButton'
       )
-      .classList
-      .remove(
+      .classList.remove(
         'hidden'
       );
 
@@ -1296,7 +1552,8 @@ async function openScanner() {
 
 
     showStatus(
-      error.message,
+      error.message ||
+      String(error),
       'error'
     );
 
@@ -1310,7 +1567,11 @@ async function stopScanner() {
 
   try {
 
-    controls?.stop();
+    if (controls) {
+
+      controls.stop();
+
+    }
 
   }
 
@@ -1325,10 +1586,9 @@ async function stopScanner() {
 
 
   const video =
-    document
-      .getElementById(
-        'video'
-      );
+    document.getElementById(
+      'video'
+    );
 
 
   if (
@@ -1338,8 +1598,11 @@ async function stopScanner() {
     video.srcObject
       .getTracks()
       .forEach(
-        track =>
-          track.stop()
+        function(track) {
+
+          track.stop();
+
+        }
       );
 
 
@@ -1353,8 +1616,7 @@ async function stopScanner() {
     .getElementById(
       'openButton'
     )
-    .classList
-    .remove(
+    .classList.remove(
       'hidden'
     );
 
@@ -1363,18 +1625,11 @@ async function stopScanner() {
     .getElementById(
       'stopButton'
     )
-    .classList
-    .add(
+    .classList.add(
       'hidden'
     );
 
 }
-
-
-
-/* =========================================================
-   SCANNED VALUE
-========================================================= */
 
 
 async function handleScannedCode(
@@ -1392,9 +1647,15 @@ async function handleScannedCode(
   scanLocked = true;
 
 
-  navigator.vibrate?.(
-    100
-  );
+  if (
+    navigator.vibrate
+  ) {
+
+    navigator.vibrate(
+      100
+    );
+
+  }
 
 
   await stopScanner();
@@ -1409,9 +1670,8 @@ async function handleScannedCode(
 
 
 /* =========================================================
-   MANUAL SEARCH
+   LOOKUP
 ========================================================= */
-
 
 function manualLookup() {
 
@@ -1444,12 +1704,6 @@ function manualLookup() {
 }
 
 
-
-/* =========================================================
-   LOOKUP
-========================================================= */
-
-
 function lookupInventory(
   code
 ) {
@@ -1460,9 +1714,8 @@ function lookupInventory(
   );
 
 
-  apiCall(
+  Call(
     'lookup',
-
     {
       session:
         sessionToken,
@@ -1498,13 +1751,7 @@ function lookupInventory(
         false
       ) {
 
-        clearLocalSession();
-
-        alert(
-          'Your session expired. Please sign in again.'
-        );
-
-        location.reload();
+        sessionExpired();
 
         return;
 
@@ -1536,8 +1783,7 @@ function lookupInventory(
           .getElementById(
             'itemCard'
           )
-          .classList
-          .add(
+          .classList.add(
             'hidden'
           );
 
@@ -1553,6 +1799,10 @@ function lookupInventory(
         return;
 
       }
+
+
+      currentItemResult =
+        result;
 
 
       displayItem(
@@ -1574,7 +1824,6 @@ function lookupInventory(
    DISPLAY ITEM
 ========================================================= */
 
-
 function displayItem(
   result
 ) {
@@ -1592,8 +1841,7 @@ function displayItem(
     .getElementById(
       'itemCard'
     )
-    .classList
-    .remove(
+    .classList.remove(
       'hidden'
     );
 
@@ -1686,6 +1934,41 @@ function displayItem(
   );
 
 
+  /*
+    RECEIVE button only
+    when authorized.
+  */
+
+  const receiveButton =
+    document
+      .getElementById(
+        'receiveButton'
+      );
+
+
+  if (
+    currentUser &&
+    currentUser.permissions &&
+    currentUser.permissions.receive
+  ) {
+
+    receiveButton
+      .classList.remove(
+        'hidden'
+      );
+
+  }
+
+  else {
+
+    receiveButton
+      .classList.add(
+        'hidden'
+      );
+
+  }
+
+
   showStatus(
     'Item found.',
     'success'
@@ -1697,8 +1980,569 @@ function displayItem(
       'itemCard'
     )
     .scrollIntoView({
-      behavior: 'smooth'
+      behavior:
+        'smooth'
     });
+
+}
+
+
+
+/* =========================================================
+   RECEIVE FORM
+========================================================= */
+
+function openReceive() {
+
+
+  if (
+    !currentItemResult
+  ) {
+
+    return;
+
+  }
+
+
+  const item =
+    currentItemResult.item;
+
+
+  document
+    .getElementById(
+      'receiveItemName'
+    )
+    .textContent =
+
+      item.itemName +
+      ' • ' +
+      item.itemId;
+
+
+  document
+    .getElementById(
+      'batchRequired'
+    )
+    .textContent =
+
+      item.requiresBatch
+        ? '*'
+        : '';
+
+
+  document
+    .getElementById(
+      'expiryRequired'
+    )
+    .textContent =
+
+      item.requiresExpiry
+        ? '*'
+        : '';
+
+
+  clearReceiveForm();
+
+
+  /*
+    Preferred location from
+    PCC_ITEMS when configured.
+  */
+
+  if (
+    currentItemResult.threshold &&
+    currentItemResult.threshold
+      .preferredLocationId
+  ) {
+
+    document
+      .getElementById(
+        'receiveLocation'
+      )
+      .value =
+
+        currentItemResult
+          .threshold
+          .preferredLocationId;
+
+  }
+
+
+  document
+    .getElementById(
+      'receiveCard'
+    )
+    .classList.remove(
+      'hidden'
+    );
+
+
+  document
+    .getElementById(
+      'receiveCard'
+    )
+    .scrollIntoView({
+      behavior:
+        'smooth'
+    });
+
+}
+
+
+function closeReceive() {
+
+
+  document
+    .getElementById(
+      'receiveCard'
+    )
+    .classList.add(
+      'hidden'
+    );
+
+}
+
+
+function clearReceiveForm() {
+
+
+  document
+    .getElementById(
+      'receiveQty'
+    )
+    .value = '';
+
+
+  document
+    .getElementById(
+      'receiveBatch'
+    )
+    .value = '';
+
+
+  document
+    .getElementById(
+      'receiveExpiry'
+    )
+    .value = '';
+
+
+  document
+    .getElementById(
+      'receiveUnitCost'
+    )
+    .value = '';
+
+
+  document
+    .getElementById(
+      'receiveReference'
+    )
+    .value = '';
+
+
+  document
+    .getElementById(
+      'receiveNotes'
+    )
+    .value = '';
+
+}
+
+
+
+/* =========================================================
+   SUBMIT RECEIVE
+========================================================= */
+
+async function submitReceive() {
+
+
+  if (
+    !currentItemResult
+  ) {
+
+    return;
+
+  }
+
+
+  const item =
+    currentItemResult.item;
+
+
+  const quantity =
+    Number(
+      document
+        .getElementById(
+          'receiveQty'
+        )
+        .value
+    );
+
+
+  const batchNo =
+    document
+      .getElementById(
+        'receiveBatch'
+      )
+      .value
+      .trim();
+
+
+  const expiryDate =
+    document
+      .getElementById(
+        'receiveExpiry'
+      )
+      .value;
+
+
+  const locationId =
+    document
+      .getElementById(
+        'receiveLocation'
+      )
+      .value;
+
+
+  const unitCost =
+    document
+      .getElementById(
+        'receiveUnitCost'
+      )
+      .value;
+
+
+  const referenceNo =
+    document
+      .getElementById(
+        'receiveReference'
+      )
+      .value
+      .trim();
+
+
+  const notes =
+    document
+      .getElementById(
+        'receiveNotes'
+      )
+      .value
+      .trim();
+
+
+  if (
+    !quantity ||
+    quantity <= 0
+  ) {
+
+    alert(
+      'Enter a valid quantity.'
+    );
+
+    return;
+
+  }
+
+
+  if (
+    item.requiresBatch &&
+    !batchNo
+  ) {
+
+    alert(
+      'Batch / Lot Number is required.'
+    );
+
+    return;
+
+  }
+
+
+  if (
+    item.requiresExpiry &&
+    !expiryDate
+  ) {
+
+    alert(
+      'Expiry Date is required.'
+    );
+
+    return;
+
+  }
+
+
+  if (!locationId) {
+
+    alert(
+      'Select a storage location.'
+    );
+
+    return;
+
+  }
+
+
+  const confirmed =
+    confirm(
+      'Receive ' +
+      quantity +
+      ' ' +
+      (
+        item.uom || ''
+      ) +
+      ' of ' +
+      item.itemName +
+      '?'
+    );
+
+
+  if (!confirmed) {
+
+    return;
+
+  }
+
+
+  const requestId =
+    generateRequestId();
+
+
+  showLoading(
+    'Posting stock receipt...'
+  );
+
+
+  const body =
+    new URLSearchParams({
+
+      action:
+        'receive',
+
+      requestId:
+        requestId,
+
+      session:
+        sessionToken,
+
+      itemId:
+        item.itemId,
+
+      quantity:
+        String(
+          quantity
+        ),
+
+      batchNo:
+        batchNo,
+
+      expiryDate:
+        expiryDate,
+
+      locationId:
+        locationId,
+
+      unitCost:
+        unitCost || '0',
+
+      referenceNo:
+        referenceNo,
+
+      notes:
+        notes
+
+    });
+
+
+  try {
+
+
+    /*
+      no-cors:
+      POST is sent to Apps Script.
+      Result will be checked separately
+      through writeStatus.
+    */
+
+    await fetch(
+      _URL,
+      {
+
+        method:
+          'POST',
+
+        mode:
+          'no-cors',
+
+        headers: {
+
+          'Content-Type':
+            'application/x-www-form-urlencoded;charset=UTF-8'
+
+        },
+
+        body:
+          body.toString()
+
+      }
+    );
+
+
+    pollWriteStatus(
+      requestId,
+      0
+    );
+
+  }
+
+  catch (error) {
+
+
+    hideLoading();
+
+
+    alert(
+      'Unable to submit transaction.'
+    );
+
+  }
+
+}
+
+
+
+/* =========================================================
+   POLL WRITE RESULT
+========================================================= */
+
+function pollWriteStatus(
+  requestId,
+  attempt
+) {
+
+
+  if (
+    attempt > 20
+  ) {
+
+    hideLoading();
+
+
+    alert(
+      'Transaction status could not be confirmed. Please check the inventory before trying again.'
+    );
+
+
+    return;
+
+  }
+
+
+  setTimeout(
+    function() {
+
+
+      Call(
+        'writestatus',
+        {
+
+          session:
+            sessionToken,
+
+          requestId:
+            requestId
+
+        },
+
+        function(result) {
+
+
+          if (
+            !result
+          ) {
+
+            pollWriteStatus(
+              requestId,
+              attempt + 1
+            );
+
+            return;
+
+          }
+
+
+          if (
+            result.status ===
+              'SUCCESS'
+          ) {
+
+
+            hideLoading();
+
+
+            const transaction =
+              result.result || {};
+
+
+            closeReceive();
+
+
+            alert(
+              transaction.message ||
+              'Stock received successfully.'
+            );
+
+
+            /*
+              Refresh current item.
+            */
+
+            lookupInventory(
+              currentItemResult
+                .item
+                .itemId
+            );
+
+
+            return;
+
+          }
+
+
+          if (
+            result.status ===
+              'ERROR'
+          ) {
+
+
+            hideLoading();
+
+
+            alert(
+              result.message ||
+              'Stock receipt failed.'
+            );
+
+
+            return;
+
+          }
+
+
+          pollWriteStatus(
+            requestId,
+            attempt + 1
+          );
+
+        }
+
+      );
+
+    },
+    600
+  );
 
 }
 
@@ -1707,7 +2551,6 @@ function displayItem(
 /* =========================================================
    THRESHOLD
 ========================================================= */
-
 
 function renderThreshold(
   available,
@@ -1747,8 +2590,13 @@ function renderThreshold(
     box.className =
       'level level-critical';
 
+
     box.textContent =
-      '⚠ Critical stock level.';
+      '⚠ Critical stock level. Available: ' +
+      available +
+      ' • Critical: ' +
+      threshold.criticalLevel;
+
 
     return;
 
@@ -1764,11 +2612,13 @@ function renderThreshold(
     box.className =
       'level level-reorder';
 
+
     box.textContent =
       '⚠ Reorder level reached. Available: ' +
       available +
       ' • Reorder at: ' +
       threshold.reorderLevel;
+
 
     return;
 
@@ -1777,6 +2627,7 @@ function renderThreshold(
 
   box.className =
     'level level-good';
+
 
   box.textContent =
     '✓ Stock level is within configured threshold.';
@@ -1788,7 +2639,6 @@ function renderThreshold(
 /* =========================================================
    BATCHES
 ========================================================= */
-
 
 function renderBatches(
   batches
@@ -1808,8 +2658,15 @@ function renderBatches(
   ) {
 
     container.innerHTML =
-      '<div class="batch-heading">BATCH INVENTORY</div>' +
-      '<div class="batch">No inventory batches.</div>';
+
+      '<div class="batch-heading">' +
+      'BATCH INVENTORY' +
+      '</div>' +
+
+      '<div class="batch">' +
+      'No inventory batches.' +
+      '</div>';
+
 
     return;
 
@@ -1817,11 +2674,15 @@ function renderBatches(
 
 
   let html =
-    '<div class="batch-heading">BATCH INVENTORY • FEFO</div>';
+
+    '<div class="batch-heading">' +
+    'BATCH INVENTORY • FEFO' +
+    '</div>';
 
 
   batches.forEach(
-    b => {
+    function(batch) {
+
 
       html += `
 
@@ -1829,7 +2690,7 @@ function renderBatches(
 
           <b>
             ${escapeHtml(
-              b.batchNo ||
+              batch.batchNo ||
               'No Batch'
             )}
           </b>
@@ -1838,7 +2699,7 @@ function renderBatches(
 
           Expiry:
           ${escapeHtml(
-            b.expiryDate ||
+            batch.expiryDate ||
             'N/A'
           )}
 
@@ -1846,19 +2707,19 @@ function renderBatches(
 
           Available:
           <b>
-            ${b.qtyAvailable}
+            ${batch.qtyAvailable}
           </b>
 
           • Quarantine:
           <b>
-            ${b.qtyQuarantined}
+            ${batch.qtyQuarantined}
           </b>
 
           <br>
 
           Location:
           ${escapeHtml(
-            b.locationId ||
+            batch.locationId ||
             '-'
           )}
 
@@ -1881,16 +2742,17 @@ function renderBatches(
    SCAN AGAIN
 ========================================================= */
 
-
 function scanAnother() {
+
+
+  closeReceive();
 
 
   document
     .getElementById(
       'itemCard'
     )
-    .classList
-    .add(
+    .classList.add(
       'hidden'
     );
 
@@ -1900,6 +2762,10 @@ function scanAnother() {
       'manualCode'
     )
     .value = '';
+
+
+  currentItemResult =
+    null;
 
 
   scanLocked = false;
@@ -1912,11 +2778,10 @@ function scanAnother() {
 
 
 /* =========================================================
-   JSONP API
+    CALL / JSONP
 ========================================================= */
 
-
-function apiCall(
+function Call(
   action,
   params,
   callback
@@ -1924,7 +2789,7 @@ function apiCall(
 
 
   if (
-    API_URL.includes(
+    _URL.includes(
       'PASTE_YOUR'
     )
   ) {
@@ -1932,7 +2797,7 @@ function apiCall(
     hideLoading();
 
     alert(
-      'Set API_URL first.'
+      'Set _URL first.'
     );
 
     return;
@@ -1951,12 +2816,13 @@ function apiCall(
 
 
   const script =
-    document.createElement(
-      'script'
-    );
+    document
+      .createElement(
+        'script'
+      );
 
 
-  let completed =
+  let done =
     false;
 
 
@@ -1964,18 +2830,24 @@ function apiCall(
     setTimeout(
       function() {
 
-        if (completed) return;
 
-        completed = true;
+        if (done) {
+
+          return;
+
+        }
+
+
+        done = true;
+
 
         cleanup();
 
-        hideLoading();
 
         callback({
           success: false,
           message:
-            'IMS API timed out.'
+            'IMS  timed out.'
         });
 
       },
@@ -1984,6 +2856,7 @@ function apiCall(
 
 
   function cleanup() {
+
 
     clearTimeout(
       timeout
@@ -2001,7 +2874,16 @@ function apiCall(
     catch (error) {}
 
 
-    script.remove();
+    if (
+      script.parentNode
+    ) {
+
+      script.parentNode
+        .removeChild(
+          script
+        );
+
+    }
 
   }
 
@@ -2011,15 +2893,25 @@ function apiCall(
   ] =
     function(result) {
 
-      if (completed) return;
 
-      completed = true;
+      if (done) {
+
+        return;
+
+      }
+
+
+      done = true;
+
 
       cleanup();
 
-      callback(result);
 
-    };
+      callback(
+        result
+      );
+
+  };
 
 
   const query =
@@ -2040,7 +2932,7 @@ function apiCall(
 
 
   script.src =
-    API_URL +
+    _URL +
     '?' +
     query.toString();
 
@@ -2048,18 +2940,24 @@ function apiCall(
   script.onerror =
     function() {
 
-      if (completed) return;
 
-      completed = true;
+      if (done) {
+
+        return;
+
+      }
+
+
+      done = true;
+
 
       cleanup();
 
-      hideLoading();
 
       callback({
         success: false,
         message:
-          'Unable to reach IMS API.'
+          'Unable to reach IMS .'
       });
 
     };
@@ -2078,11 +2976,56 @@ function apiCall(
    HELPERS
 ========================================================= */
 
+function generateRequestId() {
+
+
+  if (
+    window.crypto &&
+    crypto.randomUUID
+  ) {
+
+    return crypto.randomUUID();
+
+  }
+
+
+  return (
+
+    Date.now() +
+    '-' +
+    Math.random()
+      .toString(36)
+      .slice(2)
+
+  );
+
+}
+
+
+function sessionExpired() {
+
+
+  hideLoading();
+
+
+  clearSession();
+
+
+  alert(
+    'Your session expired. Please sign in again.'
+  );
+
+
+  location.reload();
+
+}
+
 
 function showStatus(
   message,
   type
 ) {
+
 
   const box =
     document
@@ -2104,33 +3047,24 @@ function showStatus(
 }
 
 
-function showLoginError(
+function showLoading(
   message
 ) {
 
-  alert(message);
-
-}
-
-
-function showLoading(
-  text
-) {
 
   document
     .getElementById(
       'loadingText'
     )
     .textContent =
-      text || 'Loading...';
+      message || 'Loading...';
 
 
   document
     .getElementById(
       'loading'
     )
-    .classList
-    .remove(
+    .classList.remove(
       'hidden'
     );
 
@@ -2139,12 +3073,12 @@ function showLoading(
 
 function hideLoading() {
 
+
   document
     .getElementById(
       'loading'
     )
-    .classList
-    .add(
+    .classList.add(
       'hidden'
     );
 
@@ -2154,6 +3088,7 @@ function hideLoading() {
 function escapeHtml(
   value
 ) {
+
 
   return String(
     value || ''
@@ -2189,4 +3124,5 @@ function escapeHtml(
 </script>
 
 </body>
+
 </html>
