@@ -5,10 +5,11 @@
 
   <meta
     name="viewport"
-    content="width=device-width, initial-scale=1,
-    maximum-scale=1, user-scalable=no">
+    content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
   <title>MHSI Inventory Scanner</title>
+
+  <script src="https://unpkg.com/html5-qrcode"></script>
 
   <style>
     * {
@@ -17,79 +18,128 @@
 
     body {
       margin: 0;
-      background: #f3f6fb;
       font-family: Arial, sans-serif;
-      color: #182033;
+      background: #f3f6fb;
+      color: #172033;
     }
 
     .header {
-      background: #2864c7;
+      background: linear-gradient(135deg, #1555b6, #3277df);
       color: white;
-      padding: 28px 22px;
+      padding: 26px 20px;
     }
 
     .header h1 {
       margin: 0;
-      font-size: 26px;
+      font-size: 25px;
     }
 
     .header p {
-      margin: 8px 0 0;
+      margin: 7px 0 0;
       opacity: .9;
     }
 
     .container {
-      max-width: 600px;
+      max-width: 650px;
       margin: auto;
-      padding: 20px;
+      padding: 18px;
     }
 
     .card {
       background: white;
-      border-radius: 22px;
-      padding: 20px;
+      border-radius: 20px;
+      padding: 18px;
+      margin-bottom: 16px;
       box-shadow: 0 4px 18px rgba(0,0,0,.06);
     }
 
-    #video {
+    #reader {
       width: 100%;
-      min-height: 280px;
-      background: #111;
+      overflow: hidden;
       border-radius: 16px;
-      object-fit: cover;
     }
 
     button {
       width: 100%;
-      border: 0;
-      border-radius: 14px;
-      padding: 16px;
-      margin-top: 15px;
-
-      background: #316bd5;
-      color: white;
-
-      font-size: 17px;
-      font-weight: bold;
+      border: none;
+      border-radius: 12px;
+      padding: 14px;
+      font-size: 15px;
+      font-weight: 800;
       cursor: pointer;
+      margin-top: 10px;
     }
 
-    #status {
-      margin-top: 15px;
-      padding: 14px;
+    .primary {
+      background: #2d6ed5;
+      color: white;
+    }
+
+    .secondary {
+      background: #edf4ff;
+      color: #2764c5;
+    }
+
+    .danger {
+      background: #fff0f0;
+      color: #b42318;
+    }
+
+    .status {
+      padding: 13px;
       border-radius: 12px;
-      background: #edf3ff;
-      text-align: center;
+      margin-bottom: 15px;
+      font-size: 13px;
       line-height: 1.5;
     }
 
     .success {
-      background: #e7f7ed !important;
+      background: #e8f7ee;
+      color: #166534;
     }
 
     .error {
-      background: #fdeaea !important;
-      color: #a52b20;
+      background: #fff0f0;
+      color: #b42318;
+    }
+
+    .info {
+      background: #edf4ff;
+      color: #2459a9;
+    }
+
+    .result {
+      margin-top: 15px;
+      padding: 18px;
+      background: #f6f9fd;
+      border-radius: 14px;
+    }
+
+    .result-label {
+      font-size: 11px;
+      color: #6b7280;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .result-code {
+      font-size: 21px;
+      font-weight: 800;
+      word-break: break-word;
+      color: #172033;
+    }
+
+    input {
+      width: 100%;
+      border: 1px solid #d7dee8;
+      border-radius: 12px;
+      padding: 13px;
+      font-size: 16px;
+      margin-top: 8px;
+    }
+
+    .hidden {
+      display: none;
     }
   </style>
 </head>
@@ -98,31 +148,68 @@
 
   <div class="header">
     <h1>MHSI Inventory Scanner</h1>
-    <p>Camera Test</p>
+    <p>QR & Barcode Scanner</p>
   </div>
 
   <div class="container">
 
+    <div id="statusBox" class="status info">
+      Tap OPEN SCANNER to begin.
+    </div>
+
     <div class="card">
 
-      <video
-        id="video"
-        autoplay
-        playsinline
-        muted>
-      </video>
+      <div id="reader"></div>
 
-      <button onclick="startCamera()">
-        OPEN CAMERA
+      <button
+        id="openButton"
+        class="primary"
+        onclick="openScanner()">
+        OPEN SCANNER
       </button>
 
-      <button onclick="switchCamera()">
-        SWITCH CAMERA
+      <button
+        id="stopButton"
+        class="secondary hidden"
+        onclick="stopScanner()">
+        STOP SCANNER
       </button>
 
-      <div id="status">
-        Press OPEN CAMERA to begin.
+    </div>
+
+    <div id="resultCard" class="card hidden">
+
+      <div class="result-label">
+        SCANNED VALUE
       </div>
+
+      <div id="scannedValue" class="result-code">
+      </div>
+
+      <button
+        class="primary"
+        onclick="scanAgain()">
+        SCAN ANOTHER ITEM
+      </button>
+
+    </div>
+
+    <div class="card">
+
+      <div class="result-label">
+        MANUAL TEST
+      </div>
+
+      <input
+        id="manualCode"
+        type="text"
+        placeholder="Enter barcode / QR value">
+
+      <button
+        class="secondary"
+        onclick="manualTest()">
+        USE THIS CODE
+      </button>
 
     </div>
 
@@ -131,65 +218,168 @@
 
 <script>
 
-let stream = null;
+let html5QrCode = null;
+let scannerRunning = false;
+let scanLocked = false;
 
-let facingMode = "environment";
+
+function showStatus(message, type) {
+
+  const box =
+    document.getElementById('statusBox');
+
+  box.className =
+    'status ' + type;
+
+  box.innerHTML =
+    message;
+}
 
 
-async function startCamera() {
+async function openScanner() {
 
-  const status =
-    document.getElementById("status");
-
-  const video =
-    document.getElementById("video");
-
-  status.className = "";
-
-  status.innerHTML =
-    "Requesting camera permission...";
-
+  if (scannerRunning) {
+    return;
+  }
 
   try {
 
-    if (stream) {
+    showStatus(
+      'Requesting camera permission...',
+      'info'
+    );
 
-      stream
-        .getTracks()
-        .forEach(track =>
-          track.stop()
-        );
+    html5QrCode =
+      new Html5Qrcode('reader');
 
+
+    const cameras =
+      await Html5Qrcode.getCameras();
+
+
+    if (
+      !cameras ||
+      cameras.length === 0
+    ) {
+
+      throw new Error(
+        'No camera detected.'
+      );
     }
 
 
-    stream =
-      await navigator.mediaDevices
-        .getUserMedia({
-
-          audio: false,
-
-          video: {
-
-            facingMode: {
-              ideal: facingMode
-            }
-
-          }
-
-        });
+    let selectedCamera =
+      cameras[0];
 
 
-    video.srcObject = stream;
+    const rearCamera =
+      cameras.find(camera => {
 
-    await video.play();
+        const label =
+          String(
+            camera.label || ''
+          ).toLowerCase();
+
+        return (
+          label.includes('back') ||
+          label.includes('rear') ||
+          label.includes('environment')
+        );
+      });
 
 
-    status.className = "success";
+    if (rearCamera) {
+      selectedCamera =
+        rearCamera;
+    }
 
-    status.innerHTML =
-      "✅ Camera opened successfully.<br>" +
-      "Ready for barcode scanner.";
+
+    await html5QrCode.start(
+
+      selectedCamera.id,
+
+      {
+        fps: 10,
+
+        qrbox: function(
+          viewportWidth,
+          viewportHeight
+        ) {
+
+          const width =
+            Math.min(
+              320,
+              viewportWidth * 0.85
+            );
+
+          const height =
+            Math.min(
+              180,
+              viewportHeight * 0.45
+            );
+
+          return {
+            width:
+              Math.floor(width),
+
+            height:
+              Math.floor(height)
+          };
+        },
+
+        aspectRatio: 1.5,
+
+        formatsToSupport: [
+
+          Html5QrcodeSupportedFormats.QR_CODE,
+
+          Html5QrcodeSupportedFormats.CODE_128,
+
+          Html5QrcodeSupportedFormats.CODE_39,
+
+          Html5QrcodeSupportedFormats.EAN_13,
+
+          Html5QrcodeSupportedFormats.EAN_8,
+
+          Html5QrcodeSupportedFormats.UPC_A,
+
+          Html5QrcodeSupportedFormats.UPC_E
+
+        ]
+      },
+
+      onScanSuccess,
+
+      function() {
+        // ignore normal scan misses
+      }
+    );
+
+
+    scannerRunning =
+      true;
+
+
+    document
+      .getElementById(
+        'openButton'
+      )
+      .classList
+      .add('hidden');
+
+
+    document
+      .getElementById(
+        'stopButton'
+      )
+      .classList
+      .remove('hidden');
+
+
+    showStatus(
+      'Camera ready. Point it at a QR code or barcode.',
+      'success'
+    );
 
   }
 
@@ -197,39 +387,216 @@ async function startCamera() {
 
     console.error(error);
 
-    status.className = "error";
+    scannerRunning =
+      false;
 
-    status.innerHTML =
-      "❌ Camera error:<br><br>" +
+    showStatus(
+      'Scanner error:<br><b>' +
       error.name +
-      "<br>" +
-      error.message;
-
+      '</b><br>' +
+      error.message,
+      'error'
+    );
   }
-
 }
 
 
+async function onScanSuccess(
+  decodedText,
+  decodedResult
+) {
 
-async function switchCamera() {
+  if (scanLocked) {
+    return;
+  }
+
+  scanLocked =
+    true;
+
+
+  const value =
+    String(
+      decodedText || ''
+    ).trim();
+
+
+  if (!value) {
+
+    scanLocked =
+      false;
+
+    return;
+  }
+
 
   if (
-    facingMode === "environment"
+    navigator.vibrate
   ) {
 
-    facingMode = "user";
-
-  }
-
-  else {
-
-    facingMode = "environment";
-
+    navigator.vibrate(
+      100
+    );
   }
 
 
-  await startCamera();
+  document
+    .getElementById(
+      'scannedValue'
+    )
+    .textContent =
+      value;
 
+
+  document
+    .getElementById(
+      'resultCard'
+    )
+    .classList
+    .remove('hidden');
+
+
+  showStatus(
+    'Barcode detected successfully.',
+    'success'
+  );
+
+
+  await stopScanner();
+
+
+  document
+    .getElementById(
+      'resultCard'
+    )
+    .scrollIntoView({
+      behavior: 'smooth'
+    });
+
+
+  setTimeout(
+    function() {
+
+      scanLocked =
+        false;
+
+    },
+    1200
+  );
+}
+
+
+async function stopScanner() {
+
+  try {
+
+    if (
+      html5QrCode &&
+      scannerRunning
+    ) {
+
+      await html5QrCode.stop();
+
+      await html5QrCode.clear();
+
+    }
+
+  }
+
+  catch (error) {
+
+    console.log(error);
+
+  }
+
+
+  scannerRunning =
+    false;
+
+  html5QrCode =
+    null;
+
+
+  document
+    .getElementById(
+      'openButton'
+    )
+    .classList
+    .remove('hidden');
+
+
+  document
+    .getElementById(
+      'stopButton'
+    )
+    .classList
+    .add('hidden');
+}
+
+
+function scanAgain() {
+
+  document
+    .getElementById(
+      'resultCard'
+    )
+    .classList
+    .add('hidden');
+
+
+  document
+    .getElementById(
+      'scannedValue'
+    )
+    .textContent =
+      '';
+
+
+  openScanner();
+}
+
+
+function manualTest() {
+
+  const value =
+    document
+      .getElementById(
+        'manualCode'
+      )
+      .value
+      .trim();
+
+
+  if (!value) {
+
+    showStatus(
+      'Enter a code first.',
+      'error'
+    );
+
+    return;
+  }
+
+
+  document
+    .getElementById(
+      'scannedValue'
+    )
+    .textContent =
+      value;
+
+
+  document
+    .getElementById(
+      'resultCard'
+    )
+    .classList
+    .remove('hidden');
+
+
+  showStatus(
+    'Manual code accepted.',
+    'success'
+  );
 }
 
 </script>
