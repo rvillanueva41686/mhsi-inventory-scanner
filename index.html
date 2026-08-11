@@ -27,6 +27,10 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
   font-family:
@@ -74,6 +78,7 @@ body {
   margin-bottom: 15px;
   box-shadow:
     0 4px 18px rgba(0,0,0,.055);
+  scroll-margin-top: 15px;
 }
 
 .hidden {
@@ -449,6 +454,8 @@ label {
 .modal-card {
   width: 100%;
   max-width: 430px;
+  max-height: 85vh;
+  overflow-y: auto;
   background: white;
   border-radius: 26px;
   padding: 24px;
@@ -576,6 +583,7 @@ label {
 
 </head>
 
+
 <body>
 
 
@@ -691,6 +699,7 @@ label {
 
     </div>
 
+
     <button
       class="logout"
       onclick="logout()">
@@ -698,6 +707,7 @@ label {
     </button>
 
   </div>
+
 
   <div
     id="permissionList"
@@ -731,12 +741,14 @@ label {
 
   </div>
 
+
   <button
     id="openButton"
     class="primary"
     onclick="openScanner()">
     OPEN SCANNER
   </button>
+
 
   <button
     id="stopButton"
@@ -759,6 +771,7 @@ label {
     ">
     MANUAL SEARCH
   </div>
+
 
   <div class="manual-row">
 
@@ -903,7 +916,10 @@ label {
     class="form-item">
   </div>
 
-  <label>Quantity *</label>
+
+  <label>
+    Quantity *
+  </label>
 
   <input
     id="receiveQty"
@@ -911,12 +927,14 @@ label {
     min="0.01"
     step="0.01">
 
+
   <label>
     Batch / Lot Number
     <span id="batchRequired"></span>
   </label>
 
   <input id="receiveBatch">
+
 
   <label>
     Expiry Date
@@ -927,15 +945,19 @@ label {
     id="receiveExpiry"
     type="date">
 
+
   <label>
     Storage Location *
   </label>
 
   <select id="receiveLocation">
+
     <option value="">
       Select location
     </option>
+
   </select>
+
 
   <label>
     Unit Cost
@@ -947,11 +969,13 @@ label {
     min="0"
     step="0.01">
 
+
   <label>
     Reference No.
   </label>
 
   <input id="receiveReference">
+
 
   <label>
     Notes
@@ -962,11 +986,13 @@ label {
     rows="3">
   </textarea>
 
+
   <button
     class="receive"
     onclick="submitReceive()">
     CONFIRM RECEIVE
   </button>
+
 
   <button
     class="secondary"
@@ -992,10 +1018,12 @@ label {
     class="form-item">
   </div>
 
+
   <div
     id="fefoPreview"
     class="note fefo-note">
   </div>
+
 
   <label>
     Quantity to Issue *
@@ -1007,6 +1035,7 @@ label {
     min="0.01"
     step="0.01">
 
+
   <label>
     Purpose / Reason
   </label>
@@ -1015,11 +1044,13 @@ label {
     id="issueReason"
     value="Issuance">
 
+
   <label>
     Reference No.
   </label>
 
   <input id="issueReference">
+
 
   <label>
     Notes
@@ -1030,11 +1061,13 @@ label {
     rows="3">
   </textarea>
 
+
   <button
     class="issue"
     onclick="submitIssue()">
     CONFIRM ISSUE
   </button>
+
 
   <button
     class="secondary"
@@ -1060,9 +1093,14 @@ label {
     class="form-item">
   </div>
 
+
   <div class="note quarantine-note">
-    Quarantined quantity will be removed from available stock and cannot be issued through FEFO.
+
+    Quarantined quantity will be removed from available stock
+    and cannot be issued through FEFO.
+
   </div>
+
 
   <label>
     Batch / Lot *
@@ -1078,10 +1116,12 @@ label {
 
   </select>
 
+
   <div
     id="quarantineBatchInfo"
     class="note info hidden">
   </div>
+
 
   <label>
     Quantity *
@@ -1092,6 +1132,7 @@ label {
     type="number"
     min="0.01"
     step="0.01">
+
 
   <label>
     Reason *
@@ -1133,6 +1174,7 @@ label {
 
   </select>
 
+
   <label>
     Reference No.
   </label>
@@ -1140,6 +1182,7 @@ label {
   <input
     id="quarantineReference"
     placeholder="Recall memo / Incident / Reference">
+
 
   <label>
     Notes
@@ -1150,11 +1193,13 @@ label {
     rows="3">
   </textarea>
 
+
   <button
     class="quarantine"
     onclick="submitQuarantine()">
     CONFIRM QUARANTINE
   </button>
+
 
   <button
     class="secondary"
@@ -1574,7 +1619,9 @@ function clearSession() {
 }
 
 
-/* LOCATIONS */
+/* =========================================================
+   LOCATIONS
+========================================================= */
 
 function loadLocations() {
 
@@ -1648,7 +1695,9 @@ function loadLocations() {
 }
 
 
-/* CAMERA */
+/* =========================================================
+   CAMERA
+========================================================= */
 
 async function openScanner() {
 
@@ -1891,7 +1940,9 @@ async function handleScannedCode(
 }
 
 
-/* LOOKUP */
+/* =========================================================
+   LOOKUP
+========================================================= */
 
 function manualLookup() {
 
@@ -2153,23 +2204,43 @@ function displayItem(
   );
 
 
-  document
-    .getElementById(
-      'itemCard'
-    )
-    .scrollIntoView({
-      behavior: 'smooth'
-    });
+  setTimeout(
+    function() {
+
+      document
+        .getElementById(
+          'itemCard'
+        )
+        .scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+
+    },
+    100
+  );
 
 }
 
 
-/* RECEIVE */
+/* =========================================================
+   RECEIVE
+========================================================= */
 
 function openReceive() {
 
+  if (!currentItemResult) {
+    return;
+  }
+
+
   const item =
     currentItemResult.item;
+
+
+  closeIssue();
+
+  closeQuarantine();
 
 
   clearReceiveForm();
@@ -2223,13 +2294,28 @@ function openReceive() {
   }
 
 
-  document
-    .getElementById(
+  const card =
+    document.getElementById(
       'receiveCard'
-    )
-    .classList.remove(
-      'hidden'
     );
+
+
+  card.classList.remove(
+    'hidden'
+  );
+
+
+  setTimeout(
+    function() {
+
+      card.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+
+    },
+    120
+  );
 
 }
 
@@ -2550,12 +2636,24 @@ function performReceive(
 }
 
 
-/* ISSUE */
+/* =========================================================
+   ISSUE
+========================================================= */
 
 function openIssue() {
 
+  if (!currentItemResult) {
+    return;
+  }
+
+
   const item =
     currentItemResult.item;
+
+
+  closeReceive();
+
+  closeQuarantine();
 
 
   document
@@ -2592,13 +2690,28 @@ function openIssue() {
   renderFefoPreview();
 
 
-  document
-    .getElementById(
+  const card =
+    document.getElementById(
       'issueCard'
-    )
-    .classList.remove(
-      'hidden'
     );
+
+
+  card.classList.remove(
+    'hidden'
+  );
+
+
+  setTimeout(
+    function() {
+
+      card.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+
+    },
+    120
+  );
 
 }
 
@@ -3028,12 +3141,24 @@ function performIssue(
 }
 
 
-/* QUARANTINE */
+/* =========================================================
+   QUARANTINE
+========================================================= */
 
 function openQuarantine() {
 
+  if (!currentItemResult) {
+    return;
+  }
+
+
   const item =
     currentItemResult.item;
+
+
+  closeReceive();
+
+  closeIssue();
 
 
   document
@@ -3144,22 +3269,28 @@ function openQuarantine() {
     );
 
 
-  document
-    .getElementById(
+  const card =
+    document.getElementById(
       'quarantineCard'
-    )
-    .classList.remove(
-      'hidden'
     );
 
 
-  document
-    .getElementById(
-      'quarantineCard'
-    )
-    .scrollIntoView({
-      behavior: 'smooth'
-    });
+  card.classList.remove(
+    'hidden'
+  );
+
+
+  setTimeout(
+    function() {
+
+      card.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+
+    },
+    120
+  );
 
 }
 
@@ -3535,7 +3666,9 @@ function performQuarantine(
 }
 
 
-/* DISPLAY */
+/* =========================================================
+   DISPLAY
+========================================================= */
 
 function renderBatches(
   batches
@@ -3733,13 +3866,26 @@ function scanAnother() {
   scanLocked = false;
 
 
-  openScanner();
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+
+
+  setTimeout(
+    function() {
+
+      openScanner();
+
+    },
+    400
+  );
 
 }
 
 
 /* =========================================================
-   CUSTOM MODAL FUNCTIONS
+   CUSTOM MODAL
 ========================================================= */
 
 function modalIconData(
@@ -4195,7 +4341,9 @@ function runModalSecondary() {
 }
 
 
-/* JSONP */
+/* =========================================================
+   JSONP
+========================================================= */
 
 function apiCall(
   action,
@@ -4383,7 +4531,9 @@ function apiCall(
 }
 
 
-/* HELPERS */
+/* =========================================================
+   HELPERS
+========================================================= */
 
 function generateRequestId(
   prefix
