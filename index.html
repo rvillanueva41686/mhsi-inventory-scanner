@@ -151,7 +151,6 @@ body {
   border-radius: 13px;
   margin-bottom: 15px;
   font-size: 13px;
-  line-height: 1.5;
 }
 
 .info {
@@ -164,14 +163,14 @@ body {
   color: #166534;
 }
 
-.error {
-  background: #fff0f0;
-  color: #b42318;
-}
-
 .warning {
   background: #fff7e8;
   color: #945b00;
+}
+
+.error {
+  background: #fff0f0;
+  color: #b42318;
 }
 
 .camera-shell {
@@ -182,10 +181,10 @@ body {
 }
 
 #video {
-  display: block;
   width: 100%;
   height: 330px;
   object-fit: cover;
+  display: block;
 }
 
 .scan-frame {
@@ -240,6 +239,16 @@ button {
 
 .quarantine {
   background: #8b5cf6;
+  color: white;
+}
+
+.transfer {
+  background: #1769aa;
+  color: white;
+}
+
+.incoming {
+  background: #0f766e;
   color: white;
 }
 
@@ -352,29 +361,6 @@ label {
   line-height: 1.6;
 }
 
-.level {
-  margin-top: 14px;
-  border-radius: 12px;
-  padding: 12px;
-  font-size: 12px;
-  font-weight: 700;
-}
-
-.level-good {
-  background: #ebf8ef;
-  color: #166534;
-}
-
-.level-reorder {
-  background: #fff7e8;
-  color: #945b00;
-}
-
-.level-critical {
-  background: #fff0f0;
-  color: #b42318;
-}
-
 .form-title {
   font-size: 21px;
   font-weight: 800;
@@ -404,6 +390,45 @@ label {
   color: #6842bf;
 }
 
+.transfer-note {
+  background: #edf6ff;
+  color: #185d96;
+}
+
+.incoming-card {
+  border: 1px solid #dce9ee;
+  border-radius: 15px;
+  padding: 14px;
+  margin-top: 10px;
+}
+
+.incoming-id {
+  font-weight: 800;
+  color: #175e5b;
+}
+
+.incoming-meta {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.6;
+  color: #667085;
+}
+
+.incoming-batches {
+  margin-top: 10px;
+  font-size: 12px;
+}
+
+.badge {
+  display: inline-block;
+  padding: 5px 8px;
+  border-radius: 20px;
+  background: #fff7e8;
+  color: #945b00;
+  font-size: 10px;
+  font-weight: 800;
+}
+
 .loading {
   position: fixed;
   inset: 0;
@@ -411,8 +436,8 @@ label {
   background: rgba(255,255,255,.93);
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   color: #2868c9;
   font-weight: 800;
 }
@@ -434,9 +459,7 @@ label {
 }
 
 
-/* =========================================================
-   CUSTOM MODAL
-========================================================= */
+/* MODAL */
 
 .modal-backdrop {
   position: fixed;
@@ -448,7 +471,6 @@ label {
   justify-content: center;
   padding: 22px;
   backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
 }
 
 .modal-card {
@@ -459,21 +481,7 @@ label {
   background: white;
   border-radius: 26px;
   padding: 24px;
-  box-shadow:
-    0 24px 70px rgba(0,0,0,.25);
-  animation: modalIn .18s ease-out;
-}
-
-@keyframes modalIn {
-  from {
-    transform: translateY(15px) scale(.98);
-    opacity: 0;
-  }
-
-  to {
-    transform: translateY(0) scale(1);
-    opacity: 1;
-  }
+  box-shadow: 0 24px 70px rgba(0,0,0,.25);
 }
 
 .modal-icon {
@@ -526,7 +534,6 @@ label {
   background: #f7f9fc;
   padding: 14px;
   font-size: 13px;
-  line-height: 1.6;
 }
 
 .modal-summary-row {
@@ -545,15 +552,10 @@ label {
   text-align: right;
 }
 
-.modal-batches {
-  margin-top: 12px;
-}
-
 .modal-batch {
   border-top: 1px solid #e9edf3;
   padding: 10px 0;
   font-size: 12px;
-  line-height: 1.5;
 }
 
 .modal-actions {
@@ -569,14 +571,6 @@ label {
 
 .modal-actions button {
   margin: 0;
-}
-
-@media (max-width: 420px) {
-
-  .modal-actions {
-    grid-template-columns: 1fr;
-  }
-
 }
 
 </style>
@@ -599,8 +593,6 @@ label {
 
 </div>
 
-
-<!-- CUSTOM MODAL -->
 
 <div
   id="customModal"
@@ -641,13 +633,9 @@ label {
 
 <header class="header">
 
-  <h1>
-    MHSI Inventory Scanner
-  </h1>
+  <h1>MHSI Inventory Scanner</h1>
 
-  <p>
-    Secure Inventory Management
-  </p>
+  <p>Secure Inventory Management</p>
 
 </header>
 
@@ -699,7 +687,6 @@ label {
 
     </div>
 
-
     <button
       class="logout"
       onclick="logout()">
@@ -707,7 +694,6 @@ label {
     </button>
 
   </div>
-
 
   <div
     id="permissionList"
@@ -720,7 +706,34 @@ label {
 <div
   id="statusBox"
   class="status info">
+
   Ready to scan.
+
+</div>
+
+
+<div
+  id="incomingSection"
+  class="card hidden">
+
+  <div class="form-title">
+    Incoming Transfers
+  </div>
+
+  <div class="form-item">
+    Transfers currently in transit to your PCC.
+  </div>
+
+  <div id="incomingList"></div>
+
+  <button
+    class="incoming"
+    onclick="loadIncomingTransfers(true)">
+
+    REFRESH INCOMING TRANSFERS
+
+  </button>
+
 </div>
 
 
@@ -741,20 +754,22 @@ label {
 
   </div>
 
-
   <button
     id="openButton"
     class="primary"
     onclick="openScanner()">
-    OPEN SCANNER
-  </button>
 
+    OPEN SCANNER
+
+  </button>
 
   <button
     id="stopButton"
     class="secondary hidden"
     onclick="stopScanner()">
+
     STOP SCANNER
+
   </button>
 
 </div>
@@ -762,16 +777,9 @@ label {
 
 <div class="card">
 
-  <div
-    style="
-      font-size:11px;
-      font-weight:800;
-      color:#687386;
-      margin-bottom:8px;
-    ">
+  <div class="form-item">
     MANUAL SEARCH
   </div>
-
 
   <div class="manual-row">
 
@@ -782,7 +790,9 @@ label {
     <button
       class="primary"
       onclick="manualLookup()">
+
       SEARCH
+
     </button>
 
   </div>
@@ -826,7 +836,6 @@ label {
 
     </div>
 
-
     <div class="stock-box">
 
       <div
@@ -840,7 +849,6 @@ label {
       </div>
 
     </div>
-
 
     <div class="stock-box">
 
@@ -859,12 +867,6 @@ label {
   </div>
 
 
-  <div
-    id="stockLevel"
-    class="level hidden">
-  </div>
-
-
   <div id="batchContainer"></div>
 
 
@@ -872,7 +874,9 @@ label {
     id="receiveButton"
     class="receive hidden"
     onclick="openReceive()">
+
     + RECEIVE STOCK
+
   </button>
 
 
@@ -880,7 +884,9 @@ label {
     id="issueButton"
     class="issue hidden"
     onclick="openIssue()">
+
     − ISSUE STOCK
+
   </button>
 
 
@@ -888,14 +894,28 @@ label {
     id="quarantineButton"
     class="quarantine hidden"
     onclick="openQuarantine()">
+
     QUARANTINE STOCK
+
+  </button>
+
+
+  <button
+    id="transferButton"
+    class="transfer hidden"
+    onclick="openTransfer()">
+
+    TRANSFER STOCK
+
   </button>
 
 
   <button
     class="primary"
     onclick="scanAnother()">
+
     SCAN ANOTHER ITEM
+
   </button>
 
 </div>
@@ -916,10 +936,7 @@ label {
     class="form-item">
   </div>
 
-
-  <label>
-    Quantity *
-  </label>
+  <label>Quantity *</label>
 
   <input
     id="receiveQty"
@@ -927,37 +944,25 @@ label {
     min="0.01"
     step="0.01">
 
-
   <label>
-    Batch / Lot Number
-    <span id="batchRequired"></span>
+    Batch / Lot
   </label>
 
   <input id="receiveBatch">
 
-
   <label>
     Expiry Date
-    <span id="expiryRequired"></span>
   </label>
 
   <input
     id="receiveExpiry"
     type="date">
 
-
   <label>
-    Storage Location *
+    Location *
   </label>
 
-  <select id="receiveLocation">
-
-    <option value="">
-      Select location
-    </option>
-
-  </select>
-
+  <select id="receiveLocation"></select>
 
   <label>
     Unit Cost
@@ -969,13 +974,11 @@ label {
     min="0"
     step="0.01">
 
-
   <label>
     Reference No.
   </label>
 
   <input id="receiveReference">
-
 
   <label>
     Notes
@@ -986,18 +989,20 @@ label {
     rows="3">
   </textarea>
 
-
   <button
     class="receive"
     onclick="submitReceive()">
-    CONFIRM RECEIVE
-  </button>
 
+    CONFIRM RECEIVE
+
+  </button>
 
   <button
     class="secondary"
     onclick="closeReceive()">
+
     CANCEL
+
   </button>
 
 </div>
@@ -1018,15 +1023,13 @@ label {
     class="form-item">
   </div>
 
-
   <div
     id="fefoPreview"
     class="note fefo-note">
   </div>
 
-
   <label>
-    Quantity to Issue *
+    Quantity *
   </label>
 
   <input
@@ -1035,22 +1038,19 @@ label {
     min="0.01"
     step="0.01">
 
-
   <label>
-    Purpose / Reason
+    Reason
   </label>
 
   <input
     id="issueReason"
     value="Issuance">
 
-
   <label>
     Reference No.
   </label>
 
   <input id="issueReference">
-
 
   <label>
     Notes
@@ -1061,18 +1061,20 @@ label {
     rows="3">
   </textarea>
 
-
   <button
     class="issue"
     onclick="submitIssue()">
-    CONFIRM ISSUE
-  </button>
 
+    CONFIRM ISSUE
+
+  </button>
 
   <button
     class="secondary"
     onclick="closeIssue()">
+
     CANCEL
+
   </button>
 
 </div>
@@ -1093,35 +1095,15 @@ label {
     class="form-item">
   </div>
 
-
   <div class="note quarantine-note">
-
-    Quarantined quantity will be removed from available stock
-    and cannot be issued through FEFO.
-
+    Select the exact batch that will be quarantined.
   </div>
-
 
   <label>
-    Batch / Lot *
+    Batch *
   </label>
 
-  <select
-    id="quarantineBatch"
-    onchange="updateQuarantineBatchInfo()">
-
-    <option value="">
-      Select batch
-    </option>
-
-  </select>
-
-
-  <div
-    id="quarantineBatchInfo"
-    class="note info hidden">
-  </div>
-
+  <select id="quarantineBatch"></select>
 
   <label>
     Quantity *
@@ -1133,7 +1115,6 @@ label {
     min="0.01"
     step="0.01">
 
-
   <label>
     Reason *
   </label>
@@ -1144,45 +1125,21 @@ label {
       Select reason
     </option>
 
-    <option value="Expired">
-      Expired
-    </option>
-
-    <option value="Damaged">
-      Damaged
-    </option>
-
-    <option value="Recalled">
-      Recalled
-    </option>
-
-    <option value="Suspected Defect">
-      Suspected Defect
-    </option>
-
-    <option value="Temperature Excursion">
-      Temperature Excursion
-    </option>
-
-    <option value="For Verification">
-      For Verification
-    </option>
-
-    <option value="Others">
-      Others
-    </option>
+    <option>Expired</option>
+    <option>Damaged</option>
+    <option>Recalled</option>
+    <option>Suspected Defect</option>
+    <option>Temperature Excursion</option>
+    <option>For Verification</option>
+    <option>Others</option>
 
   </select>
-
 
   <label>
     Reference No.
   </label>
 
-  <input
-    id="quarantineReference"
-    placeholder="Recall memo / Incident / Reference">
-
+  <input id="quarantineReference">
 
   <label>
     Notes
@@ -1193,18 +1150,144 @@ label {
     rows="3">
   </textarea>
 
-
   <button
     class="quarantine"
     onclick="submitQuarantine()">
-    CONFIRM QUARANTINE
-  </button>
 
+    CONFIRM QUARANTINE
+
+  </button>
 
   <button
     class="secondary"
     onclick="closeQuarantine()">
+
     CANCEL
+
+  </button>
+
+</div>
+
+
+<!-- TRANSFER -->
+
+<div
+  id="transferCard"
+  class="card hidden">
+
+  <div class="form-title">
+    Transfer Stock
+  </div>
+
+  <div
+    id="transferItemName"
+    class="form-item">
+  </div>
+
+  <div class="note transfer-note">
+    Stock will leave your Available inventory and remain
+    In Transit until the destination PCC confirms receipt.
+    FEFO will be used automatically.
+  </div>
+
+  <label>
+    Destination PCC *
+  </label>
+
+  <select id="transferPcc">
+
+    <option value="">
+      Select destination PCC
+    </option>
+
+  </select>
+
+  <label>
+    Quantity *
+  </label>
+
+  <input
+    id="transferQty"
+    type="number"
+    min="0.01"
+    step="0.01">
+
+  <label>
+    Reference No.
+  </label>
+
+  <input
+    id="transferReference"
+    placeholder="DR / Transfer Reference">
+
+  <label>
+    Remarks
+  </label>
+
+  <textarea
+    id="transferRemarks"
+    rows="3">
+  </textarea>
+
+  <button
+    class="transfer"
+    onclick="submitTransfer()">
+
+    CONFIRM TRANSFER
+
+  </button>
+
+  <button
+    class="secondary"
+    onclick="closeTransfer()">
+
+    CANCEL
+
+  </button>
+
+</div>
+
+
+<!-- RECEIVE TRANSFER -->
+
+<div
+  id="receiveTransferCard"
+  class="card hidden">
+
+  <div class="form-title">
+    Receive Transfer
+  </div>
+
+  <div
+    id="receiveTransferTitle"
+    class="form-item">
+  </div>
+
+  <div
+    id="receiveTransferDetails"
+    class="note transfer-note">
+  </div>
+
+  <label>
+    Destination Location *
+  </label>
+
+  <select id="transferReceiveLocation"></select>
+
+  <button
+    class="incoming"
+    onclick="submitReceiveTransfer()">
+
+    CONFIRM RECEIPT
+
+  </button>
+
+  <button
+    class="secondary"
+    onclick="closeReceiveTransfer()">
+
+    CANCEL
+
   </button>
 
 </div>
@@ -1216,7 +1299,6 @@ label {
 
 
 <script>
-
 
 const GOOGLE_CLIENT_ID =
   '717366343479-qjs60uj0gumr9m326phdtjp5kp0o6vrq.apps.googleusercontent.com';
@@ -1237,6 +1319,12 @@ let currentUser = null;
 let currentItemResult = null;
 
 let locations = [];
+
+let pccList = [];
+
+let incomingTransfers = [];
+
+let selectedIncomingTransfer = null;
 
 let codeReader = null;
 
@@ -1311,8 +1399,7 @@ function initializeGoogleLogin() {
     {
       theme: 'outline',
       size: 'large',
-      width: 280,
-      text: 'signin_with'
+      width: 280
     }
 
   );
@@ -1347,14 +1434,11 @@ function handleGoogleCredential(
 
 
   apiCall(
-
     'login',
-
     {
       credential:
         response.credential
     },
-
     function(result) {
 
       hideLoading();
@@ -1395,7 +1479,6 @@ function handleGoogleCredential(
       openApp();
 
     }
-
   );
 
 }
@@ -1404,19 +1487,15 @@ function handleGoogleCredential(
 function validateStoredSession() {
 
   apiCall(
-
     'session',
-
     {
       session:
         sessionToken
     },
-
     function(result) {
 
       if (
-        result &&
-        result.success === true &&
+        result?.success === true &&
         result.authenticated === true
       ) {
 
@@ -1434,7 +1513,6 @@ function validateStoredSession() {
       }
 
     }
-
   );
 
 }
@@ -1496,6 +1574,17 @@ function openApp() {
 
   loadLocations();
 
+  loadPccs();
+
+
+  if (
+    currentUser.permissions.receive
+  ) {
+
+    loadIncomingTransfers();
+
+  }
+
 
   showStatus(
     'Signed in successfully. Ready to scan.',
@@ -1549,76 +1638,6 @@ function renderPermissions() {
 }
 
 
-function logout() {
-
-  showConfirmModal({
-
-    type: 'warning',
-
-    title:
-      'Log Out?',
-
-    message:
-      'You will need to sign in again to access the inventory scanner.',
-
-    confirmText:
-      'LOG OUT',
-
-    confirmClass:
-      'danger',
-
-    onConfirm:
-      function() {
-
-        stopScanner();
-
-
-        apiCall(
-          'logout',
-          {
-            session:
-              sessionToken
-          },
-          function() {}
-        );
-
-
-        try {
-
-          google.accounts.id
-            .disableAutoSelect();
-
-        }
-        catch (error) {}
-
-
-        clearSession();
-
-        location.reload();
-
-      }
-
-  });
-
-}
-
-
-function clearSession() {
-
-  sessionToken = '';
-
-  currentUser = null;
-
-  currentItemResult = null;
-
-
-  localStorage.removeItem(
-    'mhsi_ims_session'
-  );
-
-}
-
-
 /* =========================================================
    LOCATIONS
 ========================================================= */
@@ -1626,14 +1645,11 @@ function clearSession() {
 function loadLocations() {
 
   apiCall(
-
     'locations',
-
     {
       session:
         sessionToken
     },
-
     function(result) {
 
       if (
@@ -1648,18 +1664,106 @@ function loadLocations() {
         result.locations || [];
 
 
+      populateLocationSelect(
+        'receiveLocation'
+      );
+
+
+      populateLocationSelect(
+        'transferReceiveLocation'
+      );
+
+    }
+  );
+
+}
+
+
+function populateLocationSelect(
+  id
+) {
+
+  const select =
+    document.getElementById(
+      id
+    );
+
+
+  select.innerHTML =
+    '<option value="">Select location</option>';
+
+
+  locations.forEach(
+    function(location) {
+
+      const option =
+        document.createElement(
+          'option'
+        );
+
+
+      option.value =
+        location.locationId;
+
+
+      option.textContent =
+        location.locationName +
+        (
+          location.locationType
+            ? ' • ' +
+              location.locationType
+            : ''
+        );
+
+
+      select.appendChild(
+        option
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   PCC LIST
+========================================================= */
+
+function loadPccs() {
+
+  apiCall(
+    'pccs',
+    {
+      session:
+        sessionToken
+    },
+    function(result) {
+
+      if (
+        !result ||
+        result.success !== true
+      ) {
+        return;
+      }
+
+
+      pccList =
+        result.pccs || [];
+
+
       const select =
         document.getElementById(
-          'receiveLocation'
+          'transferPcc'
         );
 
 
       select.innerHTML =
-        '<option value="">Select location</option>';
+        '<option value="">Select destination PCC</option>';
 
 
-      locations.forEach(
-        function(location) {
+      pccList.forEach(
+        function(pcc) {
 
           const option =
             document.createElement(
@@ -1668,17 +1772,11 @@ function loadLocations() {
 
 
           option.value =
-            location.locationId;
+            pcc.pccId;
 
 
           option.textContent =
-            location.locationName +
-            (
-              location.locationType
-                ? ' • ' +
-                  location.locationType
-                : ''
-            );
+            pcc.pccName;
 
 
           select.appendChild(
@@ -1689,8 +1787,196 @@ function loadLocations() {
       );
 
     }
-
   );
+
+}
+
+
+/* =========================================================
+   INCOMING TRANSFERS
+========================================================= */
+
+function loadIncomingTransfers(
+  scrollToSection = false
+) {
+
+  apiCall(
+    'incomingtransfers',
+    {
+      session:
+        sessionToken
+    },
+    function(result) {
+
+      if (
+        !result ||
+        result.success !== true
+      ) {
+
+        return;
+
+      }
+
+
+      incomingTransfers =
+        result.transfers || [];
+
+
+      renderIncomingTransfers();
+
+
+      if (scrollToSection) {
+
+        document
+          .getElementById(
+            'incomingSection'
+          )
+          .scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+
+      }
+
+    }
+  );
+
+}
+
+
+function renderIncomingTransfers() {
+
+  const section =
+    document.getElementById(
+      'incomingSection'
+    );
+
+
+  const list =
+    document.getElementById(
+      'incomingList'
+    );
+
+
+  section.classList.remove(
+    'hidden'
+  );
+
+
+  if (
+    !incomingTransfers.length
+  ) {
+
+    list.innerHTML = `
+      <div class="note info">
+        No incoming transfers at this time.
+      </div>
+    `;
+
+    return;
+
+  }
+
+
+  let html = '';
+
+
+  incomingTransfers.forEach(
+    function(transfer) {
+
+      let itemText = '';
+
+
+      (
+        transfer.items || []
+      )
+      .forEach(
+        function(item) {
+
+          itemText +=
+            '<div>' +
+            escapeHtml(
+              item.itemName
+            ) +
+            ' — <b>' +
+            escapeHtml(
+              item.quantity
+            ) +
+            '</b></div>';
+
+        }
+      );
+
+
+      html += `
+
+        <div class="incoming-card">
+
+          <div class="incoming-id">
+            ${escapeHtml(
+              transfer.transferId
+            )}
+          </div>
+
+          <div style="margin-top:6px;">
+            <span class="badge">
+              IN TRANSIT
+            </span>
+          </div>
+
+          <div class="incoming-meta">
+
+            From:
+            <b>
+              ${escapeHtml(
+                transfer.fromPccName
+              )}
+            </b>
+
+            <br>
+
+            Dispatch:
+            ${escapeHtml(
+              transfer.dispatchDateTime ||
+              '-'
+            )}
+
+            <br>
+
+            Reference:
+            ${escapeHtml(
+              transfer.referenceNo ||
+              '-'
+            )}
+
+          </div>
+
+          <div class="incoming-batches">
+
+            ${itemText}
+
+          </div>
+
+          <button
+            class="incoming"
+            onclick="openReceiveTransfer('${escapeJs(
+              transfer.transferId
+            )}')">
+
+            RECEIVE TRANSFER
+
+          </button>
+
+        </div>
+
+      `;
+
+    }
+  );
+
+
+  list.innerHTML =
+    html;
 
 }
 
@@ -1792,7 +2078,11 @@ async function openScanner() {
 
               if (value) {
 
-                handleScannedCode(
+                scanLocked = true;
+
+                stopScanner();
+
+                lookupInventory(
                   value
                 );
 
@@ -1805,31 +2095,8 @@ async function openScanner() {
         );
 
 
-    scannerRunning = true;
-
-
-    document
-      .getElementById(
-        'openButton'
-      )
-      .classList.add(
-        'hidden'
-      );
-
-
-    document
-      .getElementById(
-        'stopButton'
-      )
-      .classList.remove(
-        'hidden'
-      );
-
-
-    showStatus(
-      'Camera ready.',
-      'success'
-    );
+    scannerRunning =
+      true;
 
   }
 
@@ -1886,56 +2153,10 @@ async function stopScanner() {
       );
 
 
-    video.srcObject = null;
+    video.srcObject =
+      null;
 
   }
-
-
-  document
-    .getElementById(
-      'openButton'
-    )
-    .classList.remove(
-      'hidden'
-    );
-
-
-  document
-    .getElementById(
-      'stopButton'
-    )
-    .classList.add(
-      'hidden'
-    );
-
-}
-
-
-async function handleScannedCode(
-  value
-) {
-
-  if (scanLocked) {
-    return;
-  }
-
-
-  scanLocked = true;
-
-
-  if (
-    navigator.vibrate
-  ) {
-    navigator.vibrate(100);
-  }
-
-
-  await stopScanner();
-
-
-  lookupInventory(
-    value
-  );
 
 }
 
@@ -1956,16 +2177,7 @@ function manualLookup() {
 
 
   if (!value) {
-
-    showMessageModal({
-      type: 'warning',
-      title: 'Enter Item Code',
-      message:
-        'Enter a Barcode or Item ID before searching.'
-    });
-
     return;
-
   }
 
 
@@ -1986,9 +2198,7 @@ function lookupInventory(
 
 
   apiCall(
-
     'lookup',
-
     {
       session:
         sessionToken,
@@ -1996,10 +2206,11 @@ function lookupInventory(
       code:
         code
     },
-
     function(result) {
 
       hideLoading();
+
+      scanLocked = false;
 
 
       if (
@@ -2012,10 +2223,8 @@ function lookupInventory(
           title: 'Lookup Failed',
           message:
             result?.message ||
-            'The inventory lookup could not be completed.'
+            'Inventory lookup failed.'
         });
-
-        scanLocked = false;
 
         return;
 
@@ -2026,24 +2235,12 @@ function lookupInventory(
         result.found !== true
       ) {
 
-        document
-          .getElementById(
-            'itemCard'
-          )
-          .classList.add(
-            'hidden'
-          );
-
-
         showMessageModal({
           type: 'warning',
           title: 'Item Not Found',
           message:
-            'The scanned Barcode or Item ID was not found in ITEM_MASTER.'
+            'The scanned item was not found.'
         });
-
-
-        scanLocked = false;
 
         return;
 
@@ -2058,11 +2255,7 @@ function lookupInventory(
         result
       );
 
-
-      scanLocked = false;
-
     }
-
   );
 
 }
@@ -2094,9 +2287,7 @@ function displayItem(
       'itemCode'
     )
     .textContent =
-
       item.itemId +
-
       (
         item.barcode
           ? ' • ' +
@@ -2156,12 +2347,6 @@ function displayItem(
       inv.totalInTransit;
 
 
-  renderThreshold(
-    inv.totalAvailable,
-    result.threshold
-  );
-
-
   renderBatches(
     inv.batches
   );
@@ -2183,7 +2368,8 @@ function displayItem(
     )
     .classList.toggle(
       'hidden',
-      !currentUser.permissions.issue
+      !currentUser.permissions.issue ||
+      inv.totalAvailable <= 0
     );
 
 
@@ -2198,27 +2384,25 @@ function displayItem(
     );
 
 
-  showStatus(
-    'Item found.',
-    'success'
-  );
+  document
+    .getElementById(
+      'transferButton'
+    )
+    .classList.toggle(
+      'hidden',
+      !currentUser.permissions.transfer ||
+      inv.totalAvailable <= 0
+    );
 
 
-  setTimeout(
-    function() {
-
-      document
-        .getElementById(
-          'itemCard'
-        )
-        .scrollIntoView({
-          behavior: 'smooth',
-          block: 'start'
-        });
-
-    },
-    100
-  );
+  document
+    .getElementById(
+      'itemCard'
+    )
+    .scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
+    });
 
 }
 
@@ -2229,69 +2413,34 @@ function displayItem(
 
 function openReceive() {
 
-  if (!currentItemResult) {
-    return;
-  }
+  closeAllActionCards();
 
 
   const item =
     currentItemResult.item;
 
 
-  closeIssue();
-
-  closeQuarantine();
-
-
-  clearReceiveForm();
-
-
-  document
-    .getElementById(
-      'receiveItemName'
-    )
-    .textContent =
-      item.itemName +
-      ' • ' +
-      item.itemId;
+  document.getElementById(
+    'receiveItemName'
+  ).textContent =
+    item.itemName +
+    ' • ' +
+    item.itemId;
 
 
-  document
-    .getElementById(
-      'batchRequired'
-    )
-    .textContent =
-      item.requiresBatch
-        ? '*'
-        : '';
+  document.getElementById(
+    'receiveQty'
+  ).value = '';
 
 
-  document
-    .getElementById(
-      'expiryRequired'
-    )
-    .textContent =
-      item.requiresExpiry
-        ? '*'
-        : '';
+  document.getElementById(
+    'receiveBatch'
+  ).value = '';
 
 
-  if (
-    currentItemResult.threshold &&
-    currentItemResult.threshold
-      .preferredLocationId
-  ) {
-
-    document
-      .getElementById(
-        'receiveLocation'
-      )
-      .value =
-        currentItemResult
-          .threshold
-          .preferredLocationId;
-
-  }
+  document.getElementById(
+    'receiveExpiry'
+  ).value = '';
 
 
   const card =
@@ -2305,55 +2454,21 @@ function openReceive() {
   );
 
 
-  setTimeout(
-    function() {
-
-      card.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-      });
-
-    },
-    120
-  );
+  card.scrollIntoView({
+    behavior: 'smooth',
+    block: 'start'
+  });
 
 }
 
 
 function closeReceive() {
 
-  document
-    .getElementById(
-      'receiveCard'
-    )
-    .classList.add(
-      'hidden'
-    );
-
-}
-
-
-function clearReceiveForm() {
-
-  [
-    'receiveQty',
-    'receiveBatch',
-    'receiveExpiry',
-    'receiveUnitCost',
-    'receiveReference',
-    'receiveNotes'
-  ].forEach(
-    id => {
-      document.getElementById(id).value = '';
-    }
+  document.getElementById(
+    'receiveCard'
+  ).classList.add(
+    'hidden'
   );
-
-
-  document
-    .getElementById(
-      'receiveLocation'
-    )
-    .value = '';
 
 }
 
@@ -2390,76 +2505,11 @@ function submitReceive() {
     ).value;
 
 
-  const unitCost =
-    Number(
-      document.getElementById(
-        'receiveUnitCost'
-      ).value || 0
-    );
-
-
   if (
     !quantity ||
     quantity <= 0
   ) {
-
-    showMessageModal({
-      type: 'warning',
-      title: 'Invalid Quantity',
-      message:
-        'Enter a quantity greater than zero.'
-    });
-
     return;
-
-  }
-
-
-  if (
-    item.requiresBatch &&
-    !batchNo
-  ) {
-
-    showMessageModal({
-      type: 'warning',
-      title: 'Batch Required',
-      message:
-        'Enter the Batch or Lot Number for this item.'
-    });
-
-    return;
-
-  }
-
-
-  if (
-    item.requiresExpiry &&
-    !expiryDate
-  ) {
-
-    showMessageModal({
-      type: 'warning',
-      title: 'Expiry Date Required',
-      message:
-        'Enter the expiry date for this item.'
-    });
-
-    return;
-
-  }
-
-
-  if (!locationId) {
-
-    showMessageModal({
-      type: 'warning',
-      title: 'Location Required',
-      message:
-        'Select the storage location for the received stock.'
-    });
-
-    return;
-
   }
 
 
@@ -2467,17 +2517,15 @@ function submitReceive() {
 
     type: 'info',
 
-    title:
-      'Confirm Stock Receipt',
+    title: 'Confirm Stock Receipt',
 
     message:
-      'Review the receipt details before posting this transaction.',
+      'Review the transaction before posting.',
 
     summary: [
       ['Item', item.itemName],
-      ['Quantity', quantity + ' ' + (item.uom || '')],
+      ['Quantity', quantity],
       ['Batch', batchNo || 'No Batch'],
-      ['Expiry', expiryDate || 'N/A'],
       ['Location', locationId]
     ],
 
@@ -2490,148 +2538,103 @@ function submitReceive() {
     onConfirm:
       function() {
 
-        performReceive({
-          item,
-          quantity,
-          batchNo,
-          expiryDate,
-          locationId,
-          unitCost
-        });
+        showLoading(
+          'Receiving stock...'
+        );
+
+
+        apiCall(
+          'receive',
+          {
+
+            session:
+              sessionToken,
+
+            requestId:
+              generateRequestId(
+                'RCV'
+              ),
+
+            itemId:
+              item.itemId,
+
+            quantity:
+              quantity,
+
+            batchNo:
+              batchNo,
+
+            expiryDate:
+              expiryDate,
+
+            locationId:
+              locationId,
+
+            unitCost:
+              document.getElementById(
+                'receiveUnitCost'
+              ).value || 0,
+
+            referenceNo:
+              document.getElementById(
+                'receiveReference'
+              ).value.trim(),
+
+            notes:
+              document.getElementById(
+                'receiveNotes'
+              ).value.trim()
+
+          },
+          function(result) {
+
+            hideLoading();
+
+
+            if (
+              !result ||
+              result.success !== true
+            ) {
+
+              showMessageModal({
+                type: 'error',
+                title: 'Receive Failed',
+                message:
+                  result?.message ||
+                  'Transaction failed.'
+              });
+
+              return;
+
+            }
+
+
+            closeReceive();
+
+
+            showSuccessAndRefresh(
+              'Stock Received',
+              item.itemId,
+              [
+                [
+                  'Quantity',
+                  result.result
+                    .quantityReceived
+                ],
+                [
+                  'Transaction',
+                  result.result
+                    .transactionId
+                ]
+              ]
+            );
+
+          }
+        );
 
       }
 
   });
-
-}
-
-
-function performReceive(
-  data
-) {
-
-  showLoading(
-    'Receiving stock...'
-  );
-
-
-  apiCall(
-
-    'receive',
-
-    {
-      session:
-        sessionToken,
-
-      requestId:
-        generateRequestId(
-          'RCV'
-        ),
-
-      itemId:
-        data.item.itemId,
-
-      quantity:
-        data.quantity,
-
-      batchNo:
-        data.batchNo,
-
-      expiryDate:
-        data.expiryDate,
-
-      locationId:
-        data.locationId,
-
-      unitCost:
-        data.unitCost,
-
-      referenceNo:
-        document.getElementById(
-          'receiveReference'
-        ).value.trim(),
-
-      notes:
-        document.getElementById(
-          'receiveNotes'
-        ).value.trim()
-    },
-
-    function(result) {
-
-      hideLoading();
-
-
-      if (
-        !result ||
-        result.success !== true
-      ) {
-
-        showMessageModal({
-          type: 'error',
-          title: 'Receive Failed',
-          message:
-            result?.message ||
-            'The stock receipt could not be completed.'
-        });
-
-        return;
-
-      }
-
-
-      closeReceive();
-
-
-      const r =
-        result.result || {};
-
-
-      showMessageModal({
-
-        type: 'success',
-
-        title:
-          'Stock Received',
-
-        message:
-          'The stock receipt was posted successfully.',
-
-        summary: [
-          ['Item', data.item.itemName],
-          ['Quantity Received', r.quantityReceived ?? data.quantity],
-          ['Available After', r.availableAfter ?? '-'],
-          ['Batch', data.batchNo || 'No Batch'],
-          ['Transaction', r.transactionId || '-']
-        ],
-
-        primaryText:
-          'DONE',
-
-        secondaryText:
-          'SCAN NEXT ITEM',
-
-        onSecondary:
-          function() {
-
-            scanAnother();
-
-          },
-
-        onClose:
-          function() {
-
-            lookupInventory(
-              data.item.itemId
-            );
-
-          }
-
-      });
-
-    }
-
-  );
 
 }
 
@@ -2642,52 +2645,22 @@ function performReceive(
 
 function openIssue() {
 
-  if (!currentItemResult) {
-    return;
-  }
+  closeAllActionCards();
 
 
   const item =
     currentItemResult.item;
 
 
-  closeReceive();
-
-  closeQuarantine();
-
-
-  document
-    .getElementById(
-      'issueItemName'
-    )
-    .textContent =
-      item.itemName +
-      ' • ' +
-      item.itemId;
+  document.getElementById(
+    'issueItemName'
+  ).textContent =
+    item.itemName;
 
 
-  document
-    .getElementById(
-      'issueQty'
-    )
-    .value = '';
-
-
-  document
-    .getElementById(
-      'issueReference'
-    )
-    .value = '';
-
-
-  document
-    .getElementById(
-      'issueNotes'
-    )
-    .value = '';
-
-
-  renderFefoPreview();
+  document.getElementById(
+    'issueQty'
+  ).value = '';
 
 
   const card =
@@ -2701,93 +2674,21 @@ function openIssue() {
   );
 
 
-  setTimeout(
-    function() {
-
-      card.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-      });
-
-    },
-    120
-  );
+  card.scrollIntoView({
+    behavior: 'smooth',
+    block: 'start'
+  });
 
 }
 
 
 function closeIssue() {
 
-  document
-    .getElementById(
-      'issueCard'
-    )
-    .classList.add(
-      'hidden'
-    );
-
-}
-
-
-function renderFefoPreview() {
-
-  const batches =
-    (
-      currentItemResult
-        .inventory
-        .batches || []
-    )
-    .filter(
-      b =>
-        Number(
-          b.qtyAvailable || 0
-        ) > 0
-    );
-
-
-  if (!batches.length) {
-
-    document
-      .getElementById(
-        'fefoPreview'
-      )
-      .innerHTML =
-        'No available stock.';
-
-    return;
-
-  }
-
-
-  const first =
-    batches[0];
-
-
-  document
-    .getElementById(
-      'fefoPreview'
-    )
-    .innerHTML =
-
-      '<b>FEFO:</b> Earliest-expiring batch will be issued first.<br><br>' +
-
-      'First batch: <b>' +
-      escapeHtml(
-        first.batchNo ||
-        first.batchStockId
-      ) +
-      '</b><br>' +
-
-      'Expiry: ' +
-      escapeHtml(
-        first.expiryDate ||
-        'N/A'
-      ) +
-      '<br>' +
-
-      'Available: <b>' +
-      first.qtyAvailable +
-      '</b>';
+  document.getElementById(
+    'issueCard'
+  ).classList.add(
+    'hidden'
+  );
 
 }
 
@@ -2800,70 +2701,20 @@ function submitIssue() {
 
   const quantity =
     Number(
-      document
-        .getElementById(
-          'issueQty'
-        )
-        .value
-    );
-
-
-  const available =
-    Number(
-      currentItemResult
-        .inventory
-        .totalAvailable || 0
+      document.getElementById(
+        'issueQty'
+      ).value
     );
 
 
   if (
-    !quantity ||
     quantity <= 0
   ) {
-
-    showMessageModal({
-      type: 'warning',
-      title: 'Invalid Quantity',
-      message:
-        'Enter a quantity greater than zero.'
-    });
-
     return;
-
   }
 
 
-  if (
-    quantity >
-    available
-  ) {
-
-    showMessageModal({
-      type: 'warning',
-      title: 'Insufficient Stock',
-      message:
-        'The requested quantity is greater than the current available inventory.',
-      summary: [
-        ['Requested', quantity],
-        ['Available', available]
-      ]
-    });
-
-    return;
-
-  }
-
-
-  const reason =
-    document
-      .getElementById(
-        'issueReason'
-      )
-      .value
-      .trim();
-
-
-  const fefo =
+  const allocations =
     calculateFefoPreview(
       quantity
     );
@@ -2877,17 +2728,15 @@ function submitIssue() {
       'Confirm Stock Issue',
 
     message:
-      'The system will deduct inventory automatically using FEFO.',
+      'Inventory will be deducted using FEFO.',
 
     summary: [
       ['Item', item.itemName],
-      ['Quantity', quantity + ' ' + (item.uom || '')],
-      ['Available Before', available],
-      ['Reason', reason || 'Issuance']
+      ['Quantity', quantity]
     ],
 
     batches:
-      fefo,
+      allocations,
 
     confirmText:
       'CONFIRM ISSUE',
@@ -2898,15 +2747,1019 @@ function submitIssue() {
     onConfirm:
       function() {
 
-        performIssue({
-          item,
-          quantity,
-          reason
-        });
+        showLoading(
+          'Issuing stock...'
+        );
+
+
+        apiCall(
+          'issue',
+          {
+
+            session:
+              sessionToken,
+
+            requestId:
+              generateRequestId(
+                'ISS'
+              ),
+
+            itemId:
+              item.itemId,
+
+            quantity:
+              quantity,
+
+            reason:
+              document.getElementById(
+                'issueReason'
+              ).value.trim(),
+
+            referenceNo:
+              document.getElementById(
+                'issueReference'
+              ).value.trim(),
+
+            notes:
+              document.getElementById(
+                'issueNotes'
+              ).value.trim()
+
+          },
+          function(result) {
+
+            hideLoading();
+
+
+            if (
+              !result ||
+              result.success !== true
+            ) {
+
+              showMessageModal({
+                type: 'error',
+                title: 'Issue Failed',
+                message:
+                  result?.message ||
+                  'Transaction failed.'
+              });
+
+              return;
+
+            }
+
+
+            closeIssue();
+
+
+            showSuccessAndRefresh(
+              'Stock Issued',
+              item.itemId,
+              [
+                [
+                  'Total Issued',
+                  result.result
+                    .totalIssued
+                ],
+                [
+                  'Available After',
+                  result.result
+                    .availableAfter
+                ]
+              ]
+            );
+
+          }
+        );
 
       }
 
   });
+
+}
+
+
+/* =========================================================
+   QUARANTINE
+========================================================= */
+
+function openQuarantine() {
+
+  closeAllActionCards();
+
+
+  const item =
+    currentItemResult.item;
+
+
+  document.getElementById(
+    'quarantineItemName'
+  ).textContent =
+    item.itemName;
+
+
+  const select =
+    document.getElementById(
+      'quarantineBatch'
+    );
+
+
+  select.innerHTML =
+    '<option value="">Select batch</option>';
+
+
+  currentItemResult
+    .inventory
+    .batches
+    .filter(
+      batch =>
+        Number(
+          batch.qtyAvailable || 0
+        ) > 0
+    )
+    .forEach(
+      function(batch) {
+
+        const option =
+          document.createElement(
+            'option'
+          );
+
+
+        option.value =
+          batch.batchStockId;
+
+
+        option.textContent =
+          (
+            batch.batchNo ||
+            batch.batchStockId
+          ) +
+          ' • Available ' +
+          batch.qtyAvailable;
+
+
+        select.appendChild(
+          option
+        );
+
+      }
+    );
+
+
+  const card =
+    document.getElementById(
+      'quarantineCard'
+    );
+
+
+  card.classList.remove(
+    'hidden'
+  );
+
+
+  card.scrollIntoView({
+    behavior: 'smooth',
+    block: 'start'
+  });
+
+}
+
+
+function closeQuarantine() {
+
+  document.getElementById(
+    'quarantineCard'
+  ).classList.add(
+    'hidden'
+  );
+
+}
+
+
+function submitQuarantine() {
+
+  const item =
+    currentItemResult.item;
+
+
+  const batchStockId =
+    document.getElementById(
+      'quarantineBatch'
+    ).value;
+
+
+  const quantity =
+    Number(
+      document.getElementById(
+        'quarantineQty'
+      ).value
+    );
+
+
+  const reason =
+    document.getElementById(
+      'quarantineReason'
+    ).value;
+
+
+  showConfirmModal({
+
+    type: 'warning',
+
+    title:
+      'Confirm Quarantine',
+
+    message:
+      'Selected stock will be removed from Available inventory.',
+
+    summary: [
+      ['Item', item.itemName],
+      ['Quantity', quantity],
+      ['Reason', reason]
+    ],
+
+    confirmText:
+      'CONFIRM QUARANTINE',
+
+    confirmClass:
+      'quarantine',
+
+    onConfirm:
+      function() {
+
+        showLoading(
+          'Moving stock to quarantine...'
+        );
+
+
+        apiCall(
+          'quarantine',
+          {
+
+            session:
+              sessionToken,
+
+            requestId:
+              generateRequestId(
+                'QTN'
+              ),
+
+            batchStockId:
+              batchStockId,
+
+            quantity:
+              quantity,
+
+            reason:
+              reason,
+
+            referenceNo:
+              document.getElementById(
+                'quarantineReference'
+              ).value.trim(),
+
+            notes:
+              document.getElementById(
+                'quarantineNotes'
+              ).value.trim()
+
+          },
+          function(result) {
+
+            hideLoading();
+
+
+            if (
+              !result ||
+              result.success !== true
+            ) {
+
+              showMessageModal({
+                type: 'error',
+                title: 'Quarantine Failed',
+                message:
+                  result?.message ||
+                  'Transaction failed.'
+              });
+
+              return;
+
+            }
+
+
+            closeQuarantine();
+
+
+            showSuccessAndRefresh(
+              'Stock Quarantined',
+              item.itemId,
+              [
+                [
+                  'Quantity',
+                  result.result
+                    .quantityQuarantined
+                ],
+                [
+                  'Quarantine After',
+                  result.result
+                    .quarantinedAfter
+                ]
+              ]
+            );
+
+          }
+        );
+
+      }
+
+  });
+
+}
+
+
+/* =========================================================
+   TRANSFER
+========================================================= */
+
+function openTransfer() {
+
+  closeAllActionCards();
+
+
+  const item =
+    currentItemResult.item;
+
+
+  document.getElementById(
+    'transferItemName'
+  ).textContent =
+    item.itemName +
+    ' • ' +
+    item.itemId;
+
+
+  document.getElementById(
+    'transferQty'
+  ).value = '';
+
+
+  document.getElementById(
+    'transferReference'
+  ).value = '';
+
+
+  document.getElementById(
+    'transferRemarks'
+  ).value = '';
+
+
+  const card =
+    document.getElementById(
+      'transferCard'
+    );
+
+
+  card.classList.remove(
+    'hidden'
+  );
+
+
+  card.scrollIntoView({
+    behavior: 'smooth',
+    block: 'start'
+  });
+
+}
+
+
+function closeTransfer() {
+
+  document.getElementById(
+    'transferCard'
+  ).classList.add(
+    'hidden'
+  );
+
+}
+
+
+function submitTransfer() {
+
+  const item =
+    currentItemResult.item;
+
+
+  const toPccId =
+    document.getElementById(
+      'transferPcc'
+    ).value;
+
+
+  const quantity =
+    Number(
+      document.getElementById(
+        'transferQty'
+      ).value
+    );
+
+
+  if (!toPccId) {
+
+    showMessageModal({
+      type: 'warning',
+      title: 'Destination Required',
+      message:
+        'Select the PCC that will receive this stock.'
+    });
+
+    return;
+
+  }
+
+
+  if (
+    !quantity ||
+    quantity <= 0
+  ) {
+
+    return;
+
+  }
+
+
+  const destination =
+    pccList.find(
+      pcc =>
+        pcc.pccId ===
+        toPccId
+    );
+
+
+  const allocations =
+    calculateFefoPreview(
+      quantity
+    );
+
+
+  showConfirmModal({
+
+    type: 'info',
+
+    title:
+      'Confirm Stock Transfer',
+
+    message:
+      'Stock will move to In Transit until the destination PCC confirms receipt.',
+
+    summary: [
+      ['Item', item.itemName],
+      ['Quantity', quantity],
+      [
+        'Destination',
+        destination
+          ? destination.pccName
+          : toPccId
+      ]
+    ],
+
+    batches:
+      allocations,
+
+    confirmText:
+      'CONFIRM TRANSFER',
+
+    confirmClass:
+      'transfer',
+
+    onConfirm:
+      function() {
+
+        showLoading(
+          'Dispatching transfer...'
+        );
+
+
+        apiCall(
+          'transfer',
+          {
+
+            session:
+              sessionToken,
+
+            requestId:
+              generateRequestId(
+                'TRF'
+              ),
+
+            itemId:
+              item.itemId,
+
+            quantity:
+              quantity,
+
+            toPccId:
+              toPccId,
+
+            referenceNo:
+              document.getElementById(
+                'transferReference'
+              ).value.trim(),
+
+            remarks:
+              document.getElementById(
+                'transferRemarks'
+              ).value.trim()
+
+          },
+          function(result) {
+
+            hideLoading();
+
+
+            if (
+              !result ||
+              result.success !== true
+            ) {
+
+              showMessageModal({
+                type: 'error',
+                title: 'Transfer Failed',
+                message:
+                  result?.message ||
+                  'Transfer could not be created.'
+              });
+
+              return;
+
+            }
+
+
+            closeTransfer();
+
+
+            showMessageModal({
+
+              type: 'success',
+
+              title:
+                'Transfer Dispatched',
+
+              message:
+                'Stock is now In Transit to the destination PCC.',
+
+              summary: [
+
+                [
+                  'Transfer ID',
+                  result.result
+                    .transferId
+                ],
+
+                [
+                  'Quantity',
+                  result.result
+                    .totalTransferred
+                ],
+
+                [
+                  'Destination',
+                  destination
+                    ? destination.pccName
+                    : toPccId
+                ],
+
+                [
+                  'Status',
+                  'IN TRANSIT'
+                ]
+
+              ],
+
+              primaryText:
+                'DONE',
+
+              onClose:
+                function() {
+
+                  lookupInventory(
+                    item.itemId
+                  );
+
+                }
+
+            });
+
+          }
+        );
+
+      }
+
+  });
+
+}
+
+
+/* =========================================================
+   RECEIVE TRANSFER UI
+========================================================= */
+
+function openReceiveTransfer(
+  transferId
+) {
+
+  selectedIncomingTransfer =
+    incomingTransfers.find(
+      transfer =>
+        transfer.transferId ===
+        transferId
+    );
+
+
+  if (
+    !selectedIncomingTransfer
+  ) {
+
+    return;
+
+  }
+
+
+  closeAllActionCards();
+
+
+  document.getElementById(
+    'receiveTransferTitle'
+  ).textContent =
+    selectedIncomingTransfer
+      .transferId;
+
+
+  let allocationHtml = '';
+
+
+  (
+    selectedIncomingTransfer
+      .allocations || []
+  )
+  .forEach(
+    function(allocation) {
+
+      allocationHtml +=
+
+        '<div>' +
+
+        '<b>' +
+        escapeHtml(
+          allocation.itemId
+        ) +
+        '</b>' +
+
+        ' • Batch ' +
+        escapeHtml(
+          allocation.batchNo ||
+          allocation.batchStockId
+        ) +
+
+        ' • Qty ' +
+        escapeHtml(
+          allocation.quantity
+        ) +
+
+        '</div>';
+
+    }
+  );
+
+
+  document.getElementById(
+    'receiveTransferDetails'
+  ).innerHTML =
+
+    'From: <b>' +
+    escapeHtml(
+      selectedIncomingTransfer
+        .fromPccName
+    ) +
+    '</b><br>' +
+
+    'Reference: ' +
+    escapeHtml(
+      selectedIncomingTransfer
+        .referenceNo ||
+      '-'
+    ) +
+
+    '<br><br>' +
+
+    allocationHtml;
+
+
+  const card =
+    document.getElementById(
+      'receiveTransferCard'
+    );
+
+
+  card.classList.remove(
+    'hidden'
+  );
+
+
+  card.scrollIntoView({
+    behavior: 'smooth',
+    block: 'start'
+  });
+
+}
+
+
+function closeReceiveTransfer() {
+
+  document.getElementById(
+    'receiveTransferCard'
+  ).classList.add(
+    'hidden'
+  );
+
+
+  selectedIncomingTransfer =
+    null;
+
+}
+
+
+function submitReceiveTransfer() {
+
+  if (
+    !selectedIncomingTransfer
+  ) {
+    return;
+  }
+
+
+  const locationId =
+    document.getElementById(
+      'transferReceiveLocation'
+    ).value;
+
+
+  if (!locationId) {
+
+    showMessageModal({
+      type: 'warning',
+      title: 'Location Required',
+      message:
+        'Select where the transferred stock will be stored.'
+    });
+
+    return;
+
+  }
+
+
+  showConfirmModal({
+
+    type: 'info',
+
+    title:
+      'Confirm Transfer Receipt',
+
+    message:
+      'Once confirmed, stock will become Available at your PCC.',
+
+    summary: [
+
+      [
+        'Transfer ID',
+        selectedIncomingTransfer
+          .transferId
+      ],
+
+      [
+        'From',
+        selectedIncomingTransfer
+          .fromPccName
+      ],
+
+      [
+        'Total Quantity',
+        selectedIncomingTransfer
+          .totalQuantity
+      ],
+
+      [
+        'Location',
+        locationId
+      ]
+
+    ],
+
+    confirmText:
+      'CONFIRM RECEIPT',
+
+    confirmClass:
+      'incoming',
+
+    onConfirm:
+      function() {
+
+        const transferId =
+          selectedIncomingTransfer
+            .transferId;
+
+
+        showLoading(
+          'Receiving transfer...'
+        );
+
+
+        apiCall(
+          'receivetransfer',
+          {
+
+            session:
+              sessionToken,
+
+            requestId:
+              generateRequestId(
+                'RTR'
+              ),
+
+            transferId:
+              transferId,
+
+            locationId:
+              locationId
+
+          },
+          function(result) {
+
+            hideLoading();
+
+
+            if (
+              !result ||
+              result.success !== true
+            ) {
+
+              showMessageModal({
+                type: 'error',
+                title: 'Receipt Failed',
+                message:
+                  result?.message ||
+                  'Transfer receipt failed.'
+              });
+
+              return;
+
+            }
+
+
+            closeReceiveTransfer();
+
+
+            showMessageModal({
+
+              type: 'success',
+
+              title:
+                'Transfer Received',
+
+              message:
+                'Transferred stock is now available in your PCC.',
+
+              summary: [
+
+                [
+                  'Transfer ID',
+                  transferId
+                ],
+
+                [
+                  'Quantity Received',
+                  result.result
+                    .totalReceived
+                ],
+
+                [
+                  'Status',
+                  'RECEIVED'
+                ]
+
+              ],
+
+              primaryText:
+                'DONE',
+
+              onClose:
+                function() {
+
+                  loadIncomingTransfers();
+
+                }
+
+            });
+
+          }
+        );
+
+      }
+
+  });
+
+}
+
+
+/* =========================================================
+   DISPLAY HELPERS
+========================================================= */
+
+function renderBatches(
+  batches
+) {
+
+  const container =
+    document.getElementById(
+      'batchContainer'
+    );
+
+
+  if (
+    !batches ||
+    !batches.length
+  ) {
+
+    container.innerHTML =
+      '<div class="batch-heading">BATCH INVENTORY</div>' +
+      '<div class="batch">No inventory batches.</div>';
+
+    return;
+
+  }
+
+
+  let html =
+    '<div class="batch-heading">BATCH INVENTORY • FEFO</div>';
+
+
+  batches.forEach(
+    function(batch) {
+
+      html += `
+
+        <div class="batch">
+
+          <b>
+            ${escapeHtml(
+              batch.batchNo ||
+              'No Batch'
+            )}
+          </b>
+
+          <br>
+
+          Expiry:
+          ${escapeHtml(
+            batch.expiryDate ||
+            'N/A'
+          )}
+
+          <br>
+
+          Available:
+          <b>
+            ${batch.qtyAvailable}
+          </b>
+
+          • In Transit:
+          <b>
+            ${batch.qtyInTransit}
+          </b>
+
+          • Quarantine:
+          <b>
+            ${batch.qtyQuarantined}
+          </b>
+
+          <br>
+
+          Status:
+          ${escapeHtml(
+            batch.status ||
+            '-'
+          )}
+
+        </div>
+
+      `;
+
+    }
+  );
+
+
+  container.innerHTML =
+    html;
 
 }
 
@@ -2948,11 +3801,9 @@ function calculateFefoPreview(
     }
 
 
-    const useQty =
+    const qty =
       Math.min(
-        Number(
-          batch.qtyAvailable || 0
-        ),
+        batch.qtyAvailable,
         remaining
       );
 
@@ -2964,7 +3815,7 @@ function calculateFefoPreview(
         batch.batchStockId,
 
       quantity:
-        useQty,
+        qty,
 
       expiry:
         batch.expiryDate ||
@@ -2974,7 +3825,7 @@ function calculateFefoPreview(
 
 
     remaining -=
-      useQty;
+      qty;
 
   }
 
@@ -2984,881 +3835,40 @@ function calculateFefoPreview(
 }
 
 
-function performIssue(
-  data
-) {
-
-  showLoading(
-    'Issuing stock using FEFO...'
-  );
-
-
-  apiCall(
-
-    'issue',
-
-    {
-
-      session:
-        sessionToken,
-
-      requestId:
-        generateRequestId(
-          'ISS'
-        ),
-
-      itemId:
-        data.item.itemId,
-
-      quantity:
-        data.quantity,
-
-      reason:
-        data.reason ||
-        'Issuance',
-
-      referenceNo:
-        document
-          .getElementById(
-            'issueReference'
-          )
-          .value
-          .trim(),
-
-      notes:
-        document
-          .getElementById(
-            'issueNotes'
-          )
-          .value
-          .trim()
-
-    },
-
-    function(result) {
-
-      hideLoading();
-
-
-      if (
-        !result ||
-        result.success !== true
-      ) {
-
-        showMessageModal({
-          type: 'error',
-          title: 'Issue Failed',
-          message:
-            result?.message ||
-            'The stock issue transaction could not be completed.'
-        });
-
-        return;
-
-      }
-
-
-      closeIssue();
-
-
-      const r =
-        result.result || {};
-
-
-      const batchSummary =
-        (
-          r.deductions || []
-        )
-        .map(
-          function(batch) {
-
-            return {
-
-              label:
-                batch.batchNo ||
-                batch.batchStockId,
-
-              quantity:
-                batch.quantityIssued,
-
-              expiry:
-                batch.expiryDate ||
-                'N/A'
-
-            };
-
-          }
-        );
-
-
-      showMessageModal({
-
-        type: 'success',
-
-        title:
-          'Stock Issued',
-
-        message:
-          'The stock issue was posted successfully using FEFO.',
-
-        summary: [
-          ['Item', data.item.itemName],
-          ['Total Issued', r.totalIssued ?? data.quantity],
-          ['Available After', r.availableAfter ?? '-']
-        ],
-
-        batches:
-          batchSummary,
-
-        primaryText:
-          'DONE',
-
-        secondaryText:
-          'SCAN NEXT ITEM',
-
-        onSecondary:
-          function() {
-
-            scanAnother();
-
-          },
-
-        onClose:
-          function() {
-
-            lookupInventory(
-              data.item.itemId
-            );
-
-          }
-
-      });
-
-    }
-
-  );
-
-}
-
-
-/* =========================================================
-   QUARANTINE
-========================================================= */
-
-function openQuarantine() {
-
-  if (!currentItemResult) {
-    return;
-  }
-
-
-  const item =
-    currentItemResult.item;
-
-
-  closeReceive();
-
-  closeIssue();
-
-
-  document
-    .getElementById(
-      'quarantineItemName'
-    )
-    .textContent =
-      item.itemName +
-      ' • ' +
-      item.itemId;
-
-
-  document
-    .getElementById(
-      'quarantineQty'
-    )
-    .value = '';
-
-
-  document
-    .getElementById(
-      'quarantineReason'
-    )
-    .value = '';
-
-
-  document
-    .getElementById(
-      'quarantineReference'
-    )
-    .value = '';
-
-
-  document
-    .getElementById(
-      'quarantineNotes'
-    )
-    .value = '';
-
-
-  const select =
-    document
-      .getElementById(
-        'quarantineBatch'
+function closeAllActionCards() {
+
+  [
+    'receiveCard',
+    'issueCard',
+    'quarantineCard',
+    'transferCard',
+    'receiveTransferCard'
+  ]
+  .forEach(
+    function(id) {
+
+      document.getElementById(
+        id
+      ).classList.add(
+        'hidden'
       );
-
-
-  select.innerHTML =
-    '<option value="">Select batch</option>';
-
-
-  currentItemResult
-    .inventory
-    .batches
-    .filter(
-      b =>
-        Number(
-          b.qtyAvailable || 0
-        ) > 0
-    )
-    .forEach(
-      function(batch) {
-
-        const option =
-          document
-            .createElement(
-              'option'
-            );
-
-
-        option.value =
-          batch.batchStockId;
-
-
-        option.textContent =
-
-          (
-            batch.batchNo ||
-            batch.batchStockId
-          ) +
-
-          ' • Exp ' +
-
-          (
-            batch.expiryDate ||
-            'N/A'
-          ) +
-
-          ' • Available ' +
-
-          batch.qtyAvailable;
-
-
-        select.appendChild(
-          option
-        );
-
-      }
-    );
-
-
-  document
-    .getElementById(
-      'quarantineBatchInfo'
-    )
-    .classList.add(
-      'hidden'
-    );
-
-
-  const card =
-    document.getElementById(
-      'quarantineCard'
-    );
-
-
-  card.classList.remove(
-    'hidden'
-  );
-
-
-  setTimeout(
-    function() {
-
-      card.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-      });
-
-    },
-    120
-  );
-
-}
-
-
-function closeQuarantine() {
-
-  document
-    .getElementById(
-      'quarantineCard'
-    )
-    .classList.add(
-      'hidden'
-    );
-
-}
-
-
-function updateQuarantineBatchInfo() {
-
-  const id =
-    document
-      .getElementById(
-        'quarantineBatch'
-      )
-      .value;
-
-
-  const box =
-    document
-      .getElementById(
-        'quarantineBatchInfo'
-      );
-
-
-  if (!id) {
-
-    box.classList.add(
-      'hidden'
-    );
-
-    return;
-
-  }
-
-
-  const batch =
-    currentItemResult
-      .inventory
-      .batches
-      .find(
-        b =>
-          b.batchStockId ===
-          id
-      );
-
-
-  if (!batch) {
-    return;
-  }
-
-
-  box.innerHTML =
-
-    'Batch: <b>' +
-    escapeHtml(
-      batch.batchNo ||
-      batch.batchStockId
-    ) +
-    '</b><br>' +
-
-    'Expiry: ' +
-    escapeHtml(
-      batch.expiryDate ||
-      'N/A'
-    ) +
-    '<br>' +
-
-    'Available: <b>' +
-    batch.qtyAvailable +
-    '</b><br>' +
-
-    'Already Quarantined: <b>' +
-    batch.qtyQuarantined +
-    '</b>';
-
-
-  box.classList.remove(
-    'hidden'
-  );
-
-}
-
-
-function submitQuarantine() {
-
-  const item =
-    currentItemResult.item;
-
-
-  const batchStockId =
-    document
-      .getElementById(
-        'quarantineBatch'
-      )
-      .value;
-
-
-  const quantity =
-    Number(
-      document
-        .getElementById(
-          'quarantineQty'
-        )
-        .value
-    );
-
-
-  const reason =
-    document
-      .getElementById(
-        'quarantineReason'
-      )
-      .value;
-
-
-  if (!batchStockId) {
-
-    showMessageModal({
-      type: 'warning',
-      title: 'Select Batch',
-      message:
-        'Select the exact Batch or Lot that will be placed in quarantine.'
-    });
-
-    return;
-
-  }
-
-
-  if (
-    !quantity ||
-    quantity <= 0
-  ) {
-
-    showMessageModal({
-      type: 'warning',
-      title: 'Invalid Quantity',
-      message:
-        'Enter a quantity greater than zero.'
-    });
-
-    return;
-
-  }
-
-
-  const batch =
-    currentItemResult
-      .inventory
-      .batches
-      .find(
-        b =>
-          b.batchStockId ===
-          batchStockId
-      );
-
-
-  if (
-    !batch ||
-    quantity >
-      Number(
-        batch.qtyAvailable || 0
-      )
-  ) {
-
-    showMessageModal({
-      type: 'warning',
-      title: 'Insufficient Batch Stock',
-      message:
-        'The quarantine quantity exceeds the available stock in this batch.'
-    });
-
-    return;
-
-  }
-
-
-  if (!reason) {
-
-    showMessageModal({
-      type: 'warning',
-      title: 'Reason Required',
-      message:
-        'Select the reason for placing this stock in quarantine.'
-    });
-
-    return;
-
-  }
-
-
-  showConfirmModal({
-
-    type: 'warning',
-
-    title:
-      'Confirm Quarantine',
-
-    message:
-      'This quantity will be removed from available stock and moved into quarantine.',
-
-    summary: [
-      ['Item', item.itemName],
-      ['Batch', batch.batchNo || batch.batchStockId],
-      ['Expiry', batch.expiryDate || 'N/A'],
-      ['Quantity', quantity + ' ' + (item.uom || '')],
-      ['Available Before', batch.qtyAvailable],
-      ['Reason', reason]
-    ],
-
-    confirmText:
-      'CONFIRM QUARANTINE',
-
-    confirmClass:
-      'quarantine',
-
-    onConfirm:
-      function() {
-
-        performQuarantine({
-          item,
-          batch,
-          batchStockId,
-          quantity,
-          reason
-        });
-
-      }
-
-  });
-
-}
-
-
-function performQuarantine(
-  data
-) {
-
-  showLoading(
-    'Moving stock to quarantine...'
-  );
-
-
-  apiCall(
-
-    'quarantine',
-
-    {
-
-      session:
-        sessionToken,
-
-      requestId:
-        generateRequestId(
-          'QTN'
-        ),
-
-      batchStockId:
-        data.batchStockId,
-
-      quantity:
-        data.quantity,
-
-      reason:
-        data.reason,
-
-      referenceNo:
-        document
-          .getElementById(
-            'quarantineReference'
-          )
-          .value
-          .trim(),
-
-      notes:
-        document
-          .getElementById(
-            'quarantineNotes'
-          )
-          .value
-          .trim()
-
-    },
-
-    function(result) {
-
-      hideLoading();
-
-
-      if (
-        !result ||
-        result.success !== true
-      ) {
-
-        showMessageModal({
-          type: 'error',
-          title: 'Quarantine Failed',
-          message:
-            result?.message ||
-            'The quarantine transaction could not be completed.'
-        });
-
-        return;
-
-      }
-
-
-      closeQuarantine();
-
-
-      const r =
-        result.result || {};
-
-
-      showMessageModal({
-
-        type: 'success',
-
-        title:
-          'Stock Quarantined',
-
-        message:
-          'The selected stock was moved to quarantine successfully.',
-
-        summary: [
-          ['Item', data.item.itemName],
-          ['Batch', data.batch.batchNo || data.batch.batchStockId],
-          ['Quantity Quarantined', r.quantityQuarantined ?? data.quantity],
-          ['Available After', r.availableAfter ?? '-'],
-          ['Quarantined After', r.quarantinedAfter ?? '-'],
-          ['Reason', data.reason],
-          ['Transaction', r.transactionId || '-']
-        ],
-
-        primaryText:
-          'DONE',
-
-        secondaryText:
-          'SCAN NEXT ITEM',
-
-        onSecondary:
-          function() {
-
-            scanAnother();
-
-          },
-
-        onClose:
-          function() {
-
-            lookupInventory(
-              data.item.itemId
-            );
-
-          }
-
-      });
-
-    }
-
-  );
-
-}
-
-
-/* =========================================================
-   DISPLAY
-========================================================= */
-
-function renderBatches(
-  batches
-) {
-
-  const container =
-    document.getElementById(
-      'batchContainer'
-    );
-
-
-  if (
-    !batches ||
-    !batches.length
-  ) {
-
-    container.innerHTML =
-      '<div class="batch-heading">BATCH INVENTORY</div>' +
-      '<div class="batch">No inventory batches.</div>';
-
-    return;
-
-  }
-
-
-  let html =
-    '<div class="batch-heading">BATCH INVENTORY • FEFO</div>';
-
-
-  batches.forEach(
-    function(b) {
-
-      html += `
-
-        <div class="batch">
-
-          <b>
-            ${escapeHtml(
-              b.batchNo ||
-              'No Batch'
-            )}
-          </b>
-
-          <br>
-
-          Expiry:
-          ${escapeHtml(
-            b.expiryDate ||
-            'N/A'
-          )}
-
-          <br>
-
-          Available:
-          <b>
-            ${b.qtyAvailable}
-          </b>
-
-          • Quarantine:
-          <b>
-            ${b.qtyQuarantined}
-          </b>
-
-          <br>
-
-          Status:
-          ${escapeHtml(
-            b.status ||
-            '-'
-          )}
-
-          <br>
-
-          Location:
-          ${escapeHtml(
-            b.locationId ||
-            '-'
-          )}
-
-        </div>
-
-      `;
 
     }
   );
-
-
-  container.innerHTML =
-    html;
-
-}
-
-
-function renderThreshold(
-  available,
-  threshold
-) {
-
-  const box =
-    document.getElementById(
-      'stockLevel'
-    );
-
-
-  if (!threshold) {
-
-    box.classList.add(
-      'hidden'
-    );
-
-    return;
-
-  }
-
-
-  box.classList.remove(
-    'hidden'
-  );
-
-
-  if (
-    threshold.criticalLevel &&
-    available <=
-      threshold.criticalLevel
-  ) {
-
-    box.className =
-      'level level-critical';
-
-    box.textContent =
-      '⚠ Critical stock level. Available: ' +
-      available;
-
-    return;
-
-  }
-
-
-  if (
-    threshold.reorderLevel &&
-    available <=
-      threshold.reorderLevel
-  ) {
-
-    box.className =
-      'level level-reorder';
-
-    box.textContent =
-      '⚠ Reorder level reached. Available: ' +
-      available +
-      ' • Reorder at: ' +
-      threshold.reorderLevel;
-
-    return;
-
-  }
-
-
-  box.className =
-    'level level-good';
-
-  box.textContent =
-    '✓ Stock level is within configured threshold.';
 
 }
 
 
 function scanAnother() {
 
-  closeReceive();
-
-  closeIssue();
-
-  closeQuarantine();
+  closeAllActionCards();
 
 
-  document
-    .getElementById(
-      'itemCard'
-    )
-    .classList.add(
-      'hidden'
-    );
-
-
-  document
-    .getElementById(
-      'manualCode'
-    )
-    .value = '';
+  document.getElementById(
+    'itemCard'
+  ).classList.add(
+    'hidden'
+  );
 
 
   currentItemResult = null;
@@ -3871,21 +3881,11 @@ function scanAnother() {
     behavior: 'smooth'
   });
 
-
-  setTimeout(
-    function() {
-
-      openScanner();
-
-    },
-    400
-  );
-
 }
 
 
 /* =========================================================
-   CUSTOM MODAL
+   MODAL
 ========================================================= */
 
 function modalIconData(
@@ -3940,6 +3940,55 @@ function modalIconData(
 }
 
 
+function openModalBase(
+  options
+) {
+
+  const data =
+    modalIconData(
+      options.type
+    );
+
+
+  document.getElementById(
+    'modalIcon'
+  ).className =
+    data.className;
+
+
+  document.getElementById(
+    'modalIcon'
+  ).textContent =
+    data.icon;
+
+
+  document.getElementById(
+    'modalTitle'
+  ).textContent =
+    options.title || '';
+
+
+  document.getElementById(
+    'modalMessage'
+  ).textContent =
+    options.message || '';
+
+
+  renderModalSummary(
+    options.summary,
+    options.batches
+  );
+
+
+  document.getElementById(
+    'customModal'
+  ).classList.remove(
+    'hidden'
+  );
+
+}
+
+
 function renderModalSummary(
   summary,
   batches
@@ -3954,194 +4003,78 @@ function renderModalSummary(
   let html = '';
 
 
-  if (
-    Array.isArray(summary)
-  ) {
+  (
+    summary || []
+  )
+  .forEach(
+    function(row) {
 
-    summary.forEach(
-      function(row) {
+      html += `
 
-        html += `
+        <div class="modal-summary-row">
 
-          <div class="modal-summary-row">
-
-            <div class="modal-summary-label">
-              ${escapeHtml(row[0])}
-            </div>
-
-            <div class="modal-summary-value">
-              ${escapeHtml(row[1])}
-            </div>
-
+          <div class="modal-summary-label">
+            ${escapeHtml(row[0])}
           </div>
 
-        `;
+          <div class="modal-summary-value">
+            ${escapeHtml(row[1])}
+          </div>
 
-      }
-    );
+        </div>
 
-  }
+      `;
 
-
-  if (
-    Array.isArray(batches) &&
-    batches.length
-  ) {
-
-    html +=
-      '<div class="modal-batches">' +
-      '<b>Batch Allocation</b>';
+    }
+  );
 
 
-    batches.forEach(
-      function(batch) {
+  (
+    batches || []
+  )
+  .forEach(
+    function(batch) {
 
-        html += `
+      html += `
 
-          <div class="modal-batch">
+        <div class="modal-batch">
 
-            <b>
-              ${escapeHtml(
-                batch.label
-              )}
-            </b>
-
-            <br>
-
-            Quantity:
-            <b>
-              ${escapeHtml(
-                batch.quantity
-              )}
-            </b>
-
-            <br>
-
-            Expiry:
+          <b>
             ${escapeHtml(
-              batch.expiry ||
-              'N/A'
+              batch.label
             )}
+          </b>
 
-          </div>
+          <br>
 
-        `;
+          Quantity:
+          ${escapeHtml(
+            batch.quantity
+          )}
 
-      }
-    );
+          <br>
 
+          Expiry:
+          ${escapeHtml(
+            batch.expiry
+          )}
 
-    html +=
-      '</div>';
+        </div>
 
-  }
+      `;
 
-
-  if (!html) {
-
-    box.classList.add(
-      'hidden'
-    );
-
-    box.innerHTML = '';
-
-    return;
-
-  }
+    }
+  );
 
 
   box.innerHTML =
     html;
 
 
-  box.classList.remove(
-    'hidden'
+  box.classList.toggle(
+    'hidden',
+    !html
   );
-
-}
-
-
-function openModalBase(
-  options
-) {
-
-  const modal =
-    document.getElementById(
-      'customModal'
-    );
-
-
-  const iconData =
-    modalIconData(
-      options.type ||
-      'info'
-    );
-
-
-  const icon =
-    document.getElementById(
-      'modalIcon'
-    );
-
-
-  icon.textContent =
-    iconData.icon;
-
-
-  icon.className =
-    iconData.className;
-
-
-  document
-    .getElementById(
-      'modalTitle'
-    )
-    .textContent =
-      options.title || '';
-
-
-  document
-    .getElementById(
-      'modalMessage'
-    )
-    .textContent =
-      options.message || '';
-
-
-  renderModalSummary(
-    options.summary,
-    options.batches
-  );
-
-
-  modal.classList.remove(
-    'hidden'
-  );
-
-
-  document.body.style.overflow =
-    'hidden';
-
-}
-
-
-function closeCustomModal() {
-
-  document
-    .getElementById(
-      'customModal'
-    )
-    .classList.add(
-      'hidden'
-    );
-
-
-  document.body.style.overflow =
-    '';
-
-
-  modalConfirmCallback =
-    null;
 
 }
 
@@ -4156,25 +4089,19 @@ function showConfirmModal(
 
 
   modalConfirmCallback =
-    options.onConfirm ||
-    null;
+    options.onConfirm;
 
 
-  const actions =
-    document.getElementById(
-      'modalActions'
-    );
+  document.getElementById(
+    'modalActions'
+  ).innerHTML = `
 
-
-  actions.className =
-    'modal-actions';
-
-
-  actions.innerHTML = `
     <button
       class="secondary"
       onclick="closeCustomModal()">
+
       CANCEL
+
     </button>
 
     <button
@@ -4183,11 +4110,14 @@ function showConfirmModal(
         'primary'
       )}"
       onclick="confirmCustomModal()">
+
       ${escapeHtml(
         options.confirmText ||
         'CONFIRM'
       )}
+
     </button>
+
   `;
 
 }
@@ -4223,120 +4153,122 @@ function showMessageModal(
   );
 
 
-  const actions =
-    document.getElementById(
-      'modalActions'
-    );
+  window.__modalClose =
+    options.onClose ||
+    null;
 
 
-  const hasSecondary =
-    !!options.secondaryText;
+  document.getElementById(
+    'modalActions'
+  ).innerHTML = `
 
-
-  actions.className =
-    hasSecondary
-      ? 'modal-actions'
-      : 'modal-actions single';
-
-
-  let html = '';
-
-
-  if (
-    hasSecondary
-  ) {
-
-    html += `
-      <button
-        class="secondary"
-        onclick="runModalSecondary()">
-        ${escapeHtml(
-          options.secondaryText
-        )}
-      </button>
-    `;
-
-  }
-
-
-  html += `
     <button
       class="primary"
-      onclick="runModalPrimary()">
+      onclick="runModalClose()">
+
       ${escapeHtml(
         options.primaryText ||
         'DONE'
       )}
+
     </button>
+
   `;
 
-
-  actions.innerHTML =
-    html;
+}
 
 
-  window.__modalPrimary =
-    function() {
+function showSuccessAndRefresh(
+  title,
+  itemId,
+  summary
+) {
 
-      closeCustomModal();
+  showMessageModal({
 
+    type: 'success',
 
-      if (
-        typeof options.onClose ===
-        'function'
-      ) {
+    title:
+      title,
 
-        options.onClose();
+    message:
+      'Transaction was posted successfully.',
 
-      }
+    summary:
+      summary,
 
-    };
+    onClose:
+      function() {
 
-
-  window.__modalSecondary =
-    function() {
-
-      closeCustomModal();
-
-
-      if (
-        typeof options.onSecondary ===
-        'function'
-      ) {
-
-        options.onSecondary();
+        lookupInventory(
+          itemId
+        );
 
       }
 
-    };
+  });
 
 }
 
 
-function runModalPrimary() {
+function runModalClose() {
+
+  const callback =
+    window.__modalClose;
+
+
+  closeCustomModal();
+
 
   if (
-    typeof window.__modalPrimary ===
+    typeof callback ===
     'function'
   ) {
 
-    window.__modalPrimary();
+    callback();
 
   }
 
 }
 
 
-function runModalSecondary() {
+function closeCustomModal() {
 
-  if (
-    typeof window.__modalSecondary ===
-    'function'
-  ) {
+  document.getElementById(
+    'customModal'
+  ).classList.add(
+    'hidden'
+  );
 
-    window.__modalSecondary();
 
-  }
+  modalConfirmCallback =
+    null;
+
+}
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+function logout() {
+
+  clearSession();
+
+  location.reload();
+
+}
+
+
+function clearSession() {
+
+  sessionToken = '';
+
+  currentUser = null;
+
+  localStorage.removeItem(
+    'mhsi_ims_session'
+  );
 
 }
 
@@ -4383,13 +4315,13 @@ function apiCall(
 
         cleanup();
 
-        hideLoading();
-
-
         callback({
+
           success: false,
+
           message:
             'IMS API timed out.'
+
         });
 
       },
@@ -4442,7 +4374,9 @@ function apiCall(
 
       cleanup();
 
-      callback(result);
+      callback(
+        result
+      );
 
   };
 
@@ -4459,7 +4393,8 @@ function apiCall(
 
   Object.keys(
     params || {}
-  ).forEach(
+  )
+  .forEach(
     function(key) {
 
       if (
@@ -4499,30 +4434,6 @@ function apiCall(
     query.toString();
 
 
-  script.onerror =
-    function() {
-
-      if (completed) {
-        return;
-      }
-
-
-      completed = true;
-
-      cleanup();
-
-      hideLoading();
-
-
-      callback({
-        success: false,
-        message:
-          'Unable to reach IMS API.'
-      });
-
-  };
-
-
   document.body
     .appendChild(
       script
@@ -4532,28 +4443,15 @@ function apiCall(
 
 
 /* =========================================================
-   HELPERS
+   GENERAL HELPERS
 ========================================================= */
 
 function generateRequestId(
   prefix
 ) {
 
-  if (
-    window.crypto &&
-    crypto.randomUUID
-  ) {
-
-    return (
-      prefix +
-      '-' +
-      crypto.randomUUID()
-    );
-
-  }
-
-
   return (
+
     prefix +
     '-' +
     Date.now() +
@@ -4561,6 +4459,37 @@ function generateRequestId(
     Math.random()
       .toString(36)
       .slice(2)
+
+  );
+
+}
+
+
+function showLoading(
+  message
+) {
+
+  document.getElementById(
+    'loadingText'
+  ).textContent =
+    message;
+
+
+  document.getElementById(
+    'loading'
+  ).classList.remove(
+    'hidden'
+  );
+
+}
+
+
+function hideLoading() {
+
+  document.getElementById(
+    'loading'
+  ).classList.add(
+    'hidden'
   );
 
 }
@@ -4579,51 +4508,11 @@ function showStatus(
 
   box.className =
     'status ' +
-    (
-      type ||
-      'info'
-    );
+    type;
 
 
-  box.innerHTML =
+  box.textContent =
     message;
-
-}
-
-
-function showLoading(
-  message
-) {
-
-  document
-    .getElementById(
-      'loadingText'
-    )
-    .textContent =
-      message ||
-      'Loading...';
-
-
-  document
-    .getElementById(
-      'loading'
-    )
-    .classList.remove(
-      'hidden'
-    );
-
-}
-
-
-function hideLoading() {
-
-  document
-    .getElementById(
-      'loading'
-    )
-    .classList.add(
-      'hidden'
-    );
 
 }
 
@@ -4635,35 +4524,29 @@ function escapeHtml(
   return String(
     value ?? ''
   )
+  .replace(/&/g, '&amp;')
+  .replace(/</g, '&lt;')
+  .replace(/>/g, '&gt;')
+  .replace(/"/g, '&quot;')
+  .replace(/'/g, '&#039;');
 
-  .replace(
-    /&/g,
-    '&amp;'
+}
+
+
+function escapeJs(
+  value
+) {
+
+  return String(
+    value ?? ''
   )
-
-  .replace(
-    /</g,
-    '&lt;'
-  )
-
-  .replace(
-    />/g,
-    '&gt;'
-  )
-
-  .replace(
-    /"/g,
-    '&quot;'
-  )
-
-  .replace(
-    /'/g,
-    '&#039;'
-  );
+  .replace(/\\/g, '\\\\')
+  .replace(/'/g, "\\'");
 
 }
 
 </script>
 
 </body>
+
 </html>
