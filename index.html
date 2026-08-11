@@ -9,7 +9,7 @@
 
   <title>MHSI Inventory Scanner</title>
 
-  <script src="https://unpkg.com/html5-qrcode"></script>
+  <script src="https://unpkg.com/@zxing/browser@latest"></script>
 
   <style>
     * {
@@ -53,10 +53,41 @@
       box-shadow: 0 4px 18px rgba(0,0,0,.06);
     }
 
-    #reader {
-      width: 100%;
-      overflow: hidden;
+    .camera-shell {
+      background: #111;
       border-radius: 16px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    video {
+      width: 100%;
+      min-height: 280px;
+      max-height: 420px;
+      object-fit: cover;
+      display: block;
+      background: #111;
+    }
+
+    .scan-line {
+      position: absolute;
+      left: 8%;
+      right: 8%;
+      top: 50%;
+      height: 2px;
+      background: rgba(255,255,255,.9);
+      pointer-events: none;
+    }
+
+    .scan-box {
+      position: absolute;
+      left: 8%;
+      right: 8%;
+      top: 30%;
+      height: 40%;
+      border: 2px solid rgba(255,255,255,.85);
+      border-radius: 12px;
+      pointer-events: none;
     }
 
     button {
@@ -66,8 +97,8 @@
       padding: 14px;
       font-size: 15px;
       font-weight: 800;
-      cursor: pointer;
       margin-top: 10px;
+      cursor: pointer;
     }
 
     .primary {
@@ -93,6 +124,11 @@
       line-height: 1.5;
     }
 
+    .info {
+      background: #edf4ff;
+      color: #2459a9;
+    }
+
     .success {
       background: #e8f7ee;
       color: #166534;
@@ -103,30 +139,27 @@
       color: #b42318;
     }
 
-    .info {
-      background: #edf4ff;
-      color: #2459a9;
-    }
-
-    .result {
-      margin-top: 15px;
-      padding: 18px;
-      background: #f6f9fd;
-      border-radius: 14px;
-    }
-
     .result-label {
       font-size: 11px;
-      color: #6b7280;
-      font-weight: 700;
+      color: #687386;
+      font-weight: bold;
       margin-bottom: 6px;
     }
 
     .result-code {
-      font-size: 21px;
+      font-size: 22px;
       font-weight: 800;
       word-break: break-word;
-      color: #172033;
+    }
+
+    .result-format {
+      margin-top: 8px;
+      font-size: 13px;
+      color: #687386;
+    }
+
+    .hidden {
+      display: none;
     }
 
     input {
@@ -138,8 +171,11 @@
       margin-top: 8px;
     }
 
-    .hidden {
-      display: none;
+    .tip {
+      font-size: 12px;
+      line-height: 1.5;
+      color: #667085;
+      margin-top: 12px;
     }
   </style>
 </head>
@@ -148,7 +184,7 @@
 
   <div class="header">
     <h1>MHSI Inventory Scanner</h1>
-    <p>QR & Barcode Scanner</p>
+    <p>ZXing Barcode & QR Scanner</p>
   </div>
 
   <div class="container">
@@ -159,7 +195,19 @@
 
     <div class="card">
 
-      <div id="reader"></div>
+      <div class="camera-shell">
+
+        <video
+          id="video"
+          autoplay
+          muted
+          playsinline>
+        </video>
+
+        <div class="scan-box"></div>
+        <div class="scan-line"></div>
+
+      </div>
 
       <button
         id="openButton"
@@ -175,15 +223,28 @@
         STOP SCANNER
       </button>
 
+      <div class="tip">
+        For 1D barcodes, hold the phone horizontally if needed and keep the full barcode inside the box. Avoid glare and move slightly closer or farther until the bars are sharp.
+      </div>
+
     </div>
 
-    <div id="resultCard" class="card hidden">
+    <div
+      id="resultCard"
+      class="card hidden">
 
       <div class="result-label">
         SCANNED VALUE
       </div>
 
-      <div id="scannedValue" class="result-code">
+      <div
+        id="scannedValue"
+        class="result-code">
+      </div>
+
+      <div
+        id="scannedFormat"
+        class="result-format">
       </div>
 
       <button
@@ -197,31 +258,35 @@
     <div class="card">
 
       <div class="result-label">
-        MANUAL TEST
+        MANUAL CODE
       </div>
 
       <input
         id="manualCode"
         type="text"
-        placeholder="Enter barcode / QR value">
+        placeholder="Barcode / Item ID">
 
       <button
         class="secondary"
         onclick="manualTest()">
-        USE THIS CODE
+        USE CODE
       </button>
 
     </div>
 
   </div>
 
-
 <script>
 
-let html5QrCode = null;
+let codeReader = null;
+let controls = null;
 let scannerRunning = false;
 let scanLocked = false;
 
+
+/* =====================================
+   STATUS
+===================================== */
 
 function showStatus(message, type) {
 
@@ -236,6 +301,10 @@ function showStatus(message, type) {
 }
 
 
+/* =====================================
+   OPEN SCANNER
+===================================== */
+
 async function openScanner() {
 
   if (scannerRunning) {
@@ -245,21 +314,24 @@ async function openScanner() {
   try {
 
     showStatus(
-      'Requesting camera permission...',
+      'Requesting camera...',
       'info'
     );
 
-    html5QrCode =
-      new Html5Qrcode('reader');
+
+    codeReader =
+      new ZXingBrowser.BrowserMultiFormatReader();
 
 
-    const cameras =
-      await Html5Qrcode.getCameras();
+    const devices =
+      await ZXingBrowser
+        .BrowserCodeReader
+        .listVideoInputDevices();
 
 
     if (
-      !cameras ||
-      cameras.length === 0
+      !devices ||
+      devices.length === 0
     ) {
 
       throw new Error(
@@ -268,116 +340,91 @@ async function openScanner() {
     }
 
 
-    let selectedCamera =
-      cameras[0];
+    /*
+      Prefer rear/back camera
+    */
+
+    let selectedDevice =
+      devices[0];
 
 
-    const rearCamera =
-      cameras.find(camera => {
+    const rear =
+      devices.find(
+        device => {
 
-        const label =
-          String(
-            camera.label || ''
-          ).toLowerCase();
+          const label =
+            String(
+              device.label || ''
+            ).toLowerCase();
 
-        return (
-          label.includes('back') ||
-          label.includes('rear') ||
-          label.includes('environment')
-        );
-      });
+          return (
+            label.includes('back') ||
+            label.includes('rear') ||
+            label.includes('environment')
+          );
+        }
+      );
 
 
-    if (rearCamera) {
-      selectedCamera =
-        rearCamera;
+    if (rear) {
+      selectedDevice = rear;
     }
 
 
-    await html5QrCode.start(
-
-      selectedCamera.id,
-
-      {
-        fps: 10,
-
-        qrbox: function(
-          viewportWidth,
-          viewportHeight
-        ) {
-
-          const width =
-            Math.min(
-              320,
-              viewportWidth * 0.85
-            );
-
-          const height =
-            Math.min(
-              180,
-              viewportHeight * 0.45
-            );
-
-          return {
-            width:
-              Math.floor(width),
-
-            height:
-              Math.floor(height)
-          };
-        },
-
-        aspectRatio: 1.5,
-
-        formatsToSupport: [
-
-          Html5QrcodeSupportedFormats.QR_CODE,
-
-          Html5QrcodeSupportedFormats.CODE_128,
-
-          Html5QrcodeSupportedFormats.CODE_39,
-
-          Html5QrcodeSupportedFormats.EAN_13,
-
-          Html5QrcodeSupportedFormats.EAN_8,
-
-          Html5QrcodeSupportedFormats.UPC_A,
-
-          Html5QrcodeSupportedFormats.UPC_E
-
-        ]
-      },
-
-      onScanSuccess,
-
-      function() {
-        // ignore normal scan misses
-      }
-    );
+    const video =
+      document.getElementById('video');
 
 
-    scannerRunning =
-      true;
+    scanLocked = false;
+
+
+    controls =
+      await codeReader
+        .decodeFromVideoDevice(
+
+          selectedDevice.deviceId,
+
+          video,
+
+          function(
+            result,
+            error,
+            control
+          ) {
+
+            if (
+              result &&
+              !scanLocked
+            ) {
+
+              handleResult(
+                result
+              );
+
+            }
+
+          }
+
+        );
+
+
+    scannerRunning = true;
 
 
     document
-      .getElementById(
-        'openButton'
-      )
+      .getElementById('openButton')
       .classList
       .add('hidden');
 
 
     document
-      .getElementById(
-        'stopButton'
-      )
+      .getElementById('stopButton')
       .classList
       .remove('hidden');
 
 
     showStatus(
-      'Camera ready. Point it at a QR code or barcode.',
+      'Camera ready. Point at a barcode or QR code.',
       'success'
     );
 
@@ -387,46 +434,69 @@ async function openScanner() {
 
     console.error(error);
 
-    scannerRunning =
-      false;
+    scannerRunning = false;
 
     showStatus(
       'Scanner error:<br><b>' +
-      error.name +
+      (error.name || 'Error') +
       '</b><br>' +
-      error.message,
+      (error.message || error),
       'error'
     );
   }
 }
 
 
-async function onScanSuccess(
-  decodedText,
-  decodedResult
+/* =====================================
+   RESULT
+===================================== */
+
+async function handleResult(
+  result
 ) {
 
   if (scanLocked) {
     return;
   }
 
-  scanLocked =
-    true;
+
+  scanLocked = true;
 
 
-  const value =
+  const text =
     String(
-      decodedText || ''
+      result.getText
+        ? result.getText()
+        : result.text || ''
     ).trim();
 
 
-  if (!value) {
+  if (!text) {
 
-    scanLocked =
-      false;
+    scanLocked = false;
 
     return;
   }
+
+
+  let format = 'Unknown';
+
+
+  try {
+
+    if (
+      result.getBarcodeFormat
+    ) {
+
+      format =
+        String(
+          result.getBarcodeFormat()
+        );
+
+    }
+
+  }
+  catch (e) {}
 
 
   if (
@@ -434,8 +504,9 @@ async function onScanSuccess(
   ) {
 
     navigator.vibrate(
-      100
+      120
     );
+
   }
 
 
@@ -444,7 +515,15 @@ async function onScanSuccess(
       'scannedValue'
     )
     .textContent =
-      value;
+      text;
+
+
+  document
+    .getElementById(
+      'scannedFormat'
+    )
+    .textContent =
+      'Format: ' + format;
 
 
   document
@@ -456,7 +535,7 @@ async function onScanSuccess(
 
 
   showStatus(
-    'Barcode detected successfully.',
+    '✅ Barcode detected successfully.',
     'success'
   );
 
@@ -469,34 +548,23 @@ async function onScanSuccess(
       'resultCard'
     )
     .scrollIntoView({
-      behavior: 'smooth'
+      behavior: 'smooth',
+      block: 'start'
     });
-
-
-  setTimeout(
-    function() {
-
-      scanLocked =
-        false;
-
-    },
-    1200
-  );
 }
 
+
+/* =====================================
+   STOP SCANNER
+===================================== */
 
 async function stopScanner() {
 
   try {
 
-    if (
-      html5QrCode &&
-      scannerRunning
-    ) {
+    if (controls) {
 
-      await html5QrCode.stop();
-
-      await html5QrCode.clear();
+      controls.stop();
 
     }
 
@@ -509,31 +577,52 @@ async function stopScanner() {
   }
 
 
-  scannerRunning =
-    false;
+  controls = null;
+  codeReader = null;
 
-  html5QrCode =
-    null;
+  scannerRunning = false;
+
+
+  const video =
+    document.getElementById('video');
+
+
+  if (
+    video &&
+    video.srcObject
+  ) {
+
+    video.srcObject
+      .getTracks()
+      .forEach(
+        track =>
+          track.stop()
+      );
+
+    video.srcObject =
+      null;
+
+  }
 
 
   document
-    .getElementById(
-      'openButton'
-    )
+    .getElementById('openButton')
     .classList
     .remove('hidden');
 
 
   document
-    .getElementById(
-      'stopButton'
-    )
+    .getElementById('stopButton')
     .classList
     .add('hidden');
 }
 
 
-function scanAgain() {
+/* =====================================
+   SCAN AGAIN
+===================================== */
+
+async function scanAgain() {
 
   document
     .getElementById(
@@ -547,13 +636,26 @@ function scanAgain() {
     .getElementById(
       'scannedValue'
     )
-    .textContent =
-      '';
+    .textContent = '';
 
 
-  openScanner();
+  document
+    .getElementById(
+      'scannedFormat'
+    )
+    .textContent = '';
+
+
+  scanLocked = false;
+
+
+  await openScanner();
 }
 
+
+/* =====================================
+   MANUAL
+===================================== */
 
 function manualTest() {
 
@@ -583,6 +685,14 @@ function manualTest() {
     )
     .textContent =
       value;
+
+
+  document
+    .getElementById(
+      'scannedFormat'
+    )
+    .textContent =
+      'Format: Manual Entry';
 
 
   document
