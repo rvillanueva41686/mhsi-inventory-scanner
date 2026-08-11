@@ -21,6 +21,7 @@
   src="https://unpkg.com/@zxing/browser@latest">
 </script>
 
+
 <style>
 
 * {
@@ -51,24 +52,24 @@ body {
       #3277df
     );
   color: white;
-  padding: 25px 20px;
+  padding: 22px 18px 18px;
 }
 
 .header h1 {
   margin: 0;
-  font-size: 24px;
+  font-size: 23px;
 }
 
 .header p {
-  margin: 6px 0 0;
-  opacity: .9;
-  font-size: 13px;
+  margin: 5px 0 0;
+  opacity: .88;
+  font-size: 12px;
 }
 
 .container {
   max-width: 650px;
   margin: auto;
-  padding: 16px;
+  padding: 15px;
 }
 
 .card {
@@ -85,13 +86,42 @@ body {
   display: none !important;
 }
 
+
+/* NAV */
+
+.main-nav {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: white;
+  padding: 7px;
+  border-radius: 16px;
+  margin-bottom: 15px;
+  box-shadow:
+    0 4px 16px rgba(0,0,0,.04);
+}
+
+.nav-button {
+  margin: 0;
+  background: transparent;
+  color: #667085;
+  padding: 12px;
+}
+
+.nav-button.active {
+  background: #edf4ff;
+  color: #1f63c5;
+}
+
+
+/* LOGIN */
+
 .login-card {
   text-align: center;
   padding: 32px 20px;
 }
 
 .login-icon {
-  font-size: 50px;
+  font-size: 48px;
 }
 
 .login-title {
@@ -110,6 +140,9 @@ body {
   display: flex;
   justify-content: center;
 }
+
+
+/* USER */
 
 .user-top {
   display: flex;
@@ -146,12 +179,14 @@ body {
   font-weight: 800;
 }
 
+
+/* STATUS */
+
 .status {
   padding: 13px 15px;
   border-radius: 13px;
   margin-bottom: 15px;
   font-size: 13px;
-  line-height: 1.5;
 }
 
 .info {
@@ -174,38 +209,8 @@ body {
   color: #b42318;
 }
 
-.camera-shell {
-  position: relative;
-  overflow: hidden;
-  background: #111;
-  border-radius: 16px;
-}
 
-#video {
-  width: 100%;
-  height: 330px;
-  object-fit: cover;
-  display: block;
-}
-
-.scan-frame {
-  position: absolute;
-  left: 7%;
-  right: 7%;
-  top: 34%;
-  height: 32%;
-  border: 2px solid rgba(255,255,255,.9);
-  border-radius: 12px;
-}
-
-.scan-line {
-  position: absolute;
-  left: 10%;
-  right: 10%;
-  top: 50%;
-  height: 2px;
-  background: white;
-}
+/* BUTTONS */
 
 button {
   width: 100%;
@@ -213,7 +218,7 @@ button {
   border-radius: 12px;
   padding: 14px 16px;
   margin-top: 10px;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 800;
   cursor: pointer;
 }
@@ -266,6 +271,9 @@ button {
   color: #b42318;
 }
 
+
+/* INPUT */
+
 input,
 select,
 textarea {
@@ -286,6 +294,42 @@ label {
   font-weight: 800;
 }
 
+
+/* SCANNER */
+
+.camera-shell {
+  position: relative;
+  overflow: hidden;
+  background: #111;
+  border-radius: 16px;
+}
+
+#video {
+  width: 100%;
+  height: 330px;
+  object-fit: cover;
+  display: block;
+}
+
+.scan-frame {
+  position: absolute;
+  left: 7%;
+  right: 7%;
+  top: 34%;
+  height: 32%;
+  border: 2px solid rgba(255,255,255,.9);
+  border-radius: 12px;
+}
+
+.scan-line {
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  top: 50%;
+  height: 2px;
+  background: white;
+}
+
 .manual-row {
   display: grid;
   grid-template-columns: 1fr auto;
@@ -299,8 +343,10 @@ label {
 
 .manual-row button {
   width: auto;
-  min-width: 90px;
 }
+
+
+/* ITEM */
 
 .item-code {
   color: #687386;
@@ -396,89 +442,130 @@ label {
   color: #185d96;
 }
 
-.incoming-card {
-  border: 1px solid #dce9ee;
-  border-radius: 15px;
-  padding: 14px;
-  margin-top: 10px;
-}
 
-.incoming-id {
+/* TRANSFER PAGE */
+
+.transfer-page-title {
+  font-size: 23px;
   font-weight: 800;
-  color: #175e5b;
 }
 
-.incoming-meta {
-  margin-top: 6px;
-  font-size: 12px;
-  line-height: 1.6;
+.transfer-page-subtitle {
+  margin-top: 4px;
   color: #667085;
+  font-size: 13px;
 }
 
-.incoming-batches {
-  margin-top: 10px;
+.transfer-filters {
+  display: grid;
+  grid-template-columns:
+    repeat(3,1fr);
+  gap: 6px;
+  margin-top: 16px;
+}
+
+.filter-button {
+  margin: 0;
+  background: #f3f6fb;
+  color: #667085;
+  padding: 11px 5px;
+  font-size: 11px;
+}
+
+.filter-button.active {
+  background: #2d6ed5;
+  color: white;
+}
+
+.transfer-record {
+  border: 1px solid #e2e8f0;
+  border-radius: 17px;
+  padding: 15px;
+  margin-top: 12px;
+}
+
+.transfer-id {
+  font-size: 13px;
+  font-weight: 800;
+  color: #215da9;
+}
+
+.transfer-route {
+  margin-top: 8px;
+  font-size: 15px;
+  font-weight: 750;
+}
+
+.transfer-meta {
+  margin-top: 8px;
+  color: #667085;
   font-size: 12px;
-  line-height: 1.6;
+  line-height: 1.7;
 }
 
-.badge {
+.transfer-items {
+  margin-top: 11px;
+  padding: 11px;
+  background: #f7f9fc;
+  border-radius: 12px;
+  font-size: 12px;
+  line-height: 1.65;
+}
+
+.status-badge {
   display: inline-block;
-  padding: 5px 8px;
-  border-radius: 20px;
-  background: #fff7e8;
-  color: #945b00;
+  margin-top: 7px;
+  padding: 5px 9px;
+  border-radius: 999px;
   font-size: 10px;
   font-weight: 800;
 }
 
-.incoming-count {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 24px;
-  height: 24px;
-  padding: 0 7px;
-  margin-left: 6px;
-  border-radius: 999px;
-  background: #0f766e;
-  color: white;
-  font-size: 11px;
+.status-transit {
+  background: #fff7e8;
+  color: #945b00;
+}
+
+.status-received {
+  background: #e8f7ee;
+  color: #166534;
+}
+
+.status-cancelled {
+  background: #fff0f0;
+  color: #b42318;
+}
+
+.transfer-actions {
+  display: grid;
+  grid-template-columns:
+    1fr 1fr;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.transfer-actions button {
+  margin: 0;
+}
+
+.empty-state {
+  padding: 30px 15px;
+  text-align: center;
+  color: #667085;
+}
+
+.empty-icon {
+  font-size: 38px;
+}
+
+.empty-title {
+  margin-top: 10px;
   font-weight: 800;
-}
-
-.loading {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  background: rgba(255,255,255,.93);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  color: #2868c9;
-  font-weight: 800;
-}
-
-.spinner {
-  width: 38px;
-  height: 38px;
-  border: 4px solid #dce8f8;
-  border-top-color: #2868c9;
-  border-radius: 50%;
-  margin-bottom: 12px;
-  animation: spin .8s linear infinite;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
+  color: #344054;
 }
 
 
-/* =========================================================
-   CUSTOM MODAL
-========================================================= */
+/* MODAL */
 
 .modal-backdrop {
   position: fixed;
@@ -490,7 +577,6 @@ label {
   justify-content: center;
   padding: 22px;
   backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
 }
 
 .modal-card {
@@ -501,7 +587,8 @@ label {
   background: white;
   border-radius: 26px;
   padding: 24px;
-  box-shadow: 0 24px 70px rgba(0,0,0,.25);
+  box-shadow:
+    0 24px 70px rgba(0,0,0,.25);
 }
 
 .modal-icon {
@@ -580,7 +667,8 @@ label {
 
 .modal-actions {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns:
+    1fr 1fr;
   gap: 10px;
   margin-top: 20px;
 }
@@ -591,6 +679,38 @@ label {
 
 .modal-actions button {
   margin: 0;
+}
+
+
+/* LOADING */
+
+.loading {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(255,255,255,.93);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #2868c9;
+  font-weight: 800;
+}
+
+.spinner {
+  width: 38px;
+  height: 38px;
+  border: 4px solid #dce8f8;
+  border-top-color: #2868c9;
+  border-radius: 50%;
+  margin-bottom: 12px;
+  animation: spin .8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 </style>
@@ -721,12 +841,48 @@ label {
 
   </div>
 
+
   <div
     id="permissionList"
     class="permission-list">
   </div>
 
 </div>
+
+
+<div class="main-nav">
+
+  <button
+    id="navScan"
+    class="nav-button active"
+    onclick="showPage('scan')">
+
+    SCAN
+
+  </button>
+
+
+  <button
+    id="navTransfers"
+    class="nav-button"
+    onclick="showPage('transfers')">
+
+    TRANSFERS
+
+    <span
+      id="transferNavBadge">
+    </span>
+
+  </button>
+
+</div>
+
+
+<!-- ======================================================
+     SCAN PAGE
+======================================================= -->
+
+<div id="scanPage">
 
 
 <div
@@ -737,48 +893,6 @@ label {
 
 </div>
 
-
-<!-- ======================================================
-     INCOMING TRANSFERS
-     HIDDEN WHEN THERE ARE NONE
-======================================================= -->
-
-<div
-  id="incomingSection"
-  class="card hidden">
-
-  <div class="form-title">
-
-    Incoming Transfers
-
-    <span
-      id="incomingCount"
-      class="incoming-count">
-      0
-    </span>
-
-  </div>
-
-  <div class="form-item">
-    Stock currently in transit to your PCC.
-  </div>
-
-  <div id="incomingList"></div>
-
-  <button
-    class="incoming"
-    onclick="loadIncomingTransfers(true)">
-
-    REFRESH INCOMING TRANSFERS
-
-  </button>
-
-</div>
-
-
-<!-- ======================================================
-     SCANNER
-======================================================= -->
 
 <div
   id="scannerCard"
@@ -799,6 +913,7 @@ label {
 
   </div>
 
+
   <button
     id="openButton"
     class="primary"
@@ -807,6 +922,7 @@ label {
     OPEN SCANNER
 
   </button>
+
 
   <button
     id="stopButton"
@@ -819,10 +935,6 @@ label {
 
 </div>
 
-
-<!-- ======================================================
-     MANUAL SEARCH
-======================================================= -->
 
 <div class="card">
 
@@ -848,10 +960,6 @@ label {
 
 </div>
 
-
-<!-- ======================================================
-     ITEM CARD
-======================================================= -->
 
 <div
   id="itemCard"
@@ -976,9 +1084,7 @@ label {
 </div>
 
 
-<!-- ======================================================
-     RECEIVE STOCK
-======================================================= -->
+<!-- RECEIVE -->
 
 <div
   id="receiveCard"
@@ -993,10 +1099,7 @@ label {
     class="form-item">
   </div>
 
-
-  <label>
-    Quantity *
-  </label>
+  <label>Quantity *</label>
 
   <input
     id="receiveQty"
@@ -1004,39 +1107,21 @@ label {
     min="0.01"
     step="0.01">
 
-
-  <label>
-    Batch / Lot
-  </label>
+  <label>Batch / Lot</label>
 
   <input id="receiveBatch">
 
-
-  <label>
-    Expiry Date
-  </label>
+  <label>Expiry Date</label>
 
   <input
     id="receiveExpiry"
     type="date">
 
+  <label>Location *</label>
 
-  <label>
-    Location *
-  </label>
+  <select id="receiveLocation"></select>
 
-  <select id="receiveLocation">
-
-    <option value="">
-      Select location
-    </option>
-
-  </select>
-
-
-  <label>
-    Unit Cost
-  </label>
+  <label>Unit Cost</label>
 
   <input
     id="receiveUnitCost"
@@ -1044,23 +1129,16 @@ label {
     min="0"
     step="0.01">
 
-
-  <label>
-    Reference No.
-  </label>
+  <label>Reference No.</label>
 
   <input id="receiveReference">
 
-
-  <label>
-    Notes
-  </label>
+  <label>Notes</label>
 
   <textarea
     id="receiveNotes"
     rows="3">
   </textarea>
-
 
   <button
     class="receive"
@@ -1069,7 +1147,6 @@ label {
     CONFIRM RECEIVE
 
   </button>
-
 
   <button
     class="secondary"
@@ -1082,9 +1159,7 @@ label {
 </div>
 
 
-<!-- ======================================================
-     ISSUE STOCK
-======================================================= -->
+<!-- ISSUE -->
 
 <div
   id="issueCard"
@@ -1099,16 +1174,12 @@ label {
     class="form-item">
   </div>
 
-
   <div
     id="fefoPreview"
     class="note fefo-note">
   </div>
 
-
-  <label>
-    Quantity *
-  </label>
+  <label>Quantity *</label>
 
   <input
     id="issueQty"
@@ -1116,32 +1187,22 @@ label {
     min="0.01"
     step="0.01">
 
-
-  <label>
-    Reason
-  </label>
+  <label>Reason</label>
 
   <input
     id="issueReason"
     value="Issuance">
 
-
-  <label>
-    Reference No.
-  </label>
+  <label>Reference No.</label>
 
   <input id="issueReference">
 
-
-  <label>
-    Notes
-  </label>
+  <label>Notes</label>
 
   <textarea
     id="issueNotes"
     rows="3">
   </textarea>
-
 
   <button
     class="issue"
@@ -1150,7 +1211,6 @@ label {
     CONFIRM ISSUE
 
   </button>
-
 
   <button
     class="secondary"
@@ -1163,9 +1223,7 @@ label {
 </div>
 
 
-<!-- ======================================================
-     QUARANTINE
-======================================================= -->
+<!-- QUARANTINE -->
 
 <div
   id="quarantineCard"
@@ -1180,30 +1238,15 @@ label {
     class="form-item">
   </div>
 
-
   <div class="note quarantine-note">
-
-    Select the exact batch that will be quarantined.
-
+    Select the exact batch to quarantine.
   </div>
 
+  <label>Batch *</label>
 
-  <label>
-    Batch *
-  </label>
+  <select id="quarantineBatch"></select>
 
-  <select id="quarantineBatch">
-
-    <option value="">
-      Select batch
-    </option>
-
-  </select>
-
-
-  <label>
-    Quantity *
-  </label>
+  <label>Quantity *</label>
 
   <input
     id="quarantineQty"
@@ -1211,10 +1254,7 @@ label {
     min="0.01"
     step="0.01">
 
-
-  <label>
-    Reason *
-  </label>
+  <label>Reason *</label>
 
   <select id="quarantineReason">
 
@@ -1222,53 +1262,26 @@ label {
       Select reason
     </option>
 
-    <option value="Expired">
-      Expired
-    </option>
-
-    <option value="Damaged">
-      Damaged
-    </option>
-
-    <option value="Recalled">
-      Recalled
-    </option>
-
-    <option value="Suspected Defect">
-      Suspected Defect
-    </option>
-
-    <option value="Temperature Excursion">
-      Temperature Excursion
-    </option>
-
-    <option value="For Verification">
-      For Verification
-    </option>
-
-    <option value="Others">
-      Others
-    </option>
+    <option>Expired</option>
+    <option>Damaged</option>
+    <option>Recalled</option>
+    <option>Suspected Defect</option>
+    <option>Temperature Excursion</option>
+    <option>For Verification</option>
+    <option>Others</option>
 
   </select>
 
-
-  <label>
-    Reference No.
-  </label>
+  <label>Reference No.</label>
 
   <input id="quarantineReference">
 
-
-  <label>
-    Notes
-  </label>
+  <label>Notes</label>
 
   <textarea
     id="quarantineNotes"
     rows="3">
   </textarea>
-
 
   <button
     class="quarantine"
@@ -1277,7 +1290,6 @@ label {
     CONFIRM QUARANTINE
 
   </button>
-
 
   <button
     class="secondary"
@@ -1290,9 +1302,7 @@ label {
 </div>
 
 
-<!-- ======================================================
-     TRANSFER
-======================================================= -->
+<!-- TRANSFER CREATE -->
 
 <div
   id="transferCard"
@@ -1307,32 +1317,19 @@ label {
     class="form-item">
   </div>
 
-
   <div class="note transfer-note">
 
-    Stock will leave your Available inventory and remain
-    In Transit until the destination PCC confirms receipt.
-    FEFO will be used automatically.
+    Once dispatched, transferred quantity becomes
+    IN TRANSIT and can no longer be issued by the
+    sending PCC.
 
   </div>
 
+  <label>Destination PCC *</label>
 
-  <label>
-    Destination PCC *
-  </label>
+  <select id="transferPcc"></select>
 
-  <select id="transferPcc">
-
-    <option value="">
-      Select destination PCC
-    </option>
-
-  </select>
-
-
-  <label>
-    Quantity *
-  </label>
+  <label>Quantity *</label>
 
   <input
     id="transferQty"
@@ -1340,25 +1337,16 @@ label {
     min="0.01"
     step="0.01">
 
+  <label>Reference No.</label>
 
-  <label>
-    Reference No.
-  </label>
+  <input id="transferReference">
 
-  <input
-    id="transferReference"
-    placeholder="DR / Transfer Reference">
-
-
-  <label>
-    Remarks
-  </label>
+  <label>Remarks</label>
 
   <textarea
     id="transferRemarks"
     rows="3">
   </textarea>
-
 
   <button
     class="transfer"
@@ -1367,7 +1355,6 @@ label {
     CONFIRM TRANSFER
 
   </button>
-
 
   <button
     class="secondary"
@@ -1380,9 +1367,83 @@ label {
 </div>
 
 
+</div>
+
+
 <!-- ======================================================
-     RECEIVE TRANSFER
+     TRANSFER PAGE
 ======================================================= -->
+
+<div
+  id="transfersPage"
+  class="hidden">
+
+
+<div class="card">
+
+  <div class="transfer-page-title">
+    Stock Transfers
+  </div>
+
+  <div class="transfer-page-subtitle">
+
+    Monitor outgoing, incoming, received,
+    and cancelled transfers.
+
+  </div>
+
+
+  <div class="transfer-filters">
+
+    <button
+      id="filterOutgoing"
+      class="filter-button active"
+      onclick="setTransferFilter('outgoing')">
+
+      OUTGOING
+
+    </button>
+
+
+    <button
+      id="filterIncoming"
+      class="filter-button"
+      onclick="setTransferFilter('incoming')">
+
+      INCOMING
+
+    </button>
+
+
+    <button
+      id="filterHistory"
+      class="filter-button"
+      onclick="setTransferFilter('history')">
+
+      HISTORY
+
+    </button>
+
+  </div>
+
+
+  <button
+    class="secondary"
+    onclick="loadTransfers(true)">
+
+    REFRESH TRANSFERS
+
+  </button>
+
+</div>
+
+
+<div
+  id="transferList">
+</div>
+
+
+<!-- RECEIVE TRANSFER -->
 
 <div
   id="receiveTransferCard"
@@ -1397,25 +1458,18 @@ label {
     class="form-item">
   </div>
 
-
   <div
     id="receiveTransferDetails"
     class="note transfer-note">
   </div>
 
-
   <label>
     Destination Location *
   </label>
 
-  <select id="transferReceiveLocation">
-
-    <option value="">
-      Select location
-    </option>
-
+  <select
+    id="transferReceiveLocation">
   </select>
-
 
   <button
     class="incoming"
@@ -1425,7 +1479,6 @@ label {
 
   </button>
 
-
   <button
     class="secondary"
     onclick="closeReceiveTransfer()">
@@ -1433,6 +1486,60 @@ label {
     CANCEL
 
   </button>
+
+</div>
+
+
+<!-- CANCEL TRANSFER -->
+
+<div
+  id="cancelTransferCard"
+  class="card hidden">
+
+  <div class="form-title">
+    Cancel Transfer
+  </div>
+
+  <div
+    id="cancelTransferTitle"
+    class="form-item">
+  </div>
+
+  <div class="note warning">
+
+    Cancelling an IN TRANSIT transfer will return
+    the quantity to the sending PCC's Available stock.
+
+  </div>
+
+  <label>
+    Cancellation Reason *
+  </label>
+
+  <textarea
+    id="cancelTransferReason"
+    rows="4"
+    placeholder="Explain why this transfer is being cancelled">
+  </textarea>
+
+  <button
+    class="danger"
+    onclick="submitCancelTransfer()">
+
+    CONFIRM CANCELLATION
+
+  </button>
+
+  <button
+    class="secondary"
+    onclick="closeCancelTransfer()">
+
+    KEEP TRANSFER
+
+  </button>
+
+</div>
+
 
 </div>
 
@@ -1467,9 +1574,13 @@ let locations = [];
 
 let pccList = [];
 
-let incomingTransfers = [];
+let transfers = [];
 
-let selectedIncomingTransfer = null;
+let transferFilter =
+  'outgoing';
+
+let selectedTransfer =
+  null;
 
 let codeReader = null;
 
@@ -1490,7 +1601,7 @@ window.addEventListener(
 
 
 /* =========================================================
-   INITIALIZE
+   INIT / LOGIN
 ========================================================= */
 
 function initialize() {
@@ -1510,9 +1621,7 @@ function initialize() {
           google.accounts.id
         ) {
 
-          clearInterval(
-            timer
-          );
+          clearInterval(timer);
 
           initializeGoogleLogin();
 
@@ -1558,10 +1667,6 @@ function initializeGoogleLogin() {
 }
 
 
-/* =========================================================
-   LOGIN
-========================================================= */
-
 function handleGoogleCredential(
   response
 ) {
@@ -1572,18 +1677,11 @@ function handleGoogleCredential(
   ) {
 
     showMessageModal({
-
-      type:
-        'error',
-
-      title:
-        'Sign-in Failed',
-
+      type: 'error',
+      title: 'Sign-in Failed',
       message:
         'Google sign-in could not be completed.'
-
     });
-
 
     return;
 
@@ -1596,14 +1694,11 @@ function handleGoogleCredential(
 
 
   apiCall(
-
     'login',
-
     {
       credential:
         response.credential
     },
-
     function(result) {
 
       hideLoading();
@@ -1615,19 +1710,12 @@ function handleGoogleCredential(
       ) {
 
         showMessageModal({
-
-          type:
-            'error',
-
-          title:
-            'Access Denied',
-
+          type: 'error',
+          title: 'Access Denied',
           message:
             result?.message ||
             'Your account could not be authorized.'
-
         });
-
 
         return;
 
@@ -1651,7 +1739,6 @@ function handleGoogleCredential(
       openApp();
 
     }
-
   );
 
 }
@@ -1660,14 +1747,11 @@ function handleGoogleCredential(
 function validateStoredSession() {
 
   apiCall(
-
     'session',
-
     {
       session:
         sessionToken
     },
-
     function(result) {
 
       if (
@@ -1677,7 +1761,6 @@ function validateStoredSession() {
 
         currentUser =
           result.user;
-
 
         openApp();
 
@@ -1690,7 +1773,6 @@ function validateStoredSession() {
       }
 
     }
-
   );
 
 }
@@ -1741,7 +1823,7 @@ function openApp() {
         currentUser.pccId
       ) +
 
-      '<br>• ' +
+      '<br>' +
 
       escapeHtml(
         currentUser.email
@@ -1754,23 +1836,9 @@ function openApp() {
 
   loadPccs();
 
+  loadTransfers(false);
 
-  /*
-    Automatically check incoming
-    transfers after login.
-
-    Section stays hidden when zero.
-  */
-
-  if (
-    currentUser.permissions.receive
-  ) {
-
-    loadIncomingTransfers(
-      false
-    );
-
-  }
+  showPage('scan');
 
 
   showStatus(
@@ -1780,10 +1848,6 @@ function openApp() {
 
 }
 
-
-/* =========================================================
-   PERMISSIONS
-========================================================= */
 
 function renderPermissions() {
 
@@ -1795,36 +1859,23 @@ function renderPermissions() {
 
 
   if (p.receive) {
-    labels.push(
-      'RECEIVE'
-    );
+    labels.push('RECEIVE');
   }
 
 
   if (p.issue) {
-
-    labels.push(
-      'ISSUE'
-    );
-
-    labels.push(
-      'QUARANTINE'
-    );
-
+    labels.push('ISSUE');
+    labels.push('QUARANTINE');
   }
 
 
   if (p.transfer) {
-    labels.push(
-      'TRANSFER'
-    );
+    labels.push('TRANSFER');
   }
 
 
   if (p.count) {
-    labels.push(
-      'COUNT'
-    );
+    labels.push('COUNT');
   }
 
 
@@ -1834,38 +1885,126 @@ function renderPermissions() {
     )
     .innerHTML =
 
-      labels.map(
-        label =>
-
-          '<span class="permission">' +
-
-          escapeHtml(
-            label
-          ) +
-
-          '</span>'
-
-      )
-      .join('');
+      labels
+        .map(
+          label =>
+            '<span class="permission">' +
+            escapeHtml(label) +
+            '</span>'
+        )
+        .join('');
 
 }
 
 
 /* =========================================================
-   LOCATIONS
+   MAIN NAV
+========================================================= */
+
+function showPage(page) {
+
+  const scanPage =
+    document.getElementById(
+      'scanPage'
+    );
+
+
+  const transfersPage =
+    document.getElementById(
+      'transfersPage'
+    );
+
+
+  const navScan =
+    document.getElementById(
+      'navScan'
+    );
+
+
+  const navTransfers =
+    document.getElementById(
+      'navTransfers'
+    );
+
+
+  if (page === 'transfers') {
+
+    stopScanner();
+
+    scanPage.classList.add(
+      'hidden'
+    );
+
+
+    transfersPage.classList.remove(
+      'hidden'
+    );
+
+
+    navScan.classList.remove(
+      'active'
+    );
+
+
+    navTransfers.classList.add(
+      'active'
+    );
+
+
+    loadTransfers(false);
+
+
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+
+
+    return;
+
+  }
+
+
+  transfersPage.classList.add(
+    'hidden'
+  );
+
+
+  scanPage.classList.remove(
+    'hidden'
+  );
+
+
+  navTransfers.classList.remove(
+    'active'
+  );
+
+
+  navScan.classList.add(
+    'active'
+  );
+
+
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+
+}
+
+
+/* =========================================================
+   LOCATIONS / PCC
 ========================================================= */
 
 function loadLocations() {
 
   apiCall(
-
     'locations',
-
     {
       session:
         sessionToken
     },
-
     function(result) {
 
       if (
@@ -1890,20 +2029,15 @@ function loadLocations() {
       );
 
     }
-
   );
 
 }
 
 
-function populateLocationSelect(
-  id
-) {
+function populateLocationSelect(id) {
 
   const select =
-    document.getElementById(
-      id
-    );
+    document.getElementById(id);
 
 
   select.innerHTML =
@@ -1933,9 +2067,7 @@ function populateLocationSelect(
         );
 
 
-      select.appendChild(
-        option
-      );
+      select.appendChild(option);
 
     }
   );
@@ -1943,30 +2075,21 @@ function populateLocationSelect(
 }
 
 
-/* =========================================================
-   PCC LIST
-========================================================= */
-
 function loadPccs() {
 
   apiCall(
-
     'pccs',
-
     {
       session:
         sessionToken
     },
-
     function(result) {
 
       if (
         !result ||
         result.success !== true
       ) {
-
         return;
-
       }
 
 
@@ -2001,49 +2124,31 @@ function loadPccs() {
             pcc.pccName;
 
 
-          select.appendChild(
-            option
-          );
+          select.appendChild(option);
 
         }
       );
 
     }
-
   );
 
 }
 
 
 /* =========================================================
-   INCOMING TRANSFERS
+   TRANSFER PAGE
 ========================================================= */
 
-function loadIncomingTransfers(
-  scrollToSection = false
+function loadTransfers(
+  scrollToTop = false
 ) {
 
-  if (
-    !currentUser ||
-    !currentUser.permissions.receive
-  ) {
-
-    hideIncomingSection();
-
-    return;
-
-  }
-
-
   apiCall(
-
-    'incomingtransfers',
-
+    'transfers',
     {
       session:
         sessionToken
     },
-
     function(result) {
 
       if (
@@ -2051,146 +2156,234 @@ function loadIncomingTransfers(
         result.success !== true
       ) {
 
-        hideIncomingSection();
-
         return;
 
       }
 
 
-      incomingTransfers =
+      transfers =
         result.transfers || [];
 
 
-      renderIncomingTransfers();
+      renderTransferNavBadge();
+
+      renderTransfers();
 
 
-      if (
-        scrollToSection &&
-        incomingTransfers.length
-      ) {
+      if (scrollToTop) {
 
-        setTimeout(
-          function() {
-
-            document
-              .getElementById(
-                'incomingSection'
-              )
-              .scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-              });
-
-          },
-          100
-        );
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
 
       }
 
     }
-
   );
 
 }
 
 
-function hideIncomingSection() {
+function renderTransferNavBadge() {
 
-  incomingTransfers = [];
+  const pending =
+    transfers.filter(
+      function(t) {
 
+        return (
+          t.direction ===
+            'INCOMING' &&
+          t.status ===
+            'IN TRANSIT'
+        );
 
-  const section =
-    document.getElementById(
-      'incomingSection'
-    );
-
-
-  section.classList.add(
-    'hidden'
-  );
-
-
-  document
-    .getElementById(
-      'incomingList'
-    )
-    .innerHTML = '';
+      }
+    ).length;
 
 
   document
     .getElementById(
-      'incomingCount'
+      'transferNavBadge'
     )
     .textContent =
-      '0';
+      pending > 0
+        ? ' (' + pending + ')'
+        : '';
 
 }
 
 
-function renderIncomingTransfers() {
+function setTransferFilter(
+  filter
+) {
 
-  const section =
-    document.getElementById(
-      'incomingSection'
-    );
+  transferFilter =
+    filter;
 
+
+  [
+    'filterOutgoing',
+    'filterIncoming',
+    'filterHistory'
+  ]
+  .forEach(
+    id =>
+      document
+        .getElementById(id)
+        .classList.remove(
+          'active'
+        )
+  );
+
+
+  if (filter === 'outgoing') {
+
+    document
+      .getElementById(
+        'filterOutgoing'
+      )
+      .classList.add(
+        'active'
+      );
+
+  }
+
+
+  if (filter === 'incoming') {
+
+    document
+      .getElementById(
+        'filterIncoming'
+      )
+      .classList.add(
+        'active'
+      );
+
+  }
+
+
+  if (filter === 'history') {
+
+    document
+      .getElementById(
+        'filterHistory'
+      )
+      .classList.add(
+        'active'
+      );
+
+  }
+
+
+  renderTransfers();
+
+}
+
+
+function renderTransfers() {
 
   const list =
     document.getElementById(
-      'incomingList'
+      'transferList'
     );
 
 
-  const count =
-    incomingTransfers.length;
+  let filtered = [];
 
-
-  /*
-    IMPORTANT:
-    No transfer = hide entire section.
-  */
 
   if (
-    count === 0
+    transferFilter ===
+    'outgoing'
   ) {
 
-    hideIncomingSection();
+    filtered =
+      transfers.filter(
+        t =>
+          t.direction ===
+            'OUTGOING' &&
+          t.status ===
+            'IN TRANSIT'
+      );
+
+  }
+
+
+  else if (
+    transferFilter ===
+    'incoming'
+  ) {
+
+    filtered =
+      transfers.filter(
+        t =>
+          t.direction ===
+            'INCOMING' &&
+          t.status ===
+            'IN TRANSIT'
+      );
+
+  }
+
+
+  else {
+
+    filtered =
+      transfers.filter(
+        t =>
+          t.status !==
+            'IN TRANSIT'
+      );
+
+  }
+
+
+  if (
+    !filtered.length
+  ) {
+
+    list.innerHTML = `
+
+      <div class="card empty-state">
+
+        <div class="empty-icon">
+          📦
+        </div>
+
+        <div class="empty-title">
+          No transfers here
+        </div>
+
+        <div style="margin-top:6px;">
+          There are no records under this filter.
+        </div>
+
+      </div>
+
+    `;
+
 
     return;
 
   }
 
 
-  document
-    .getElementById(
-      'incomingCount'
-    )
-    .textContent =
-      count;
-
-
-  section.classList.remove(
-    'hidden'
-  );
-
-
   let html = '';
 
 
-  incomingTransfers.forEach(
-    function(transfer) {
+  filtered.forEach(
+    function(t) {
 
-      let itemText = '';
+      let items = '';
 
 
       (
-        transfer.items || []
+        t.items || []
       )
       .forEach(
         function(item) {
 
-          itemText +=
+          items +=
 
             '<div>' +
 
@@ -2210,83 +2403,175 @@ function renderIncomingTransfers() {
       );
 
 
-      html += `
-
-        <div class="incoming-card">
-
-          <div class="incoming-id">
-
-            ${escapeHtml(
-              transfer.transferId
-            )}
-
-          </div>
+      const badgeClass =
+        t.status === 'RECEIVED'
+          ? 'status-received'
+          : (
+              t.status ===
+              'CANCELLED'
+                ? 'status-cancelled'
+                : 'status-transit'
+            );
 
 
-          <div style="margin-top:6px;">
+      let buttons = `
 
-            <span class="badge">
-              IN TRANSIT
-            </span>
+        <button
+          class="secondary"
+          onclick="viewTransfer('${escapeJs(
+            t.transferId
+          )}')">
 
-          </div>
+          VIEW DETAILS
 
+        </button>
 
-          <div class="incoming-meta">
-
-            From:
-            <b>
-              ${escapeHtml(
-                transfer.fromPccName
-              )}
-            </b>
-
-            <br>
-
-            Dispatch:
-            ${escapeHtml(
-              transfer.dispatchDateTime ||
-              '-'
-            )}
-
-            <br>
-
-            Reference:
-            ${escapeHtml(
-              transfer.referenceNo ||
-              '-'
-            )}
-
-            ${
-              transfer.remarks
-                ?
-                '<br>Remarks: ' +
-                escapeHtml(
-                  transfer.remarks
-                )
-                :
-                ''
-            }
-
-          </div>
+      `;
 
 
-          <div class="incoming-batches">
+      if (t.canCancel) {
 
-            ${itemText}
+        buttons += `
 
-          </div>
+          <button
+            class="danger"
+            onclick="openCancelTransfer('${escapeJs(
+              t.transferId
+            )}')">
 
+            CANCEL TRANSFER
+
+          </button>
+
+        `;
+
+      }
+
+
+      if (t.canReceive) {
+
+        buttons += `
 
           <button
             class="incoming"
             onclick="openReceiveTransfer('${escapeJs(
-              transfer.transferId
+              t.transferId
             )}')">
 
             RECEIVE TRANSFER
 
           </button>
+
+        `;
+
+      }
+
+
+      html += `
+
+        <div class="card">
+
+          <div class="transfer-record">
+
+            <div class="transfer-id">
+
+              ${escapeHtml(
+                t.transferId
+              )}
+
+            </div>
+
+
+            <span
+              class="status-badge ${badgeClass}">
+
+              ${escapeHtml(
+                t.status
+              )}
+
+            </span>
+
+
+            <div class="transfer-route">
+
+              ${escapeHtml(
+                t.fromPccName
+              )}
+
+              →
+
+              ${escapeHtml(
+                t.toPccName
+              )}
+
+            </div>
+
+
+            <div class="transfer-meta">
+
+              Direction:
+              <b>
+                ${escapeHtml(
+                  t.direction
+                )}
+              </b>
+
+              <br>
+
+              Dispatch:
+              ${escapeHtml(
+                t.dispatchDateTime ||
+                '-'
+              )}
+
+              <br>
+
+              ${
+                t.receiveDateTime
+                  ?
+                  'Received: ' +
+                  escapeHtml(
+                    t.receiveDateTime
+                  ) +
+                  '<br>'
+                  :
+                  ''
+              }
+
+              Reference:
+              ${escapeHtml(
+                t.referenceNo ||
+                '-'
+              )}
+
+            </div>
+
+
+            <div class="transfer-items">
+
+              ${items}
+
+              <div style="margin-top:7px;">
+
+                Total Quantity:
+                <b>
+                  ${escapeHtml(
+                    t.totalQuantity
+                  )}
+                </b>
+
+              </div>
+
+            </div>
+
+
+            <div class="transfer-actions">
+
+              ${buttons}
+
+            </div>
+
+          </div>
 
         </div>
 
@@ -2302,8 +2587,756 @@ function renderIncomingTransfers() {
 }
 
 
+function viewTransfer(
+  transferId
+) {
+
+  const t =
+    transfers.find(
+      t =>
+        t.transferId ===
+        transferId
+    );
+
+
+  if (!t) {
+    return;
+  }
+
+
+  const allocationRows =
+    (
+      t.allocations || []
+    )
+    .map(
+      function(a) {
+
+        return {
+
+          label:
+            a.batchNo ||
+            a.batchStockId,
+
+          quantity:
+            a.quantity,
+
+          expiry:
+            a.expiryDate ||
+            'N/A'
+
+        };
+
+      }
+    );
+
+
+  showMessageModal({
+
+    type:
+      'info',
+
+    title:
+      t.transferId,
+
+    message:
+      t.fromPccName +
+      ' → ' +
+      t.toPccName,
+
+    summary: [
+
+      [
+        'Status',
+        t.status
+      ],
+
+      [
+        'Direction',
+        t.direction
+      ],
+
+      [
+        'Total Quantity',
+        t.totalQuantity
+      ],
+
+      [
+        'Reference',
+        t.referenceNo ||
+        '-'
+      ],
+
+      [
+        'Requested By',
+        t.requestedBy ||
+        '-'
+      ],
+
+      [
+        'Released By',
+        t.releasedBy ||
+        '-'
+      ],
+
+      [
+        'Received By',
+        t.receivedBy ||
+        '-'
+      ],
+
+      [
+        'Remarks',
+        t.remarks ||
+        '-'
+      ]
+
+    ],
+
+    batches:
+      allocationRows,
+
+    primaryText:
+      'CLOSE'
+
+  });
+
+}
+
+
 /* =========================================================
-   CAMERA
+   RECEIVE TRANSFER
+========================================================= */
+
+function openReceiveTransfer(
+  transferId
+) {
+
+  selectedTransfer =
+    transfers.find(
+      t =>
+        t.transferId ===
+        transferId
+    );
+
+
+  if (
+    !selectedTransfer
+  ) {
+    return;
+  }
+
+
+  closeTransferActionCards();
+
+
+  document
+    .getElementById(
+      'receiveTransferTitle'
+    )
+    .textContent =
+      selectedTransfer
+        .transferId;
+
+
+  document
+    .getElementById(
+      'transferReceiveLocation'
+    )
+    .value = '';
+
+
+  let html =
+
+    'From: <b>' +
+
+    escapeHtml(
+      selectedTransfer
+        .fromPccName
+    ) +
+
+    '</b><br>' +
+
+    'Total Quantity: <b>' +
+
+    escapeHtml(
+      selectedTransfer
+        .totalQuantity
+    ) +
+
+    '</b><br><br>';
+
+
+  (
+    selectedTransfer
+      .allocations || []
+  )
+  .forEach(
+    function(a) {
+
+      html +=
+
+        escapeHtml(
+          a.itemId
+        ) +
+
+        ' • Batch ' +
+
+        escapeHtml(
+          a.batchNo ||
+          a.batchStockId
+        ) +
+
+        ' • Qty ' +
+
+        escapeHtml(
+          a.quantity
+        ) +
+
+        '<br>';
+
+    }
+  );
+
+
+  document
+    .getElementById(
+      'receiveTransferDetails'
+    )
+    .innerHTML =
+      html;
+
+
+  const card =
+    document.getElementById(
+      'receiveTransferCard'
+    );
+
+
+  card.classList.remove(
+    'hidden'
+  );
+
+
+  setTimeout(
+    () =>
+      card.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      }),
+    100
+  );
+
+}
+
+
+function closeReceiveTransfer() {
+
+  document
+    .getElementById(
+      'receiveTransferCard'
+    )
+    .classList.add(
+      'hidden'
+    );
+
+
+  selectedTransfer =
+    null;
+
+}
+
+
+function submitReceiveTransfer() {
+
+  if (!selectedTransfer) {
+    return;
+  }
+
+
+  const locationId =
+    document
+      .getElementById(
+        'transferReceiveLocation'
+      )
+      .value;
+
+
+  if (!locationId) {
+
+    showMessageModal({
+      type: 'warning',
+      title: 'Location Required',
+      message:
+        'Select the destination storage location.'
+    });
+
+    return;
+
+  }
+
+
+  const transferId =
+    selectedTransfer.transferId;
+
+
+  showConfirmModal({
+
+    type:
+      'info',
+
+    title:
+      'Confirm Transfer Receipt',
+
+    message:
+      'Once received, the transferred stock will become AVAILABLE at your PCC.',
+
+    summary: [
+
+      [
+        'Transfer ID',
+        transferId
+      ],
+
+      [
+        'From',
+        selectedTransfer
+          .fromPccName
+      ],
+
+      [
+        'Quantity',
+        selectedTransfer
+          .totalQuantity
+      ],
+
+      [
+        'Location',
+        locationId
+      ]
+
+    ],
+
+    confirmText:
+      'CONFIRM RECEIPT',
+
+    confirmClass:
+      'incoming',
+
+    onConfirm:
+      function() {
+
+        showLoading(
+          'Receiving transfer...'
+        );
+
+
+        apiCall(
+          'receivetransfer',
+          {
+
+            session:
+              sessionToken,
+
+            requestId:
+              generateRequestId(
+                'RTR'
+              ),
+
+            transferId:
+              transferId,
+
+            locationId:
+              locationId
+
+          },
+          function(result) {
+
+            hideLoading();
+
+
+            if (
+              !result ||
+              result.success !== true
+            ) {
+
+              showMessageModal({
+                type: 'error',
+                title: 'Receipt Failed',
+                message:
+                  result?.message ||
+                  'Transfer receipt failed.'
+              });
+
+              return;
+
+            }
+
+
+            closeReceiveTransfer();
+
+
+            showMessageModal({
+
+              type:
+                'success',
+
+              title:
+                'Transfer Received',
+
+              message:
+                'Transferred stock is now available at your PCC.',
+
+              summary: [
+
+                [
+                  'Transfer ID',
+                  transferId
+                ],
+
+                [
+                  'Quantity Received',
+                  result.result
+                    .totalReceived
+                ],
+
+                [
+                  'Status',
+                  'RECEIVED'
+                ]
+
+              ],
+
+              onClose:
+                function() {
+
+                  loadTransfers(false);
+
+                }
+
+            });
+
+          }
+        );
+
+      }
+
+  });
+
+}
+
+
+/* =========================================================
+   CANCEL TRANSFER
+========================================================= */
+
+function openCancelTransfer(
+  transferId
+) {
+
+  selectedTransfer =
+    transfers.find(
+      t =>
+        t.transferId ===
+        transferId
+    );
+
+
+  if (
+    !selectedTransfer
+  ) {
+    return;
+  }
+
+
+  if (
+    !selectedTransfer.canCancel
+  ) {
+
+    showMessageModal({
+      type: 'warning',
+      title:
+        'Cancellation Not Allowed',
+      message:
+        'Only an IN TRANSIT transfer from your PCC can be cancelled.'
+    });
+
+    return;
+
+  }
+
+
+  closeTransferActionCards();
+
+
+  document
+    .getElementById(
+      'cancelTransferTitle'
+    )
+    .textContent =
+
+      selectedTransfer
+        .transferId +
+
+      ' • ' +
+
+      selectedTransfer
+        .toPccName;
+
+
+  document
+    .getElementById(
+      'cancelTransferReason'
+    )
+    .value = '';
+
+
+  const card =
+    document.getElementById(
+      'cancelTransferCard'
+    );
+
+
+  card.classList.remove(
+    'hidden'
+  );
+
+
+  setTimeout(
+    () =>
+      card.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      }),
+    100
+  );
+
+}
+
+
+function closeCancelTransfer() {
+
+  document
+    .getElementById(
+      'cancelTransferCard'
+    )
+    .classList.add(
+      'hidden'
+    );
+
+
+  selectedTransfer =
+    null;
+
+}
+
+
+function submitCancelTransfer() {
+
+  if (!selectedTransfer) {
+    return;
+  }
+
+
+  const reason =
+    document
+      .getElementById(
+        'cancelTransferReason'
+      )
+      .value
+      .trim();
+
+
+  if (!reason) {
+
+    showMessageModal({
+      type: 'warning',
+      title:
+        'Reason Required',
+      message:
+        'Enter the reason for cancelling this transfer.'
+    });
+
+    return;
+
+  }
+
+
+  const transferId =
+    selectedTransfer
+      .transferId;
+
+
+  showConfirmModal({
+
+    type:
+      'warning',
+
+    title:
+      'Cancel Transfer?',
+
+    message:
+      'The IN TRANSIT quantity will be returned to AVAILABLE stock at the sending PCC.',
+
+    summary: [
+
+      [
+        'Transfer ID',
+        transferId
+      ],
+
+      [
+        'Destination',
+        selectedTransfer
+          .toPccName
+      ],
+
+      [
+        'Quantity',
+        selectedTransfer
+          .totalQuantity
+      ],
+
+      [
+        'Reason',
+        reason
+      ]
+
+    ],
+
+    confirmText:
+      'YES, CANCEL',
+
+    confirmClass:
+      'danger',
+
+    onConfirm:
+      function() {
+
+        showLoading(
+          'Cancelling transfer...'
+        );
+
+
+        apiCall(
+          'canceltransfer',
+          {
+
+            session:
+              sessionToken,
+
+            requestId:
+              generateRequestId(
+                'CTR'
+              ),
+
+            transferId:
+              transferId,
+
+            reason:
+              reason
+
+          },
+          function(result) {
+
+            hideLoading();
+
+
+            if (
+              !result ||
+              result.success !== true
+            ) {
+
+              showMessageModal({
+                type: 'error',
+                title:
+                  'Cancellation Failed',
+                message:
+                  result?.message ||
+                  'Transfer could not be cancelled.'
+              });
+
+              return;
+
+            }
+
+
+            closeCancelTransfer();
+
+
+            showMessageModal({
+
+              type:
+                'success',
+
+              title:
+                'Transfer Cancelled',
+
+              message:
+                'The stock was returned to the sending PCC inventory.',
+
+              summary: [
+
+                [
+                  'Transfer ID',
+                  transferId
+                ],
+
+                [
+                  'Quantity Returned',
+                  result.result
+                    .totalReturned
+                ],
+
+                [
+                  'Status',
+                  'CANCELLED'
+                ]
+
+              ],
+
+              onClose:
+                function() {
+
+                  loadTransfers(false);
+
+                }
+
+            });
+
+          }
+        );
+
+      }
+
+  });
+
+}
+
+
+function closeTransferActionCards() {
+
+  document
+    .getElementById(
+      'receiveTransferCard'
+    )
+    .classList.add(
+      'hidden'
+    );
+
+
+  document
+    .getElementById(
+      'cancelTransferCard'
+    )
+    .classList.add(
+      'hidden'
+    );
+
+}
+
+
+/* =========================================================
+   SCANNER
 ========================================================= */
 
 async function openScanner() {
@@ -2312,14 +3345,11 @@ async function openScanner() {
     scannerRunning ||
     !sessionToken
   ) {
-
     return;
-
   }
 
 
-  scanLocked =
-    false;
+  scanLocked = false;
 
 
   try {
@@ -2335,10 +3365,7 @@ async function openScanner() {
         .listVideoInputDevices();
 
 
-    if (
-      !devices ||
-      !devices.length
-    ) {
+    if (!devices.length) {
 
       throw new Error(
         'No camera detected.'
@@ -2363,19 +3390,9 @@ async function openScanner() {
 
 
           return (
-
-            label.includes(
-              'back'
-            ) ||
-
-            label.includes(
-              'rear'
-            ) ||
-
-            label.includes(
-              'environment'
-            )
-
+            label.includes('back') ||
+            label.includes('rear') ||
+            label.includes('environment')
           );
 
         }
@@ -2412,12 +3429,9 @@ async function openScanner() {
 
               if (value) {
 
-                scanLocked =
-                  true;
-
+                scanLocked = true;
 
                 stopScanner();
-
 
                 lookupInventory(
                   value
@@ -2432,8 +3446,7 @@ async function openScanner() {
         );
 
 
-    scannerRunning =
-      true;
+    scannerRunning = true;
 
 
     document
@@ -2453,28 +3466,16 @@ async function openScanner() {
         'hidden'
       );
 
-
-    showStatus(
-      'Camera ready.',
-      'success'
-    );
-
   }
 
   catch (error) {
 
     showMessageModal({
-
-      type:
-        'error',
-
-      title:
-        'Camera Error',
-
+      type: 'error',
+      title: 'Camera Error',
       message:
         error.message ||
         String(error)
-
     });
 
   }
@@ -2491,19 +3492,15 @@ async function stopScanner() {
     }
 
   }
+
   catch (error) {}
 
 
-  controls =
-    null;
+  controls = null;
 
+  codeReader = null;
 
-  codeReader =
-    null;
-
-
-  scannerRunning =
-    false;
+  scannerRunning = false;
 
 
   const video =
@@ -2517,8 +3514,7 @@ async function stopScanner() {
     video.srcObject
   ) {
 
-    video
-      .srcObject
+    video.srcObject
       .getTracks()
       .forEach(
         track =>
@@ -2526,8 +3522,7 @@ async function stopScanner() {
       );
 
 
-    video.srcObject =
-      null;
+    video.srcObject = null;
 
   }
 
@@ -2570,34 +3565,23 @@ function manualLookup() {
   if (!value) {
 
     showMessageModal({
-
-      type:
-        'warning',
-
-      title:
-        'Enter Item Code',
-
+      type: 'warning',
+      title: 'Enter Item Code',
       message:
-        'Enter a Barcode or Item ID before searching.'
-
+        'Enter a Barcode or Item ID.'
     });
-
 
     return;
 
   }
 
 
-  lookupInventory(
-    value
-  );
+  lookupInventory(value);
 
 }
 
 
-function lookupInventory(
-  code
-) {
+function lookupInventory(code) {
 
   showLoading(
     'Looking up inventory...'
@@ -2605,26 +3589,18 @@ function lookupInventory(
 
 
   apiCall(
-
     'lookup',
-
     {
-
       session:
         sessionToken,
-
       code:
         code
-
     },
-
     function(result) {
 
       hideLoading();
 
-
-      scanLocked =
-        false;
+      scanLocked = false;
 
 
       if (
@@ -2633,19 +3609,12 @@ function lookupInventory(
       ) {
 
         showMessageModal({
-
-          type:
-            'error',
-
-          title:
-            'Lookup Failed',
-
+          type: 'error',
+          title: 'Lookup Failed',
           message:
             result?.message ||
             'Inventory lookup failed.'
-
         });
-
 
         return;
 
@@ -2657,18 +3626,11 @@ function lookupInventory(
       ) {
 
         showMessageModal({
-
-          type:
-            'warning',
-
-          title:
-            'Item Not Found',
-
+          type: 'warning',
+          title: 'Item Not Found',
           message:
             'The scanned item was not found.'
-
         });
-
 
         return;
 
@@ -2679,20 +3641,15 @@ function lookupInventory(
         result;
 
 
-      displayItem(
-        result
-      );
+      displayItem(result);
 
     }
-
   );
 
 }
 
 
-function displayItem(
-  result
-) {
+function displayItem(result) {
 
   const item =
     result.item;
@@ -2742,21 +3699,17 @@ function displayItem(
     .innerHTML =
 
       'Category: <b>' +
-
       escapeHtml(
         item.category ||
         '-'
       ) +
-
       '</b><br>' +
 
       'UOM: <b>' +
-
       escapeHtml(
         item.uom ||
         '-'
       ) +
-
       '</b>';
 
 
@@ -2804,14 +3757,11 @@ function displayItem(
       'issueButton'
     )
     .classList.toggle(
-
       'hidden',
-
       !currentUser.permissions.issue ||
       Number(
         inv.totalAvailable || 0
       ) <= 0
-
     );
 
 
@@ -2820,14 +3770,11 @@ function displayItem(
       'quarantineButton'
     )
     .classList.toggle(
-
       'hidden',
-
       !currentUser.permissions.issue ||
       Number(
         inv.totalAvailable || 0
       ) <= 0
-
     );
 
 
@@ -2836,35 +3783,24 @@ function displayItem(
       'transferButton'
     )
     .classList.toggle(
-
       'hidden',
-
       !currentUser.permissions.transfer ||
       Number(
         inv.totalAvailable || 0
       ) <= 0
-
     );
 
 
   setTimeout(
-    function() {
-
+    () =>
       document
         .getElementById(
           'itemCard'
         )
         .scrollIntoView({
-
-          behavior:
-            'smooth',
-
-          block:
-            'start'
-
-        });
-
-    },
+          behavior: 'smooth',
+          block: 'start'
+        }),
     100
   );
 
@@ -2872,12 +3808,12 @@ function displayItem(
 
 
 /* =========================================================
-   RECEIVE
+   RECEIVE STOCK UI
 ========================================================= */
 
 function openReceive() {
 
-  closeAllActionCards();
+  closeScanActionCards();
 
 
   const item =
@@ -2894,46 +3830,20 @@ function openReceive() {
       item.itemId;
 
 
-  document
-    .getElementById(
-      'receiveQty'
-    )
-    .value = '';
-
-
-  document
-    .getElementById(
-      'receiveBatch'
-    )
-    .value = '';
-
-
-  document
-    .getElementById(
-      'receiveExpiry'
-    )
-    .value = '';
-
-
-  document
-    .getElementById(
-      'receiveUnitCost'
-    )
-    .value = '';
-
-
-  document
-    .getElementById(
-      'receiveReference'
-    )
-    .value = '';
-
-
-  document
-    .getElementById(
-      'receiveNotes'
-    )
-    .value = '';
+  [
+    'receiveQty',
+    'receiveBatch',
+    'receiveExpiry',
+    'receiveUnitCost',
+    'receiveReference',
+    'receiveNotes'
+  ]
+  .forEach(
+    id =>
+      document
+        .getElementById(id)
+        .value = ''
+  );
 
 
   const card =
@@ -2948,19 +3858,11 @@ function openReceive() {
 
 
   setTimeout(
-    function() {
-
+    () =>
       card.scrollIntoView({
-
-        behavior:
-          'smooth',
-
-        block:
-          'start'
-
-      });
-
-    },
+        behavior: 'smooth',
+        block: 'start'
+      }),
     100
   );
 
@@ -2996,23 +3898,6 @@ function submitReceive() {
     );
 
 
-  const batchNo =
-    document
-      .getElementById(
-        'receiveBatch'
-      )
-      .value
-      .trim();
-
-
-  const expiryDate =
-    document
-      .getElementById(
-        'receiveExpiry'
-      )
-      .value;
-
-
   const locationId =
     document
       .getElementById(
@@ -3027,18 +3912,11 @@ function submitReceive() {
   ) {
 
     showMessageModal({
-
-      type:
-        'warning',
-
-      title:
-        'Invalid Quantity',
-
+      type: 'warning',
+      title: 'Invalid Quantity',
       message:
-        'Enter a valid quantity greater than zero.'
-
+        'Enter a valid quantity.'
     });
-
 
     return;
 
@@ -3048,18 +3926,11 @@ function submitReceive() {
   if (!locationId) {
 
     showMessageModal({
-
-      type:
-        'warning',
-
-      title:
-        'Location Required',
-
+      type: 'warning',
+      title: 'Location Required',
       message:
         'Select a storage location.'
-
     });
-
 
     return;
 
@@ -3068,14 +3939,10 @@ function submitReceive() {
 
   showConfirmModal({
 
-    type:
-      'info',
+    type: 'info',
 
     title:
       'Confirm Stock Receipt',
-
-    message:
-      'Review the transaction before posting.',
 
     summary: [
 
@@ -3087,12 +3954,6 @@ function submitReceive() {
       [
         'Quantity',
         quantity
-      ],
-
-      [
-        'Batch',
-        batchNo ||
-        'No Batch'
       ],
 
       [
@@ -3117,9 +3978,7 @@ function submitReceive() {
 
 
         apiCall(
-
           'receive',
-
           {
 
             session:
@@ -3137,10 +3996,19 @@ function submitReceive() {
               quantity,
 
             batchNo:
-              batchNo,
+              document
+                .getElementById(
+                  'receiveBatch'
+                )
+                .value
+                .trim(),
 
             expiryDate:
-              expiryDate,
+              document
+                .getElementById(
+                  'receiveExpiry'
+                )
+                .value,
 
             locationId:
               locationId,
@@ -3150,8 +4018,7 @@ function submitReceive() {
                 .getElementById(
                   'receiveUnitCost'
                 )
-                .value ||
-              0,
+                .value || 0,
 
             referenceNo:
               document
@@ -3170,7 +4037,6 @@ function submitReceive() {
                 .trim()
 
           },
-
           function(result) {
 
             hideLoading();
@@ -3182,19 +4048,12 @@ function submitReceive() {
             ) {
 
               showMessageModal({
-
-                type:
-                  'error',
-
-                title:
-                  'Receive Failed',
-
+                type: 'error',
+                title: 'Receive Failed',
                 message:
                   result?.message ||
                   'Transaction failed.'
-
               });
-
 
               return;
 
@@ -3205,31 +4064,23 @@ function submitReceive() {
 
 
             showSuccessAndRefresh(
-
               'Stock Received',
-
               item.itemId,
-
               [
-
                 [
                   'Quantity',
                   result.result
                     .quantityReceived
                 ],
-
                 [
-                  'Transaction',
+                  'Available After',
                   result.result
-                    .transactionId
+                    .availableAfter
                 ]
-
               ]
-
             );
 
           }
-
         );
 
       }
@@ -3240,12 +4091,12 @@ function submitReceive() {
 
 
 /* =========================================================
-   ISSUE
+   ISSUE UI
 ========================================================= */
 
 function openIssue() {
 
-  closeAllActionCards();
+  closeScanActionCards();
 
 
   const item =
@@ -3257,28 +4108,12 @@ function openIssue() {
       'issueItemName'
     )
     .textContent =
-      item.itemName +
-      ' • ' +
-      item.itemId;
+      item.itemName;
 
 
   document
     .getElementById(
       'issueQty'
-    )
-    .value = '';
-
-
-  document
-    .getElementById(
-      'issueReference'
-    )
-    .value = '';
-
-
-  document
-    .getElementById(
-      'issueNotes'
     )
     .value = '';
 
@@ -3298,21 +4133,26 @@ function openIssue() {
 
 
   setTimeout(
-    function() {
-
+    () =>
       card.scrollIntoView({
-
-        behavior:
-          'smooth',
-
-        block:
-          'start'
-
-      });
-
-    },
+        behavior: 'smooth',
+        block: 'start'
+      }),
     100
   );
+
+}
+
+
+function closeIssue() {
+
+  document
+    .getElementById(
+      'issueCard'
+    )
+    .classList.add(
+      'hidden'
+    );
 
 }
 
@@ -3326,15 +4166,10 @@ function renderFefoPreview() {
         .batches || []
     )
     .filter(
-      function(batch) {
-
-        return (
-          Number(
-            batch.qtyAvailable || 0
-          ) > 0
-        );
-
-      }
+      b =>
+        Number(
+          b.qtyAvailable || 0
+        ) > 0
     );
 
 
@@ -3344,9 +4179,8 @@ function renderFefoPreview() {
       .getElementById(
         'fefoPreview'
       )
-      .innerHTML =
-        'No available stock.';
-
+      .textContent =
+        'No AVAILABLE stock.';
 
     return;
 
@@ -3363,48 +4197,25 @@ function renderFefoPreview() {
     )
     .innerHTML =
 
-      '<b>FEFO:</b> Earliest-expiring batch will be used first.' +
+      '<b>FEFO</b><br>' +
 
-      '<br><br>' +
-
-      'First batch: <b>' +
-
+      'Batch: ' +
       escapeHtml(
         first.batchNo ||
         first.batchStockId
       ) +
 
-      '</b><br>' +
-
-      'Expiry: ' +
-
+      '<br>Expiry: ' +
       escapeHtml(
         first.expiryDate ||
         'N/A'
       ) +
 
-      '<br>' +
-
-      'Available: <b>' +
-
+      '<br>Available: <b>' +
       escapeHtml(
         first.qtyAvailable
       ) +
-
       '</b>';
-
-}
-
-
-function closeIssue() {
-
-  document
-    .getElementById(
-      'issueCard'
-    )
-    .classList.add(
-      'hidden'
-    );
 
 }
 
@@ -3434,100 +4245,44 @@ function submitIssue() {
 
 
   if (
-    !quantity ||
-    quantity <= 0
+    quantity <= 0 ||
+    quantity > available
   ) {
 
     showMessageModal({
-
-      type:
-        'warning',
-
+      type: 'warning',
       title:
-        'Invalid Quantity',
-
+        'Insufficient Available Stock',
       message:
-        'Enter a valid quantity greater than zero.'
-
+        'Only ' +
+        available +
+        ' is available for issuance. In Transit stock cannot be issued.'
     });
-
 
     return;
 
   }
-
-
-  if (
-    quantity >
-    available
-  ) {
-
-    showMessageModal({
-
-      type:
-        'warning',
-
-      title:
-        'Insufficient Stock',
-
-      message:
-        'Requested quantity exceeds available stock.',
-
-      summary: [
-
-        [
-          'Requested',
-          quantity
-        ],
-
-        [
-          'Available',
-          available
-        ]
-
-      ]
-
-    });
-
-
-    return;
-
-  }
-
-
-  const allocations =
-    calculateFefoPreview(
-      quantity
-    );
 
 
   showConfirmModal({
 
-    type:
-      'warning',
+    type: 'warning',
 
     title:
       'Confirm Stock Issue',
 
     message:
-      'Inventory will be deducted automatically using FEFO.',
+      'Only AVAILABLE stock will be deducted.',
 
     summary: [
-
-      [
-        'Item',
-        item.itemName
-      ],
-
-      [
-        'Quantity',
-        quantity
-      ]
-
+      ['Item', item.itemName],
+      ['Quantity', quantity]
     ],
 
     batches:
-      allocations,
+      calculateFefoPreview(
+        quantity
+      ),
 
     confirmText:
       'CONFIRM ISSUE',
@@ -3544,9 +4299,7 @@ function submitIssue() {
 
 
         apiCall(
-
           'issue',
-
           {
 
             session:
@@ -3568,16 +4321,14 @@ function submitIssue() {
                 .getElementById(
                   'issueReason'
                 )
-                .value
-                .trim(),
+                .value,
 
             referenceNo:
               document
                 .getElementById(
                   'issueReference'
                 )
-                .value
-                .trim(),
+                .value,
 
             notes:
               document
@@ -3585,10 +4336,8 @@ function submitIssue() {
                   'issueNotes'
                 )
                 .value
-                .trim()
 
           },
-
           function(result) {
 
             hideLoading();
@@ -3600,19 +4349,12 @@ function submitIssue() {
             ) {
 
               showMessageModal({
-
-                type:
-                  'error',
-
-                title:
-                  'Issue Failed',
-
+                type: 'error',
+                title: 'Issue Failed',
                 message:
                   result?.message ||
                   'Transaction failed.'
-
               });
-
 
               return;
 
@@ -3623,31 +4365,23 @@ function submitIssue() {
 
 
             showSuccessAndRefresh(
-
               'Stock Issued',
-
               item.itemId,
-
               [
-
                 [
-                  'Total Issued',
+                  'Issued',
                   result.result
                     .totalIssued
                 ],
-
                 [
                   'Available After',
                   result.result
                     .availableAfter
                 ]
-
               ]
-
             );
 
           }
-
         );
 
       }
@@ -3658,16 +4392,12 @@ function submitIssue() {
 
 
 /* =========================================================
-   QUARANTINE
+   QUARANTINE UI
 ========================================================= */
 
 function openQuarantine() {
 
-  closeAllActionCards();
-
-
-  const item =
-    currentItemResult.item;
+  closeScanActionCards();
 
 
   document
@@ -3675,9 +4405,9 @@ function openQuarantine() {
       'quarantineItemName'
     )
     .textContent =
-      item.itemName +
-      ' • ' +
-      item.itemId;
+      currentItemResult
+        .item
+        .itemName;
 
 
   const select =
@@ -3694,15 +4424,10 @@ function openQuarantine() {
     .inventory
     .batches
     .filter(
-      function(batch) {
-
-        return (
-          Number(
-            batch.qtyAvailable || 0
-          ) > 0
-        );
-
-      }
+      b =>
+        Number(
+          b.qtyAvailable || 0
+        ) > 0
     )
     .forEach(
       function(batch) {
@@ -3718,51 +4443,18 @@ function openQuarantine() {
 
 
         option.textContent =
-
           (
             batch.batchNo ||
             batch.batchStockId
           ) +
-
           ' • Available ' +
-
           batch.qtyAvailable;
 
 
-        select.appendChild(
-          option
-        );
+        select.appendChild(option);
 
       }
     );
-
-
-  document
-    .getElementById(
-      'quarantineQty'
-    )
-    .value = '';
-
-
-  document
-    .getElementById(
-      'quarantineReason'
-    )
-    .value = '';
-
-
-  document
-    .getElementById(
-      'quarantineReference'
-    )
-    .value = '';
-
-
-  document
-    .getElementById(
-      'quarantineNotes'
-    )
-    .value = '';
 
 
   const card =
@@ -3777,19 +4469,11 @@ function openQuarantine() {
 
 
   setTimeout(
-    function() {
-
+    () =>
       card.scrollIntoView({
-
-        behavior:
-          'smooth',
-
-        block:
-          'start'
-
-      });
-
-    },
+        behavior: 'smooth',
+        block: 'start'
+      }),
     100
   );
 
@@ -3815,14 +4499,6 @@ function submitQuarantine() {
     currentItemResult.item;
 
 
-  const batchStockId =
-    document
-      .getElementById(
-        'quarantineBatch'
-      )
-      .value;
-
-
   const quantity =
     Number(
       document
@@ -3833,6 +4509,14 @@ function submitQuarantine() {
     );
 
 
+  const batchStockId =
+    document
+      .getElementById(
+        'quarantineBatch'
+      )
+      .value;
+
+
   const reason =
     document
       .getElementById(
@@ -3841,66 +4525,19 @@ function submitQuarantine() {
       .value;
 
 
-  if (!batchStockId) {
-
-    showMessageModal({
-
-      type:
-        'warning',
-
-      title:
-        'Batch Required',
-
-      message:
-        'Select the exact batch to quarantine.'
-
-    });
-
-
-    return;
-
-  }
-
-
   if (
-    !quantity ||
-    quantity <= 0
+    !batchStockId ||
+    quantity <= 0 ||
+    !reason
   ) {
 
     showMessageModal({
-
-      type:
-        'warning',
-
+      type: 'warning',
       title:
-        'Invalid Quantity',
-
+        'Complete Required Fields',
       message:
-        'Enter a valid quantity greater than zero.'
-
+        'Batch, quantity, and reason are required.'
     });
-
-
-    return;
-
-  }
-
-
-  if (!reason) {
-
-    showMessageModal({
-
-      type:
-        'warning',
-
-      title:
-        'Reason Required',
-
-      message:
-        'Select a quarantine reason.'
-
-    });
-
 
     return;
 
@@ -3909,32 +4546,15 @@ function submitQuarantine() {
 
   showConfirmModal({
 
-    type:
-      'warning',
+    type: 'warning',
 
     title:
       'Confirm Quarantine',
 
-    message:
-      'Selected stock will be removed from Available inventory.',
-
     summary: [
-
-      [
-        'Item',
-        item.itemName
-      ],
-
-      [
-        'Quantity',
-        quantity
-      ],
-
-      [
-        'Reason',
-        reason
-      ]
-
+      ['Item', item.itemName],
+      ['Quantity', quantity],
+      ['Reason', reason]
     ],
 
     confirmText:
@@ -3947,14 +4567,12 @@ function submitQuarantine() {
       function() {
 
         showLoading(
-          'Moving stock to quarantine...'
+          'Moving to quarantine...'
         );
 
 
         apiCall(
-
           'quarantine',
-
           {
 
             session:
@@ -3979,8 +4597,7 @@ function submitQuarantine() {
                 .getElementById(
                   'quarantineReference'
                 )
-                .value
-                .trim(),
+                .value,
 
             notes:
               document
@@ -3988,10 +4605,8 @@ function submitQuarantine() {
                   'quarantineNotes'
                 )
                 .value
-                .trim()
 
           },
-
           function(result) {
 
             hideLoading();
@@ -4003,19 +4618,13 @@ function submitQuarantine() {
             ) {
 
               showMessageModal({
-
-                type:
-                  'error',
-
+                type: 'error',
                 title:
                   'Quarantine Failed',
-
                 message:
                   result?.message ||
                   'Transaction failed.'
-
               });
-
 
               return;
 
@@ -4026,31 +4635,23 @@ function submitQuarantine() {
 
 
             showSuccessAndRefresh(
-
               'Stock Quarantined',
-
               item.itemId,
-
               [
-
                 [
                   'Quantity',
                   result.result
                     .quantityQuarantined
                 ],
-
                 [
-                  'Quarantine After',
+                  'Available After',
                   result.result
-                    .quarantinedAfter
+                    .availableAfter
                 ]
-
               ]
-
             );
 
           }
-
         );
 
       }
@@ -4061,12 +4662,12 @@ function submitQuarantine() {
 
 
 /* =========================================================
-   TRANSFER
+   CREATE TRANSFER UI
 ========================================================= */
 
 function openTransfer() {
 
-  closeAllActionCards();
+  closeScanActionCards();
 
 
   const item =
@@ -4123,19 +4724,11 @@ function openTransfer() {
 
 
   setTimeout(
-    function() {
-
+    () =>
       card.scrollIntoView({
-
-        behavior:
-          'smooth',
-
-        block:
-          'start'
-
-      });
-
-    },
+        behavior: 'smooth',
+        block: 'start'
+      }),
     100
   );
 
@@ -4190,18 +4783,12 @@ function submitTransfer() {
   if (!toPccId) {
 
     showMessageModal({
-
-      type:
-        'warning',
-
+      type: 'warning',
       title:
         'Destination Required',
-
       message:
-        'Select the PCC that will receive this stock.'
-
+        'Select the destination PCC.'
     });
-
 
     return;
 
@@ -4209,61 +4796,19 @@ function submitTransfer() {
 
 
   if (
-    !quantity ||
-    quantity <= 0
+    quantity <= 0 ||
+    quantity > available
   ) {
 
     showMessageModal({
-
-      type:
-        'warning',
-
+      type: 'warning',
       title:
-        'Invalid Quantity',
-
+        'Invalid Transfer Quantity',
       message:
-        'Enter a valid transfer quantity.'
-
+        'Only ' +
+        available +
+        ' AVAILABLE stock can be transferred.'
     });
-
-
-    return;
-
-  }
-
-
-  if (
-    quantity >
-    available
-  ) {
-
-    showMessageModal({
-
-      type:
-        'warning',
-
-      title:
-        'Insufficient Stock',
-
-      message:
-        'Transfer quantity exceeds available inventory.',
-
-      summary: [
-
-        [
-          'Requested',
-          quantity
-        ],
-
-        [
-          'Available',
-          available
-        ]
-
-      ]
-
-    });
-
 
     return;
 
@@ -4272,33 +4817,21 @@ function submitTransfer() {
 
   const destination =
     pccList.find(
-      function(pcc) {
-
-        return (
-          pcc.pccId ===
-          toPccId
-        );
-
-      }
-    );
-
-
-  const allocations =
-    calculateFefoPreview(
-      quantity
+      p =>
+        p.pccId ===
+        toPccId
     );
 
 
   showConfirmModal({
 
-    type:
-      'info',
+    type: 'info',
 
     title:
       'Confirm Stock Transfer',
 
     message:
-      'Stock will move to In Transit until the destination PCC confirms receipt.',
+      'The transferred quantity will immediately move from AVAILABLE to IN TRANSIT.',
 
     summary: [
 
@@ -4322,7 +4855,9 @@ function submitTransfer() {
     ],
 
     batches:
-      allocations,
+      calculateFefoPreview(
+        quantity
+      ),
 
     confirmText:
       'CONFIRM TRANSFER',
@@ -4339,9 +4874,7 @@ function submitTransfer() {
 
 
         apiCall(
-
           'transfer',
-
           {
 
             session:
@@ -4366,8 +4899,7 @@ function submitTransfer() {
                 .getElementById(
                   'transferReference'
                 )
-                .value
-                .trim(),
+                .value,
 
             remarks:
               document
@@ -4375,10 +4907,8 @@ function submitTransfer() {
                   'transferRemarks'
                 )
                 .value
-                .trim()
 
           },
-
           function(result) {
 
             hideLoading();
@@ -4390,19 +4920,13 @@ function submitTransfer() {
             ) {
 
               showMessageModal({
-
-                type:
-                  'error',
-
+                type: 'error',
                 title:
                   'Transfer Failed',
-
                 message:
                   result?.message ||
-                  'Transfer could not be created.'
-
+                  'Transfer failed.'
               });
-
 
               return;
 
@@ -4414,14 +4938,13 @@ function submitTransfer() {
 
             showMessageModal({
 
-              type:
-                'success',
+              type: 'success',
 
               title:
                 'Transfer Dispatched',
 
               message:
-                'Stock is now In Transit to the destination PCC.',
+                'The stock is now IN TRANSIT and is no longer issuable at the sending PCC.',
 
               summary: [
 
@@ -4438,24 +4961,16 @@ function submitTransfer() {
                 ],
 
                 [
-                  'Destination',
-                  destination
-                    ? destination.pccName
-                    : toPccId
-                ],
-
-                [
                   'Status',
                   'IN TRANSIT'
                 ]
 
               ],
 
-              primaryText:
-                'DONE',
-
               onClose:
                 function() {
+
+                  loadTransfers(false);
 
                   lookupInventory(
                     item.itemId
@@ -4466,7 +4981,6 @@ function submitTransfer() {
             });
 
           }
-
         );
 
       }
@@ -4477,412 +4991,10 @@ function submitTransfer() {
 
 
 /* =========================================================
-   RECEIVE TRANSFER
+   ITEM DISPLAY HELPERS
 ========================================================= */
 
-function openReceiveTransfer(
-  transferId
-) {
-
-  selectedIncomingTransfer =
-    incomingTransfers.find(
-      function(transfer) {
-
-        return (
-          transfer.transferId ===
-          transferId
-        );
-
-      }
-    );
-
-
-  if (
-    !selectedIncomingTransfer
-  ) {
-
-    showMessageModal({
-
-      type:
-        'error',
-
-      title:
-        'Transfer Not Found',
-
-      message:
-        'The selected incoming transfer is no longer available.'
-
-    });
-
-
-    loadIncomingTransfers();
-
-    return;
-
-  }
-
-
-  closeAllActionCards();
-
-
-  document
-    .getElementById(
-      'receiveTransferTitle'
-    )
-    .textContent =
-      selectedIncomingTransfer
-        .transferId;
-
-
-  document
-    .getElementById(
-      'transferReceiveLocation'
-    )
-    .value = '';
-
-
-  let allocationHtml =
-    '';
-
-
-  (
-    selectedIncomingTransfer
-      .allocations || []
-  )
-  .forEach(
-    function(allocation) {
-
-      allocationHtml +=
-
-        '<div style="margin-top:6px;">' +
-
-        '<b>' +
-
-        escapeHtml(
-          allocation.itemId
-        ) +
-
-        '</b>' +
-
-        ' • Batch ' +
-
-        escapeHtml(
-          allocation.batchNo ||
-          allocation.batchStockId
-        ) +
-
-        ' • Qty ' +
-
-        escapeHtml(
-          allocation.quantity
-        ) +
-
-        '</div>';
-
-    }
-  );
-
-
-  document
-    .getElementById(
-      'receiveTransferDetails'
-    )
-    .innerHTML =
-
-      'From: <b>' +
-
-      escapeHtml(
-        selectedIncomingTransfer
-          .fromPccName
-      ) +
-
-      '</b><br>' +
-
-      'Reference: ' +
-
-      escapeHtml(
-        selectedIncomingTransfer
-          .referenceNo ||
-        '-'
-      ) +
-
-      '<br><br>' +
-
-      allocationHtml;
-
-
-  const card =
-    document.getElementById(
-      'receiveTransferCard'
-    );
-
-
-  card.classList.remove(
-    'hidden'
-  );
-
-
-  setTimeout(
-    function() {
-
-      card.scrollIntoView({
-
-        behavior:
-          'smooth',
-
-        block:
-          'start'
-
-      });
-
-    },
-    100
-  );
-
-}
-
-
-function closeReceiveTransfer() {
-
-  document
-    .getElementById(
-      'receiveTransferCard'
-    )
-    .classList.add(
-      'hidden'
-    );
-
-
-  selectedIncomingTransfer =
-    null;
-
-}
-
-
-function submitReceiveTransfer() {
-
-  if (
-    !selectedIncomingTransfer
-  ) {
-
-    return;
-
-  }
-
-
-  const locationId =
-    document
-      .getElementById(
-        'transferReceiveLocation'
-      )
-      .value;
-
-
-  if (!locationId) {
-
-    showMessageModal({
-
-      type:
-        'warning',
-
-      title:
-        'Location Required',
-
-      message:
-        'Select where the transferred stock will be stored.'
-
-    });
-
-
-    return;
-
-  }
-
-
-  const transferId =
-    selectedIncomingTransfer
-      .transferId;
-
-
-  const fromPccName =
-    selectedIncomingTransfer
-      .fromPccName;
-
-
-  const totalQuantity =
-    selectedIncomingTransfer
-      .totalQuantity;
-
-
-  showConfirmModal({
-
-    type:
-      'info',
-
-    title:
-      'Confirm Transfer Receipt',
-
-    message:
-      'Once confirmed, the transferred stock will become Available at your PCC.',
-
-    summary: [
-
-      [
-        'Transfer ID',
-        transferId
-      ],
-
-      [
-        'From',
-        fromPccName
-      ],
-
-      [
-        'Total Quantity',
-        totalQuantity
-      ],
-
-      [
-        'Location',
-        locationId
-      ]
-
-    ],
-
-    confirmText:
-      'CONFIRM RECEIPT',
-
-    confirmClass:
-      'incoming',
-
-    onConfirm:
-      function() {
-
-        showLoading(
-          'Receiving transfer...'
-        );
-
-
-        apiCall(
-
-          'receivetransfer',
-
-          {
-
-            session:
-              sessionToken,
-
-            requestId:
-              generateRequestId(
-                'RTR'
-              ),
-
-            transferId:
-              transferId,
-
-            locationId:
-              locationId
-
-          },
-
-          function(result) {
-
-            hideLoading();
-
-
-            if (
-              !result ||
-              result.success !== true
-            ) {
-
-              showMessageModal({
-
-                type:
-                  'error',
-
-                title:
-                  'Receipt Failed',
-
-                message:
-                  result?.message ||
-                  'Transfer receipt failed.'
-
-              });
-
-
-              return;
-
-            }
-
-
-            closeReceiveTransfer();
-
-
-            /*
-              Immediately refresh incoming transfers.
-              If this was the last transfer,
-              the section disappears.
-            */
-
-            loadIncomingTransfers(
-              false
-            );
-
-
-            showMessageModal({
-
-              type:
-                'success',
-
-              title:
-                'Transfer Received',
-
-              message:
-                'Transferred stock is now available in your PCC.',
-
-              summary: [
-
-                [
-                  'Transfer ID',
-                  transferId
-                ],
-
-                [
-                  'Quantity Received',
-                  result.result
-                    .totalReceived
-                ],
-
-                [
-                  'Status',
-                  'RECEIVED'
-                ]
-
-              ],
-
-              primaryText:
-                'DONE'
-
-            });
-
-          }
-
-        );
-
-      }
-
-  });
-
-}
-
-
-/* =========================================================
-   DISPLAY HELPERS
-========================================================= */
-
-function renderBatches(
-  batches
-) {
+function renderBatches(batches) {
 
   const container =
     document.getElementById(
@@ -4890,21 +5002,11 @@ function renderBatches(
     );
 
 
-  if (
-    !batches ||
-    !batches.length
-  ) {
+  if (!batches.length) {
 
     container.innerHTML =
-
-      '<div class="batch-heading">' +
-      'BATCH INVENTORY' +
-      '</div>' +
-
-      '<div class="batch">' +
-      'No inventory batches.' +
-      '</div>';
-
+      '<div class="batch-heading">BATCH INVENTORY</div>' +
+      '<div class="batch">No inventory batches.</div>';
 
     return;
 
@@ -4912,10 +5014,7 @@ function renderBatches(
 
 
   let html =
-
-    '<div class="batch-heading">' +
-    'BATCH INVENTORY • FEFO' +
-    '</div>';
+    '<div class="batch-heading">BATCH INVENTORY • FEFO</div>';
 
 
   batches.forEach(
@@ -4971,14 +5070,6 @@ function renderBatches(
             '-'
           )}
 
-          <br>
-
-          Location:
-          ${escapeHtml(
-            batch.locationId ||
-            '-'
-          )}
-
         </div>
 
       `;
@@ -5001,8 +5092,7 @@ function calculateFefoPreview(
     quantity;
 
 
-  const allocations =
-    [];
+  const allocations = [];
 
 
   const batches =
@@ -5012,15 +5102,10 @@ function calculateFefoPreview(
         .batches || []
     )
     .filter(
-      function(batch) {
-
-        return (
-          Number(
-            batch.qtyAvailable || 0
-          ) > 0
-        );
-
-      }
+      b =>
+        Number(
+          b.qtyAvailable || 0
+        ) > 0
     );
 
 
@@ -5029,24 +5114,17 @@ function calculateFefoPreview(
     of batches
   ) {
 
-    if (
-      remaining <= 0
-    ) {
-
+    if (remaining <= 0) {
       break;
-
     }
 
 
     const qty =
       Math.min(
-
         Number(
           batch.qtyAvailable || 0
         ),
-
         remaining
-
       );
 
 
@@ -5066,8 +5144,7 @@ function calculateFefoPreview(
     });
 
 
-    remaining -=
-      qty;
+    remaining -= qty;
 
   }
 
@@ -5077,29 +5154,21 @@ function calculateFefoPreview(
 }
 
 
-function closeAllActionCards() {
+function closeScanActionCards() {
 
   [
-
     'receiveCard',
     'issueCard',
     'quarantineCard',
-    'transferCard',
-    'receiveTransferCard'
-
+    'transferCard'
   ]
   .forEach(
-    function(id) {
-
+    id =>
       document
-        .getElementById(
-          id
-        )
+        .getElementById(id)
         .classList.add(
           'hidden'
-        );
-
-    }
+        )
   );
 
 }
@@ -5107,7 +5176,7 @@ function closeAllActionCards() {
 
 function scanAnother() {
 
-  closeAllActionCards();
+  closeScanActionCards();
 
 
   document
@@ -5126,34 +5195,21 @@ function scanAnother() {
     .value = '';
 
 
-  currentItemResult =
-    null;
+  currentItemResult = null;
 
-
-  scanLocked =
-    false;
-
-
-  const scanner =
-    document.getElementById(
-      'scannerCard'
-    );
+  scanLocked = false;
 
 
   setTimeout(
-    function() {
-
-      scanner.scrollIntoView({
-
-        behavior:
-          'smooth',
-
-        block:
-          'start'
-
-      });
-
-    },
+    () =>
+      document
+        .getElementById(
+          'scannerCard'
+        )
+        .scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        }),
     100
   );
 
@@ -5161,80 +5217,54 @@ function scanAnother() {
 
 
 /* =========================================================
-   CUSTOM MODAL
+   MODAL
 ========================================================= */
 
-function modalIconData(
-  type
-) {
+function modalIconData(type) {
 
-  if (
-    type === 'success'
-  ) {
+  if (type === 'success') {
 
     return {
-
-      icon:
-        '✓',
-
+      icon: '✓',
       className:
         'modal-icon modal-icon-success'
-
     };
 
   }
 
 
-  if (
-    type === 'warning'
-  ) {
+  if (type === 'warning') {
 
     return {
-
-      icon:
-        '!',
-
+      icon: '!',
       className:
         'modal-icon modal-icon-warning'
-
     };
 
   }
 
 
-  if (
-    type === 'error'
-  ) {
+  if (type === 'error') {
 
     return {
-
-      icon:
-        '×',
-
+      icon: '×',
       className:
         'modal-icon modal-icon-error'
-
     };
 
   }
 
 
   return {
-
-    icon:
-      'i',
-
+    icon: 'i',
     className:
       'modal-icon modal-icon-info'
-
   };
 
 }
 
 
-function openModalBase(
-  options
-) {
+function openModalBase(options) {
 
   const data =
     modalIconData(
@@ -5242,18 +5272,20 @@ function openModalBase(
     );
 
 
-  const icon =
-    document.getElementById(
+  document
+    .getElementById(
       'modalIcon'
-    );
+    )
+    .className =
+      data.className;
 
 
-  icon.className =
-    data.className;
-
-
-  icon.textContent =
-    data.icon;
+  document
+    .getElementById(
+      'modalIcon'
+    )
+    .textContent =
+      data.icon;
 
 
   document
@@ -5261,8 +5293,7 @@ function openModalBase(
       'modalTitle'
     )
     .textContent =
-      options.title ||
-      '';
+      options.title || '';
 
 
   document
@@ -5270,16 +5301,12 @@ function openModalBase(
       'modalMessage'
     )
     .textContent =
-      options.message ||
-      '';
+      options.message || '';
 
 
   renderModalSummary(
-
     options.summary,
-
     options.batches
-
   );
 
 
@@ -5309,8 +5336,7 @@ function renderModalSummary(
     );
 
 
-  let html =
-    '';
+  let html = '';
 
 
   (
@@ -5324,15 +5350,11 @@ function renderModalSummary(
         <div class="modal-summary-row">
 
           <div class="modal-summary-label">
-            ${escapeHtml(
-              row[0]
-            )}
+            ${escapeHtml(row[0])}
           </div>
 
           <div class="modal-summary-value">
-            ${escapeHtml(
-              row[1]
-            )}
+            ${escapeHtml(row[1])}
           </div>
 
         </div>
@@ -5393,13 +5415,9 @@ function renderModalSummary(
 }
 
 
-function showConfirmModal(
-  options
-) {
+function showConfirmModal(options) {
 
-  openModalBase(
-    options
-  );
+  openModalBase(options);
 
 
   modalConfirmCallback =
@@ -5466,13 +5484,9 @@ function confirmCustomModal() {
 }
 
 
-function showMessageModal(
-  options
-) {
+function showMessageModal(options) {
 
-  openModalBase(
-    options
-  );
+  openModalBase(options);
 
 
   window.__modalClose =
@@ -5480,64 +5494,32 @@ function showMessageModal(
     null;
 
 
-  const actions =
-    document.getElementById(
+  document
+    .getElementById(
       'modalActions'
-    );
+    )
+    .className =
+      'modal-actions single';
 
 
-  actions.className =
-    'modal-actions single';
+  document
+    .getElementById(
+      'modalActions'
+    )
+    .innerHTML = `
 
+      <button
+        class="primary"
+        onclick="runModalClose()">
 
-  actions.innerHTML = `
+        ${escapeHtml(
+          options.primaryText ||
+          'DONE'
+        )}
 
-    <button
-      class="primary"
-      onclick="runModalClose()">
+      </button>
 
-      ${escapeHtml(
-        options.primaryText ||
-        'DONE'
-      )}
-
-    </button>
-
-  `;
-
-}
-
-
-function showSuccessAndRefresh(
-  title,
-  itemId,
-  summary
-) {
-
-  showMessageModal({
-
-    type:
-      'success',
-
-    title:
-      title,
-
-    message:
-      'Transaction was posted successfully.',
-
-    summary:
-      summary,
-
-    onClose:
-      function() {
-
-        lookupInventory(
-          itemId
-        );
-
-      }
-
-  });
+    `;
 
 }
 
@@ -5584,6 +5566,39 @@ function closeCustomModal() {
 }
 
 
+function showSuccessAndRefresh(
+  title,
+  itemId,
+  summary
+) {
+
+  showMessageModal({
+
+    type: 'success',
+
+    title:
+      title,
+
+    message:
+      'Transaction was posted successfully.',
+
+    summary:
+      summary,
+
+    onClose:
+      function() {
+
+        lookupInventory(
+          itemId
+        );
+
+      }
+
+  });
+
+}
+
+
 /* =========================================================
    LOGOUT
 ========================================================= */
@@ -5599,7 +5614,7 @@ function logout() {
       'Log Out?',
 
     message:
-      'You will need to sign in again to access the inventory scanner.',
+      'You will need to sign in again.',
 
     confirmText:
       'LOG OUT',
@@ -5614,30 +5629,16 @@ function logout() {
 
 
         apiCall(
-
           'logout',
-
           {
             session:
               sessionToken
           },
-
           function() {}
-
         );
 
 
-        try {
-
-          google.accounts.id
-            .disableAutoSelect();
-
-        }
-        catch (error) {}
-
-
         clearSession();
-
 
         location.reload();
 
@@ -5650,24 +5651,15 @@ function logout() {
 
 function clearSession() {
 
-  sessionToken =
-    '';
+  sessionToken = '';
 
+  currentUser = null;
 
-  currentUser =
-    null;
+  currentItemResult = null;
 
+  transfers = [];
 
-  currentItemResult =
-    null;
-
-
-  incomingTransfers =
-    [];
-
-
-  selectedIncomingTransfer =
-    null;
+  selectedTransfer = null;
 
 
   localStorage.removeItem(
@@ -5678,7 +5670,7 @@ function clearSession() {
 
 
 /* =========================================================
-   JSONP API
+   JSONP
 ========================================================= */
 
 function apiCall(
@@ -5707,8 +5699,7 @@ function apiCall(
     );
 
 
-  let completed =
-    false;
+  let completed = false;
 
 
   const timeout =
@@ -5720,8 +5711,7 @@ function apiCall(
         }
 
 
-        completed =
-          true;
+        completed = true;
 
 
         cleanup();
@@ -5731,13 +5721,9 @@ function apiCall(
 
 
         callback({
-
-          success:
-            false,
-
+          success: false,
           message:
             'IMS API timed out.'
-
         });
 
       },
@@ -5747,9 +5733,7 @@ function apiCall(
 
   function cleanup() {
 
-    clearTimeout(
-      timeout
-    );
+    clearTimeout(timeout);
 
 
     try {
@@ -5766,11 +5750,8 @@ function apiCall(
       script.parentNode
     ) {
 
-      script
-        .parentNode
-        .removeChild(
-          script
-        );
+      script.parentNode
+        .removeChild(script);
 
     }
 
@@ -5787,16 +5768,13 @@ function apiCall(
       }
 
 
-      completed =
-        true;
+      completed = true;
 
 
       cleanup();
 
 
-      callback(
-        result
-      );
+      callback(result);
 
     };
 
@@ -5825,9 +5803,7 @@ function apiCall(
 
         query.set(
           key,
-          String(
-            params[key]
-          )
+          String(params[key])
         );
 
       }
@@ -5849,11 +5825,8 @@ function apiCall(
 
 
   script.src =
-
     API_URL +
-
     '?' +
-
     query.toString();
 
 
@@ -5865,8 +5838,7 @@ function apiCall(
       }
 
 
-      completed =
-        true;
+      completed = true;
 
 
       cleanup();
@@ -5876,22 +5848,16 @@ function apiCall(
 
 
       callback({
-
-        success:
-          false,
-
+        success: false,
         message:
           'Unable to reach IMS API.'
-
       });
 
     };
 
 
   document.body
-    .appendChild(
-      script
-    );
+    .appendChild(script);
 
 }
 
@@ -5900,9 +5866,7 @@ function apiCall(
    HELPERS
 ========================================================= */
 
-function generateRequestId(
-  prefix
-) {
+function generateRequestId(prefix) {
 
   if (
     window.crypto &&
@@ -5910,13 +5874,9 @@ function generateRequestId(
   ) {
 
     return (
-
       prefix +
-
       '-' +
-
       crypto.randomUUID()
-
     );
 
   }
@@ -5925,13 +5885,9 @@ function generateRequestId(
   return (
 
     prefix +
-
     '-' +
-
     Date.now() +
-
     '-' +
-
     Math.random()
       .toString(36)
       .slice(2)
@@ -5941,9 +5897,7 @@ function generateRequestId(
 }
 
 
-function showLoading(
-  message
-) {
+function showLoading(message) {
 
   document
     .getElementById(
@@ -6003,52 +5957,27 @@ function showStatus(
 }
 
 
-function escapeHtml(
-  value
-) {
+function escapeHtml(value) {
 
   return String(
     value ?? ''
   )
-  .replace(
-    /&/g,
-    '&amp;'
-  )
-  .replace(
-    /</g,
-    '&lt;'
-  )
-  .replace(
-    />/g,
-    '&gt;'
-  )
-  .replace(
-    /"/g,
-    '&quot;'
-  )
-  .replace(
-    /'/g,
-    '&#039;'
-  );
+  .replace(/&/g, '&amp;')
+  .replace(/</g, '&lt;')
+  .replace(/>/g, '&gt;')
+  .replace(/"/g, '&quot;')
+  .replace(/'/g, '&#039;');
 
 }
 
 
-function escapeJs(
-  value
-) {
+function escapeJs(value) {
 
   return String(
     value ?? ''
   )
-  .replace(
-    /\\/g,
-    '\\\\'
-  )
-  .replace(
-    /'/g,
-    "\\'"
-  );
+  .replace(/\\/g, '\\\\')
+  .replace(/'/g, "\\'");
 
 }
 
