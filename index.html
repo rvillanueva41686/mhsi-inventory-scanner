@@ -4,989 +4,417 @@
 
 <head>
 
-  <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="
-      width=device-width,
-      initial-scale=1,
-      maximum-scale=1,
-      user-scalable=no
-    ">
-
-  <title>
-    MHSI Inventory Scanner
-  </title>
-
-
-  <script
-    src="https://accounts.google.com/gsi/client"
-    async
-    defer>
-  </script>
-
-
-  <script
-    src="https://unpkg.com/@zxing/browser@latest">
-  </script>
-
-
-  <style>
-
-    * {
-      box-sizing: border-box;
-    }
-
-
-    body {
-
-      margin: 0;
-
-      font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        Arial,
-        sans-serif;
-
-      background:
-        #f3f6fb;
-
-      color:
-        #172033;
-
-    }
-
-
-    .header {
-
-      background:
-        linear-gradient(
-          135deg,
-          #1555b6,
-          #3277df
-        );
-
-      color:
-        white;
-
-      padding:
-        25px 20px;
-
-    }
-
-
-    .header h1 {
-
-      margin: 0;
-
-      font-size:
-        24px;
-
-    }
-
-
-    .header p {
-
-      margin:
-        6px 0 0;
-
-      opacity:
-        .9;
-
-      font-size:
-        13px;
-
-    }
-
-
-    .container {
-
-      max-width:
-        650px;
-
-      margin:
-        auto;
-
-      padding:
-        16px;
-
-    }
-
-
-    .card {
-
-      background:
-        white;
-
-      border-radius:
-        20px;
-
-      padding:
-        18px;
-
-      margin-bottom:
-        15px;
-
-      box-shadow:
-        0 4px 18px
-        rgba(
-          0,
-          0,
-          0,
-          .055
-        );
-
-    }
-
-
-    .hidden {
-
-      display:
-        none !important;
-
-    }
-
-
-    /* LOGIN */
-
-
-    .login-card {
-
-      text-align:
-        center;
-
-      padding:
-        32px 20px;
-
-    }
-
-
-    .login-icon {
-
-      font-size:
-        50px;
-
-      margin-bottom:
-        12px;
-
-    }
-
-
-    .login-title {
-
-      font-size:
-        22px;
-
-      font-weight:
-        800;
-
-      margin-bottom:
-        8px;
-
-    }
-
-
-    .login-text {
-
-      color:
-        #667085;
-
-      font-size:
-        13px;
-
-      line-height:
-        1.55;
-
-      margin-bottom:
-        22px;
-
-    }
-
-
-    #googleButton {
-
-      display:
-        flex;
-
-      justify-content:
-        center;
-
-    }
-
-
-    /* USER */
-
-
-    .user-top {
-
-      display:
-        flex;
-
-      justify-content:
-        space-between;
-
-      align-items:
-        center;
-
-      gap:
-        12px;
-
-    }
-
-
-    .user-name {
-
-      font-size:
-        18px;
-
-      font-weight:
-        800;
-
-    }
-
-
-    .user-meta {
-
-      margin-top:
-        4px;
-
-      color:
-        #667085;
-
-      font-size:
-        12px;
-
-      line-height:
-        1.5;
-
-    }
-
-
-    .permission-list {
-
-      display:
-        flex;
-
-      flex-wrap:
-        wrap;
-
-      gap:
-        6px;
-
-      margin-top:
-        12px;
-
-    }
-
-
-    .permission {
-
-      background:
-        #edf4ff;
-
-      color:
-        #2764c5;
-
-      padding:
-        6px 9px;
-
-      border-radius:
-        20px;
-
-      font-size:
-        10px;
-
-      font-weight:
-        800;
-
-    }
-
-
-    /* STATUS */
-
-
-    .status {
-
-      padding:
-        13px 15px;
-
-      border-radius:
-        13px;
-
-      margin-bottom:
-        15px;
-
-      font-size:
-        13px;
-
-      line-height:
-        1.5;
-
-    }
-
-
-    .info {
-
-      background:
-        #edf4ff;
-
-      color:
-        #2459a9;
-
-    }
-
-
-    .success {
-
-      background:
-        #e8f7ee;
-
-      color:
-        #166534;
-
-    }
-
-
-    .error {
-
-      background:
-        #fff0f0;
-
-      color:
-        #b42318;
-
-    }
-
-
-    .warning {
-
-      background:
-        #fff7e8;
-
-      color:
-        #945b00;
-
-    }
-
-
-    /* CAMERA */
-
-
-    .camera-shell {
-
-      position:
-        relative;
-
-      overflow:
-        hidden;
-
-      background:
-        #111;
-
-      border-radius:
-        16px;
-
-    }
-
-
-    #video {
-
-      display:
-        block;
-
-      width:
-        100%;
-
-      height:
-        330px;
-
-      object-fit:
-        cover;
-
-      background:
-        #111;
-
-    }
-
-
-    .scan-frame {
-
-      position:
-        absolute;
-
-      left:
-        7%;
-
-      right:
-        7%;
-
-      top:
-        34%;
-
-      height:
-        32%;
-
-      border:
-        2px solid
-        rgba(
-          255,
-          255,
-          255,
-          .9
-        );
-
-      border-radius:
-        12px;
-
-      pointer-events:
-        none;
-
-    }
-
-
-    .scan-line {
-
-      position:
-        absolute;
-
-      left:
-        10%;
-
-      right:
-        10%;
-
-      top:
-        50%;
-
-      height:
-        2px;
-
-      background:
-        white;
-
-      pointer-events:
-        none;
-
-    }
-
-
-    /* BUTTON */
-
-
-    button {
-
-      width:
-        100%;
-
-      border:
-        0;
-
-      border-radius:
-        12px;
-
-      padding:
-        14px 16px;
-
-      margin-top:
-        10px;
-
-      font-size:
-        15px;
-
-      font-weight:
-        800;
-
-      cursor:
-        pointer;
-
-    }
-
-
-    .primary {
-
-      background:
-        #2d6ed5;
-
-      color:
-        white;
-
-    }
-
-
-    .secondary {
-
-      background:
-        #edf4ff;
-
-      color:
-        #2764c5;
-
-    }
-
-
-    .receive {
-
-      background:
-        #15805b;
-
-      color:
-        white;
-
-    }
-
-
-    .logout {
-
-      width:
-        auto;
-
-      margin:
-        0;
-
-      padding:
-        10px 13px;
-
-      background:
-        #fff0f0;
-
-      color:
-        #b42318;
-
-    }
-
-
-    /* FORMS */
-
-
-    input,
-    select,
-    textarea {
-
-      width:
-        100%;
-
-      border:
-        1px solid
-        #d7dee8;
-
-      border-radius:
-        12px;
-
-      padding:
-        13px;
-
-      font-size:
-        16px;
-
-      background:
-        white;
-
-      margin-bottom:
-        13px;
-
-    }
-
-
-    label {
-
-      display:
-        block;
-
-      margin-bottom:
-        5px;
-
-      color:
-        #667085;
-
-      font-size:
-        12px;
-
-      font-weight:
-        800;
-
-    }
-
-
-    .required {
-
-      color:
-        #b42318;
-
-    }
-
-
-    .manual-row {
-
-      display:
-        grid;
-
-      grid-template-columns:
-        1fr auto;
-
-      gap:
-        8px;
-
-    }
-
-
-    .manual-row input {
-
-      margin: 0;
-
-    }
-
-
-    .manual-row button {
-
-      width:
-        auto;
-
-      min-width:
-        90px;
-
-      margin:
-        0;
-
-    }
-
-
-    /* ITEM */
-
-
-    .section-title {
-
-      color:
-        #687386;
-
-      font-size:
-        11px;
-
-      font-weight:
-        800;
-
-      margin-bottom:
-        8px;
-
-    }
-
-
-    .item-code {
-
-      color:
-        #687386;
-
-      font-size:
-        12px;
-
-      font-weight:
-        700;
-
-    }
-
-
-    .item-name {
-
-      margin-top:
-        5px;
-
-      font-size:
-        23px;
-
-      font-weight:
-        800;
-
-    }
-
-
-    .item-details {
-
-      margin-top:
-        11px;
-
-      color:
-        #667085;
-
-      font-size:
-        13px;
-
-      line-height:
-        1.7;
-
-    }
-
-
-    .stock-grid {
-
-      display:
-        grid;
-
-      grid-template-columns:
-        repeat(
-          3,
-          1fr
-        );
-
-      gap:
-        8px;
-
-      margin-top:
-        16px;
-
-    }
-
-
-    .stock-box {
-
-      background:
-        #f5f8fc;
-
-      border-radius:
-        14px;
-
-      padding:
-        14px 5px;
-
-      text-align:
-        center;
-
-    }
-
-
-    .stock-number {
-
-      color:
-        #2868c9;
-
-      font-size:
-        23px;
-
-      font-weight:
-        800;
-
-    }
-
-
-    .stock-label {
-
-      margin-top:
-        3px;
-
-      color:
-        #697386;
-
-      font-size:
-        9px;
-
-      font-weight:
-        800;
-
-    }
-
-
-    .level {
-
-      margin-top:
-        14px;
-
-      border-radius:
-        12px;
-
-      padding:
-        12px;
-
-      font-size:
-        12px;
-
-      font-weight:
-        700;
-
-    }
-
-
-    .level-good {
-
-      background:
-        #ebf8ef;
-
-      color:
-        #166534;
-
-    }
-
-
-    .level-reorder {
-
-      background:
-        #fff7e8;
-
-      color:
-        #945b00;
-
-    }
-
-
-    .level-critical {
-
-      background:
-        #fff0f0;
-
-      color:
-        #b42318;
-
-    }
-
-
-    .batch-heading {
-
-      margin-top:
-        19px;
-
-      color:
-        #687386;
-
-      font-size:
-        11px;
-
-      font-weight:
-        800;
-
-    }
-
-
-    .batch {
-
-      padding:
-        11px 0;
-
-      border-top:
-        1px solid
-        #edf0f4;
-
-      font-size:
-        12px;
-
-      line-height:
-        1.6;
-
-    }
-
-
-    /* RECEIVE */
-
-
-    .receive-title {
-
-      font-size:
-        21px;
-
-      font-weight:
-        800;
-
-      margin-bottom:
-        5px;
-
-    }
-
-
-    .receive-item {
-
-      color:
-        #667085;
-
-      font-size:
-        13px;
-
-      margin-bottom:
-        18px;
-
-    }
-
-
-    /* LOADING */
-
-
-    .loading {
-
-      position:
-        fixed;
-
-      inset:
-        0;
-
-      z-index:
-        9999;
-
-      background:
-        rgba(
-          255,
-          255,
-          255,
-          .93
-        );
-
-      display:
-        flex;
-
-      flex-direction:
-        column;
-
-      justify-content:
-        center;
-
-      align-items:
-        center;
-
-      color:
-        #2868c9;
-
-      font-weight:
-        800;
-
-    }
-
-
-    .spinner {
-
-      width:
-        38px;
-
-      height:
-        38px;
-
-      border:
-        4px solid
-        #dce8f8;
-
-      border-top-color:
-        #2868c9;
-
-      border-radius:
-        50%;
-
-      margin-bottom:
-        12px;
-
-      animation:
-        spin .8s linear
-        infinite;
-
-    }
-
-
-    @keyframes spin {
-
-      to {
-
-        transform:
-          rotate(360deg);
-
-      }
-
-    }
-
-  </style>
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<title>MHSI Inventory Scanner</title>
+
+<script
+  src="https://accounts.google.com/gsi/client"
+  async
+  defer>
+</script>
+
+<script
+  src="https://unpkg.com/@zxing/browser@latest">
+</script>
+
+
+<style>
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Arial,
+    sans-serif;
+  background: #f3f6fb;
+  color: #172033;
+}
+
+.header {
+  background:
+    linear-gradient(
+      135deg,
+      #1555b6,
+      #3277df
+    );
+  color: white;
+  padding: 25px 20px;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.header p {
+  margin: 6px 0 0;
+  opacity: .9;
+  font-size: 13px;
+}
+
+.container {
+  max-width: 650px;
+  margin: auto;
+  padding: 16px;
+}
+
+.card {
+  background: white;
+  border-radius: 20px;
+  padding: 18px;
+  margin-bottom: 15px;
+  box-shadow:
+    0 4px 18px rgba(0,0,0,.055);
+}
+
+.hidden {
+  display: none !important;
+}
+
+.status {
+  padding: 13px 15px;
+  border-radius: 13px;
+  margin-bottom: 15px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.info {
+  background: #edf4ff;
+  color: #2459a9;
+}
+
+.success {
+  background: #e8f7ee;
+  color: #166534;
+}
+
+.error {
+  background: #fff0f0;
+  color: #b42318;
+}
+
+.warning {
+  background: #fff7e8;
+  color: #945b00;
+}
+
+.login-card {
+  text-align: center;
+  padding: 32px 20px;
+}
+
+.login-icon {
+  font-size: 50px;
+}
+
+.login-title {
+  margin-top: 10px;
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.login-text {
+  margin: 8px 0 20px;
+  color: #667085;
+  font-size: 13px;
+}
+
+#googleButton {
+  display: flex;
+  justify-content: center;
+}
+
+.user-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.user-name {
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.user-meta {
+  margin-top: 4px;
+  color: #667085;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.permission-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.permission {
+  background: #edf4ff;
+  color: #2764c5;
+  padding: 6px 9px;
+  border-radius: 20px;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.camera-shell {
+  position: relative;
+  overflow: hidden;
+  background: #111;
+  border-radius: 16px;
+}
+
+#video {
+  display: block;
+  width: 100%;
+  height: 330px;
+  object-fit: cover;
+}
+
+.scan-frame {
+  position: absolute;
+  left: 7%;
+  right: 7%;
+  top: 34%;
+  height: 32%;
+  border:
+    2px solid rgba(255,255,255,.9);
+  border-radius: 12px;
+}
+
+.scan-line {
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  top: 50%;
+  height: 2px;
+  background: white;
+}
+
+button {
+  width: 100%;
+  border: 0;
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin-top: 10px;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.primary {
+  background: #2d6ed5;
+  color: white;
+}
+
+.secondary {
+  background: #edf4ff;
+  color: #2764c5;
+}
+
+.receive {
+  background: #15805b;
+  color: white;
+}
+
+.issue {
+  background: #e07b15;
+  color: white;
+}
+
+.logout {
+  width: auto;
+  margin: 0;
+  padding: 10px 13px;
+  background: #fff0f0;
+  color: #b42318;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  border: 1px solid #d7dee8;
+  border-radius: 12px;
+  padding: 13px;
+  margin-bottom: 13px;
+  font-size: 16px;
+  background: white;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  color: #667085;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.manual-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+}
+
+.manual-row input,
+.manual-row button {
+  margin: 0;
+}
+
+.manual-row button {
+  width: auto;
+  min-width: 90px;
+}
+
+.item-code {
+  color: #687386;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.item-name {
+  margin-top: 5px;
+  font-size: 23px;
+  font-weight: 800;
+}
+
+.item-details {
+  margin-top: 11px;
+  color: #667085;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.stock-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(3,1fr);
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.stock-box {
+  background: #f5f8fc;
+  border-radius: 14px;
+  padding: 14px 5px;
+  text-align: center;
+}
+
+.stock-number {
+  color: #2868c9;
+  font-size: 23px;
+  font-weight: 800;
+}
+
+.stock-label {
+  margin-top: 3px;
+  color: #697386;
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.batch-heading {
+  margin-top: 19px;
+  color: #687386;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.batch {
+  padding: 11px 0;
+  border-top: 1px solid #edf0f4;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.level {
+  margin-top: 14px;
+  border-radius: 12px;
+  padding: 12px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.level-good {
+  background: #ebf8ef;
+  color: #166534;
+}
+
+.level-reorder {
+  background: #fff7e8;
+  color: #945b00;
+}
+
+.level-critical {
+  background: #fff0f0;
+  color: #b42318;
+}
+
+.form-title {
+  font-size: 21px;
+  font-weight: 800;
+}
+
+.form-item {
+  margin: 5px 0 18px;
+  color: #667085;
+  font-size: 13px;
+}
+
+.fefo-note {
+  padding: 12px;
+  margin-bottom: 15px;
+  background: #fff7e8;
+  color: #945b00;
+  border-radius: 12px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.loading {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(255,255,255,.93);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #2868c9;
+  font-weight: 800;
+}
+
+.spinner {
+  width: 38px;
+  height: 38px;
+  border: 4px solid #dce8f8;
+  border-top-color: #2868c9;
+  border-radius: 50%;
+  margin-bottom: 12px;
+  animation: spin .8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+</style>
 
 </head>
 
@@ -1023,437 +451,417 @@
 <main class="container">
 
 
-  <!-- LOGIN -->
+<div
+  id="loginCard"
+  class="card login-card">
 
+  <div class="login-icon">
+    🔐
+  </div>
+
+  <div class="login-title">
+    Sign in to IMS
+  </div>
+
+  <div class="login-text">
+    Use your authorized MHSI Google account.
+  </div>
+
+  <div id="googleButton"></div>
+
+</div>
+
+
+<div
+  id="appArea"
+  class="hidden">
+
+
+<div class="card">
+
+  <div class="user-top">
+
+    <div>
+
+      <div
+        id="userName"
+        class="user-name">
+      </div>
+
+      <div
+        id="userMeta"
+        class="user-meta">
+      </div>
+
+    </div>
+
+    <button
+      class="logout"
+      onclick="logout()">
+      LOG OUT
+    </button>
+
+  </div>
 
   <div
-    id="loginCard"
-    class="card login-card">
+    id="permissionList"
+    class="permission-list">
+  </div>
 
-    <div class="login-icon">
-      🔐
+</div>
+
+
+<div
+  id="statusBox"
+  class="status info">
+  Ready to scan.
+</div>
+
+
+<div class="card">
+
+  <div class="camera-shell">
+
+    <video
+      id="video"
+      autoplay
+      muted
+      playsinline>
+    </video>
+
+    <div class="scan-frame"></div>
+
+    <div class="scan-line"></div>
+
+  </div>
+
+  <button
+    id="openButton"
+    class="primary"
+    onclick="openScanner()">
+    OPEN SCANNER
+  </button>
+
+  <button
+    id="stopButton"
+    class="secondary hidden"
+    onclick="stopScanner()">
+    STOP SCANNER
+  </button>
+
+</div>
+
+
+<div class="card">
+
+  <div
+    style="
+      font-size:11px;
+      font-weight:800;
+      color:#687386;
+      margin-bottom:8px;
+    ">
+    MANUAL SEARCH
+  </div>
+
+  <div class="manual-row">
+
+    <input
+      id="manualCode"
+      placeholder="Barcode / Item ID">
+
+    <button
+      class="primary"
+      onclick="manualLookup()">
+      SEARCH
+    </button>
+
+  </div>
+
+</div>
+
+
+<div
+  id="itemCard"
+  class="card hidden">
+
+  <div
+    id="itemCode"
+    class="item-code">
+  </div>
+
+  <div
+    id="itemName"
+    class="item-name">
+  </div>
+
+  <div
+    id="itemDetails"
+    class="item-details">
+  </div>
+
+
+  <div class="stock-grid">
+
+    <div class="stock-box">
+
+      <div
+        id="availableStock"
+        class="stock-number">
+        0
+      </div>
+
+      <div class="stock-label">
+        AVAILABLE
+      </div>
+
     </div>
 
-    <div class="login-title">
-      Sign in to IMS
+
+    <div class="stock-box">
+
+      <div
+        id="quarantineStock"
+        class="stock-number">
+        0
+      </div>
+
+      <div class="stock-label">
+        QUARANTINE
+      </div>
+
     </div>
 
-    <div class="login-text">
 
-      Sign in using your authorized
-      MHSI Google account.
+    <div class="stock-box">
+
+      <div
+        id="transitStock"
+        class="stock-number">
+        0
+      </div>
+
+      <div class="stock-label">
+        IN TRANSIT
+      </div>
 
     </div>
-
-    <div id="googleButton"></div>
 
   </div>
 
 
-  <!-- APPLICATION -->
+  <div
+    id="stockLevel"
+    class="level hidden">
+  </div>
+
+
+  <div id="batchContainer"></div>
+
+
+  <button
+    id="receiveButton"
+    class="receive hidden"
+    onclick="openReceive()">
+    + RECEIVE STOCK
+  </button>
+
+
+  <button
+    id="issueButton"
+    class="issue hidden"
+    onclick="openIssue()">
+    − ISSUE STOCK
+  </button>
+
+
+  <button
+    class="primary"
+    onclick="scanAnother()">
+    SCAN ANOTHER ITEM
+  </button>
+
+</div>
+
+
+<!-- RECEIVE -->
+
+<div
+  id="receiveCard"
+  class="card hidden">
+
+  <div class="form-title">
+    Receive Stock
+  </div>
+
+  <div
+    id="receiveItemName"
+    class="form-item">
+  </div>
+
+  <label>Quantity *</label>
+
+  <input
+    id="receiveQty"
+    type="number"
+    min="0.01"
+    step="0.01">
+
+  <label>
+    Batch / Lot Number
+    <span id="batchRequired"></span>
+  </label>
+
+  <input
+    id="receiveBatch">
+
+  <label>
+    Expiry Date
+    <span id="expiryRequired"></span>
+  </label>
+
+  <input
+    id="receiveExpiry"
+    type="date">
+
+  <label>
+    Storage Location *
+  </label>
+
+  <select id="receiveLocation">
+
+    <option value="">
+      Select location
+    </option>
+
+  </select>
+
+  <label>
+    Unit Cost
+  </label>
+
+  <input
+    id="receiveUnitCost"
+    type="number"
+    min="0"
+    step="0.01">
+
+  <label>
+    Reference No.
+  </label>
+
+  <input
+    id="receiveReference">
+
+  <label>
+    Notes
+  </label>
+
+  <textarea
+    id="receiveNotes"
+    rows="3">
+  </textarea>
+
+  <button
+    class="receive"
+    onclick="submitReceive()">
+    CONFIRM RECEIVE
+  </button>
+
+  <button
+    class="secondary"
+    onclick="closeReceive()">
+    CANCEL
+  </button>
+
+</div>
+
+
+<!-- ISSUE -->
+
+<div
+  id="issueCard"
+  class="card hidden">
+
+  <div class="form-title">
+    Issue Stock
+  </div>
+
+  <div
+    id="issueItemName"
+    class="form-item">
+  </div>
 
 
   <div
-    id="appArea"
-    class="hidden">
-
-
-    <!-- USER -->
-
-
-    <div class="card">
-
-      <div class="user-top">
-
-        <div>
-
-          <div
-            id="userName"
-            class="user-name">
-          </div>
-
-          <div
-            id="userMeta"
-            class="user-meta">
-          </div>
-
-        </div>
-
-
-        <button
-          class="logout"
-          onclick="logout()">
-
-          LOG OUT
-
-        </button>
-
-      </div>
-
-
-      <div
-        id="permissionList"
-        class="permission-list">
-      </div>
-
-    </div>
-
-
-    <!-- STATUS -->
-
-
-    <div
-      id="statusBox"
-      class="status info">
-
-      Ready to scan.
-
-    </div>
-
-
-    <!-- SCANNER -->
-
-
-    <div class="card">
-
-      <div class="camera-shell">
-
-        <video
-          id="video"
-          autoplay
-          muted
-          playsinline>
-        </video>
-
-        <div class="scan-frame"></div>
-
-        <div class="scan-line"></div>
-
-      </div>
-
-
-      <button
-        id="openButton"
-        class="primary"
-        onclick="openScanner()">
-
-        OPEN SCANNER
-
-      </button>
-
-
-      <button
-        id="stopButton"
-        class="secondary hidden"
-        onclick="stopScanner()">
-
-        STOP SCANNER
-
-      </button>
-
-    </div>
-
-
-    <!-- MANUAL SEARCH -->
-
-
-    <div class="card">
-
-      <div class="section-title">
-        MANUAL SEARCH
-      </div>
-
-
-      <div class="manual-row">
-
-        <input
-          id="manualCode"
-          type="text"
-          placeholder="Barcode / Item ID">
-
-
-        <button
-          class="primary"
-          onclick="manualLookup()">
-
-          SEARCH
-
-        </button>
-
-      </div>
-
-    </div>
-
-
-    <!-- ITEM -->
-
-
-    <div
-      id="itemCard"
-      class="card hidden">
-
-
-      <div
-        id="itemCode"
-        class="item-code">
-      </div>
-
-
-      <div
-        id="itemName"
-        class="item-name">
-      </div>
-
-
-      <div
-        id="itemDetails"
-        class="item-details">
-      </div>
-
-
-      <div class="stock-grid">
-
-
-        <div class="stock-box">
-
-          <div
-            id="availableStock"
-            class="stock-number">
-            0
-          </div>
-
-          <div class="stock-label">
-            AVAILABLE
-          </div>
-
-        </div>
-
-
-        <div class="stock-box">
-
-          <div
-            id="quarantineStock"
-            class="stock-number">
-            0
-          </div>
-
-          <div class="stock-label">
-            QUARANTINE
-          </div>
-
-        </div>
-
-
-        <div class="stock-box">
-
-          <div
-            id="transitStock"
-            class="stock-number">
-            0
-          </div>
-
-          <div class="stock-label">
-            IN TRANSIT
-          </div>
-
-        </div>
-
-
-      </div>
-
-
-      <div
-        id="stockLevel"
-        class="level hidden">
-      </div>
-
-
-      <div id="batchContainer"></div>
-
-
-      <button
-        id="receiveButton"
-        class="receive hidden"
-        onclick="openReceive()">
-
-        + RECEIVE STOCK
-
-      </button>
-
-
-      <button
-        class="primary"
-        onclick="scanAnother()">
-
-        SCAN ANOTHER ITEM
-
-      </button>
-
-
-    </div>
-
-
-    <!-- RECEIVE FORM -->
-
-
-    <div
-      id="receiveCard"
-      class="card hidden">
-
-
-      <div class="receive-title">
-        Receive Stock
-      </div>
-
-
-      <div
-        id="receiveItemName"
-        class="receive-item">
-      </div>
-
-
-      <label>
-
-        Quantity
-        <span class="required">*</span>
-
-      </label>
-
-
-      <input
-        id="receiveQty"
-        type="number"
-        min="0.01"
-        step="0.01"
-        inputmode="decimal"
-        placeholder="Quantity received">
-
-
-      <label>
-
-        Batch / Lot Number
-
-        <span
-          id="batchRequired"
-          class="required">
-        </span>
-
-      </label>
-
-
-      <input
-        id="receiveBatch"
-        type="text"
-        placeholder="Batch / Lot Number">
-
-
-      <label>
-
-        Expiry Date
-
-        <span
-          id="expiryRequired"
-          class="required">
-        </span>
-
-      </label>
-
-
-      <input
-        id="receiveExpiry"
-        type="date">
-
-
-      <label>
-
-        Storage Location
-        <span class="required">*</span>
-
-      </label>
-
-
-      <select
-        id="receiveLocation">
-
-        <option value="">
-          Select location
-        </option>
-
-      </select>
-
-
-      <label>
-        Unit Cost
-      </label>
-
-
-      <input
-        id="receiveUnitCost"
-        type="number"
-        min="0"
-        step="0.01"
-        inputmode="decimal"
-        placeholder="Optional">
-
-
-      <label>
-        Reference No.
-      </label>
-
-
-      <input
-        id="receiveReference"
-        type="text"
-        maxlength="100"
-        placeholder="PO / DR / Delivery Reference">
-
-
-      <label>
-        Notes
-      </label>
-
-
-      <textarea
-        id="receiveNotes"
-        rows="3"
-        maxlength="300"
-        placeholder="Optional notes">
-      </textarea>
-
-
-      <button
-        class="receive"
-        onclick="submitReceive()">
-
-        CONFIRM RECEIVE
-
-      </button>
-
-
-      <button
-        class="secondary"
-        onclick="closeReceive()">
-
-        CANCEL
-
-      </button>
-
-
-    </div>
-
-
+    id="fefoPreview"
+    class="fefo-note">
   </div>
 
+
+  <label>
+    Quantity to Issue *
+  </label>
+
+  <input
+    id="issueQty"
+    type="number"
+    min="0.01"
+    step="0.01"
+    inputmode="decimal">
+
+
+  <label>
+    Purpose / Reason
+  </label>
+
+  <input
+    id="issueReason"
+    value="Issuance"
+    placeholder="e.g. Clinic consumption">
+
+
+  <label>
+    Reference No.
+  </label>
+
+  <input
+    id="issueReference"
+    placeholder="Request / Department / Reference">
+
+
+  <label>
+    Notes
+  </label>
+
+  <textarea
+    id="issueNotes"
+    rows="3">
+  </textarea>
+
+
+  <button
+    class="issue"
+    onclick="submitIssue()">
+    CONFIRM ISSUE
+  </button>
+
+
+  <button
+    class="secondary"
+    onclick="closeIssue()">
+    CANCEL
+  </button>
+
+</div>
+
+
+</div>
 
 </main>
 
 
 <script>
-
-
-/* =========================================================
-   CONFIG
-========================================================= */
 
 
 const GOOGLE_CLIENT_ID =
@@ -1464,50 +872,26 @@ const API_URL =
   'https://script.google.com/macros/s/AKfycbwSGG51EMk-47M9QqAfGUosXfslYvrq8MB6sSdVAO8NMFKL3YjzDsLXoLxsO-JvbMKwCA/exec';
 
 
-
-/* =========================================================
-   STATE
-========================================================= */
-
-
 let sessionToken =
   localStorage.getItem(
     'mhsi_ims_session'
   ) || '';
 
 
-let currentUser =
-  null;
+let currentUser = null;
 
+let currentItemResult = null;
 
-let currentItemResult =
-  null;
+let locations = [];
 
+let codeReader = null;
 
-let locations =
-  [];
+let controls = null;
 
+let scannerRunning = false;
 
-let codeReader =
-  null;
+let scanLocked = false;
 
-
-let controls =
-  null;
-
-
-let scannerRunning =
-  false;
-
-
-let scanLocked =
-  false;
-
-
-
-/* =========================================================
-   INITIALIZE
-========================================================= */
 
 
 window.addEventListener(
@@ -1518,11 +902,8 @@ window.addEventListener(
 
 function initialize() {
 
-
   if (sessionToken) {
-
     validateStoredSession();
-
   }
 
 
@@ -1536,9 +917,7 @@ function initialize() {
           google.accounts.id
         ) {
 
-          clearInterval(
-            timer
-          );
+          clearInterval(timer);
 
           initializeGoogleLogin();
 
@@ -1551,14 +930,7 @@ function initialize() {
 }
 
 
-
-/* =========================================================
-   GOOGLE LOGIN
-========================================================= */
-
-
 function initializeGoogleLogin() {
-
 
   google.accounts.id.initialize({
 
@@ -1576,25 +948,15 @@ function initializeGoogleLogin() {
 
   google.accounts.id.renderButton(
 
-    document
-      .getElementById(
-        'googleButton'
-      ),
+    document.getElementById(
+      'googleButton'
+    ),
 
     {
-
-      theme:
-        'outline',
-
-      size:
-        'large',
-
-      width:
-        280,
-
-      text:
-        'signin_with'
-
+      theme: 'outline',
+      size: 'large',
+      width: 280,
+      text: 'signin_with'
     }
 
   );
@@ -1605,7 +967,6 @@ function initializeGoogleLogin() {
 function handleGoogleCredential(
   response
 ) {
-
 
   if (
     !response ||
@@ -1627,6 +988,7 @@ function handleGoogleCredential(
 
 
   apiCall(
+
     'login',
 
     {
@@ -1635,7 +997,6 @@ function handleGoogleCredential(
     },
 
     function(result) {
-
 
       hideLoading();
 
@@ -1680,16 +1041,10 @@ function handleGoogleCredential(
 }
 
 
-
-/* =========================================================
-   SESSION
-========================================================= */
-
-
 function validateStoredSession() {
 
-
   apiCall(
+
     'session',
 
     {
@@ -1699,7 +1054,6 @@ function validateStoredSession() {
 
     function(result) {
 
-
       if (
         result &&
         result.success === true &&
@@ -1708,7 +1062,6 @@ function validateStoredSession() {
 
         currentUser =
           result.user;
-
 
         openApp();
 
@@ -1728,7 +1081,6 @@ function validateStoredSession() {
 
 
 function openApp() {
-
 
   document
     .getElementById(
@@ -1782,7 +1134,6 @@ function openApp() {
 
   renderPermissions();
 
-
   loadLocations();
 
 
@@ -1794,63 +1145,37 @@ function openApp() {
 }
 
 
-
-/* =========================================================
-   PERMISSIONS
-========================================================= */
-
-
 function renderPermissions() {
 
-
-  const permissions =
+  const p =
     currentUser.permissions || {};
 
 
   const labels = [];
 
 
-  if (
-    permissions.receive
-  ) {
-
+  if (p.receive) {
     labels.push(
       'RECEIVE'
     );
-
   }
 
-
-  if (
-    permissions.issue
-  ) {
-
+  if (p.issue) {
     labels.push(
       'ISSUE'
     );
-
   }
 
-
-  if (
-    permissions.transfer
-  ) {
-
+  if (p.transfer) {
     labels.push(
       'TRANSFER'
     );
-
   }
 
-
-  if (
-    permissions.count
-  ) {
-
+  if (p.count) {
     labels.push(
       'COUNT'
     );
-
   }
 
 
@@ -1865,9 +1190,7 @@ function renderPermissions() {
 
           return (
             '<span class="permission">' +
-            escapeHtml(
-              label
-            ) +
+            escapeHtml(label) +
             '</span>'
           );
 
@@ -1878,47 +1201,29 @@ function renderPermissions() {
 }
 
 
-
-/* =========================================================
-   LOGOUT
-========================================================= */
-
-
 function logout() {
-
 
   stopScanner();
 
 
-  if (sessionToken) {
-
-    apiCall(
-      'logout',
-
-      {
-        session:
-          sessionToken
-      },
-
-      function() {}
-
-    );
-
-  }
+  apiCall(
+    'logout',
+    {
+      session:
+        sessionToken
+    },
+    function() {}
+  );
 
 
   try {
-
     google.accounts.id
       .disableAutoSelect();
-
   }
-
   catch (error) {}
 
 
   clearSession();
-
 
   location.reload();
 
@@ -1926,7 +1231,6 @@ function logout() {
 
 
 function clearSession() {
-
 
   sessionToken = '';
 
@@ -1942,16 +1246,12 @@ function clearSession() {
 }
 
 
-
-/* =========================================================
-   LOCATIONS
-========================================================= */
-
+/* LOCATIONS */
 
 function loadLocations() {
 
-
   apiCall(
+
     'locations',
 
     {
@@ -1961,14 +1261,11 @@ function loadLocations() {
 
     function(result) {
 
-
       if (
         !result ||
         result.success !== true
       ) {
-
         return;
-
       }
 
 
@@ -1976,85 +1273,62 @@ function loadLocations() {
         result.locations || [];
 
 
-      renderLocationDropdown();
-
-    }
-
-  );
-
-}
-
-
-function renderLocationDropdown() {
-
-
-  const select =
-    document
-      .getElementById(
-        'receiveLocation'
-      );
-
-
-  select.innerHTML =
-
-    '<option value="">' +
-    'Select location' +
-    '</option>';
-
-
-  locations.forEach(
-    function(location) {
-
-
-      const option =
-        document
-          .createElement(
-            'option'
-          );
-
-
-      option.value =
-        location.locationId;
-
-
-      option.textContent =
-
-        location.locationName +
-
-        (
-          location.locationType
-            ? ' • ' +
-              location.locationType
-            : ''
+      const select =
+        document.getElementById(
+          'receiveLocation'
         );
 
 
-      select.appendChild(
-        option
+      select.innerHTML =
+        '<option value="">Select location</option>';
+
+
+      locations.forEach(
+        function(location) {
+
+          const option =
+            document.createElement(
+              'option'
+            );
+
+
+          option.value =
+            location.locationId;
+
+
+          option.textContent =
+            location.locationName +
+            (
+              location.locationType
+                ? ' • ' +
+                  location.locationType
+                : ''
+            );
+
+
+          select.appendChild(
+            option
+          );
+
+        }
       );
 
     }
+
   );
 
 }
 
 
-
-/* =========================================================
-   CAMERA
-========================================================= */
-
+/* CAMERA */
 
 async function openScanner() {
-
 
   if (
     scannerRunning ||
     !sessionToken
   ) {
-
     return;
-
   }
 
 
@@ -2062,7 +1336,6 @@ async function openScanner() {
 
 
   try {
-
 
     codeReader =
       new ZXingBrowser
@@ -2095,7 +1368,6 @@ async function openScanner() {
       devices.find(
         function(device) {
 
-
           const label =
             String(
               device.label || ''
@@ -2104,19 +1376,9 @@ async function openScanner() {
 
 
           return (
-
-            label.includes(
-              'back'
-            ) ||
-
-            label.includes(
-              'rear'
-            ) ||
-
-            label.includes(
-              'environment'
-            )
-
+            label.includes('back') ||
+            label.includes('rear') ||
+            label.includes('environment')
           );
 
         }
@@ -2124,9 +1386,7 @@ async function openScanner() {
 
 
     if (rear) {
-
       selected = rear;
-
     }
 
 
@@ -2136,33 +1396,27 @@ async function openScanner() {
 
           selected.deviceId,
 
-          document
-            .getElementById(
-              'video'
-            ),
+          document.getElementById(
+            'video'
+          ),
 
           function(result) {
-
 
             if (
               result &&
               !scanLocked
             ) {
 
-
               const value =
                 String(
                   result.getText()
-                )
-                .trim();
+                ).trim();
 
 
               if (value) {
-
                 handleScannedCode(
                   value
                 );
-
               }
 
             }
@@ -2172,8 +1426,7 @@ async function openScanner() {
         );
 
 
-    scannerRunning =
-      true;
+    scannerRunning = true;
 
 
     document
@@ -2203,7 +1456,6 @@ async function openScanner() {
 
   catch (error) {
 
-
     showStatus(
       error.message ||
       String(error),
@@ -2217,37 +1469,27 @@ async function openScanner() {
 
 async function stopScanner() {
 
-
   try {
 
     if (controls) {
-
       controls.stop();
-
     }
 
   }
-
   catch (error) {}
 
 
-  controls =
-    null;
+  controls = null;
 
+  codeReader = null;
 
-  codeReader =
-    null;
-
-
-  scannerRunning =
-    false;
+  scannerRunning = false;
 
 
   const video =
-    document
-      .getElementById(
-        'video'
-      );
+    document.getElementById(
+      'video'
+    );
 
 
   if (
@@ -2258,16 +1500,12 @@ async function stopScanner() {
     video.srcObject
       .getTracks()
       .forEach(
-        function(track) {
-
-          track.stop();
-
-        }
+        track =>
+          track.stop()
       );
 
 
-    video.srcObject =
-      null;
+    video.srcObject = null;
 
   }
 
@@ -2296,26 +1534,16 @@ async function handleScannedCode(
   value
 ) {
 
-
   if (scanLocked) {
-
     return;
-
   }
 
 
-  scanLocked =
-    true;
+  scanLocked = true;
 
 
-  if (
-    navigator.vibrate
-  ) {
-
-    navigator.vibrate(
-      100
-    );
-
+  if (navigator.vibrate) {
+    navigator.vibrate(100);
   }
 
 
@@ -2329,14 +1557,9 @@ async function handleScannedCode(
 }
 
 
-
-/* =========================================================
-   LOOKUP
-========================================================= */
-
+/* LOOKUP */
 
 function manualLookup() {
-
 
   const value =
     document
@@ -2359,9 +1582,7 @@ function manualLookup() {
   }
 
 
-  lookupInventory(
-    value
-  );
+  lookupInventory(value);
 
 }
 
@@ -2370,13 +1591,13 @@ function lookupInventory(
   code
 ) {
 
-
   showLoading(
     'Looking up inventory...'
   );
 
 
   apiCall(
+
     'lookup',
 
     {
@@ -2389,55 +1610,23 @@ function lookupInventory(
 
     function(result) {
 
-
       hideLoading();
 
 
       if (
-        !result
-      ) {
-
-        showStatus(
-          'No response from IMS.',
-          'error'
-        );
-
-
-        scanLocked =
-          false;
-
-
-        return;
-
-      }
-
-
-      if (
-        result.authenticated ===
-        false
-      ) {
-
-        sessionExpired();
-
-        return;
-
-      }
-
-
-      if (
+        !result ||
         result.success !== true
       ) {
 
         showStatus(
-          result.message ||
-          'IMS lookup failed.',
+          result &&
+          result.message
+            ? result.message
+            : 'IMS lookup failed.',
           'error'
         );
 
-
-        scanLocked =
-          false;
-
+        scanLocked = false;
 
         return;
 
@@ -2463,9 +1652,7 @@ function lookupInventory(
         );
 
 
-        scanLocked =
-          false;
-
+        scanLocked = false;
 
         return;
 
@@ -2476,13 +1663,10 @@ function lookupInventory(
         result;
 
 
-      displayItem(
-        result
-      );
+      displayItem(result);
 
 
-      scanLocked =
-        false;
+      scanLocked = false;
 
     }
 
@@ -2491,22 +1675,13 @@ function lookupInventory(
 }
 
 
-
-/* =========================================================
-   DISPLAY ITEM
-========================================================= */
-
-
-function displayItem(
-  result
-) {
-
+function displayItem(result) {
 
   const item =
     result.item;
 
 
-  const inventory =
+  const inv =
     result.inventory;
 
 
@@ -2559,17 +1734,7 @@ function displayItem(
       escapeHtml(
         item.uom || '-'
       ) +
-      '</b>' +
-
-      (
-        item.brand
-          ? '<br>Brand: <b>' +
-            escapeHtml(
-              item.brand
-            ) +
-            '</b>'
-          : ''
-      );
+      '</b>';
 
 
   document
@@ -2577,7 +1742,7 @@ function displayItem(
       'availableStock'
     )
     .textContent =
-      inventory.totalAvailable;
+      inv.totalAvailable;
 
 
   document
@@ -2585,7 +1750,7 @@ function displayItem(
       'quarantineStock'
     )
     .textContent =
-      inventory.totalQuarantined;
+      inv.totalQuarantined;
 
 
   document
@@ -2593,48 +1758,38 @@ function displayItem(
       'transitStock'
     )
     .textContent =
-      inventory.totalInTransit;
+      inv.totalInTransit;
 
 
   renderThreshold(
-    inventory.totalAvailable,
+    inv.totalAvailable,
     result.threshold
   );
 
 
   renderBatches(
-    inventory.batches || []
+    inv.batches
   );
 
 
-  const receiveButton =
-    document
-      .getElementById(
-        'receiveButton'
-      );
+  document
+    .getElementById(
+      'receiveButton'
+    )
+    .classList.toggle(
+      'hidden',
+      !currentUser.permissions.receive
+    );
 
 
-  if (
-    currentUser &&
-    currentUser.permissions &&
-    currentUser.permissions.receive
-  ) {
-
-    receiveButton
-      .classList.remove(
-        'hidden'
-      );
-
-  }
-
-  else {
-
-    receiveButton
-      .classList.add(
-        'hidden'
-      );
-
-  }
+  document
+    .getElementById(
+      'issueButton'
+    )
+    .classList.toggle(
+      'hidden',
+      !currentUser.permissions.issue
+    );
 
 
   showStatus(
@@ -2648,35 +1803,15 @@ function displayItem(
       'itemCard'
     )
     .scrollIntoView({
-
-      behavior:
-        'smooth',
-
-      block:
-        'start'
-
+      behavior: 'smooth'
     });
 
 }
 
 
-
-/* =========================================================
-   RECEIVE FORM
-========================================================= */
-
+/* RECEIVE */
 
 function openReceive() {
-
-
-  if (
-    !currentItemResult
-  ) {
-
-    return;
-
-  }
-
 
   const item =
     currentItemResult.item;
@@ -2690,7 +1825,6 @@ function openReceive() {
       'receiveItemName'
     )
     .textContent =
-
       item.itemName +
       ' • ' +
       item.itemId;
@@ -2701,7 +1835,6 @@ function openReceive() {
       'batchRequired'
     )
     .textContent =
-
       item.requiresBatch
         ? '*'
         : '';
@@ -2712,16 +1845,10 @@ function openReceive() {
       'expiryRequired'
     )
     .textContent =
-
       item.requiresExpiry
         ? '*'
         : '';
 
-
-  /*
-    Auto-select preferred
-    stockroom if configured.
-  */
 
   if (
     currentItemResult.threshold &&
@@ -2734,7 +1861,6 @@ function openReceive() {
         'receiveLocation'
       )
       .value =
-
         currentItemResult
           .threshold
           .preferredLocationId;
@@ -2756,20 +1882,13 @@ function openReceive() {
       'receiveCard'
     )
     .scrollIntoView({
-
-      behavior:
-        'smooth',
-
-      block:
-        'start'
-
+      behavior: 'smooth'
     });
 
 }
 
 
 function closeReceive() {
-
 
   document
     .getElementById(
@@ -2784,26 +1903,18 @@ function closeReceive() {
 
 function clearReceiveForm() {
 
-
-  document
-    .getElementById(
-      'receiveQty'
-    )
-    .value = '';
-
-
-  document
-    .getElementById(
-      'receiveBatch'
-    )
-    .value = '';
-
-
-  document
-    .getElementById(
-      'receiveExpiry'
-    )
-    .value = '';
+  [
+    'receiveQty',
+    'receiveBatch',
+    'receiveExpiry',
+    'receiveUnitCost',
+    'receiveReference',
+    'receiveNotes'
+  ].forEach(
+    id => {
+      document.getElementById(id).value = '';
+    }
+  );
 
 
   document
@@ -2812,47 +1923,10 @@ function clearReceiveForm() {
     )
     .value = '';
 
-
-  document
-    .getElementById(
-      'receiveUnitCost'
-    )
-    .value = '';
-
-
-  document
-    .getElementById(
-      'receiveReference'
-    )
-    .value = '';
-
-
-  document
-    .getElementById(
-      'receiveNotes'
-    )
-    .value = '';
-
 }
 
 
-
-/* =========================================================
-   SUBMIT RECEIVE
-========================================================= */
-
-
 function submitReceive() {
-
-
-  if (
-    !currentItemResult
-  ) {
-
-    return;
-
-  }
-
 
   const item =
     currentItemResult.item;
@@ -2860,65 +1934,36 @@ function submitReceive() {
 
   const quantity =
     Number(
-      document
-        .getElementById(
-          'receiveQty'
-        )
-        .value
+      document.getElementById(
+        'receiveQty'
+      ).value
     );
 
 
   const batchNo =
-    document
-      .getElementById(
-        'receiveBatch'
-      )
-      .value
-      .trim();
+    document.getElementById(
+      'receiveBatch'
+    ).value.trim();
 
 
   const expiryDate =
-    document
-      .getElementById(
-        'receiveExpiry'
-      )
-      .value;
+    document.getElementById(
+      'receiveExpiry'
+    ).value;
 
 
   const locationId =
-    document
-      .getElementById(
-        'receiveLocation'
-      )
-      .value;
+    document.getElementById(
+      'receiveLocation'
+    ).value;
 
 
   const unitCost =
     Number(
-      document
-        .getElementById(
-          'receiveUnitCost'
-        )
-        .value || 0
+      document.getElementById(
+        'receiveUnitCost'
+      ).value || 0
     );
-
-
-  const referenceNo =
-    document
-      .getElementById(
-        'receiveReference'
-      )
-      .value
-      .trim();
-
-
-  const notes =
-    document
-      .getElementById(
-        'receiveNotes'
-      )
-      .value
-      .trim();
 
 
   if (
@@ -2975,24 +2020,7 @@ function submitReceive() {
 
 
   if (
-    !Number.isFinite(
-      unitCost
-    ) ||
-    unitCost < 0
-  ) {
-
-    alert(
-      'Invalid unit cost.'
-    );
-
-    return;
-
-  }
-
-
-  const confirmed =
-    confirm(
-
+    !confirm(
       'Receive ' +
       quantity +
       ' ' +
@@ -3002,19 +2030,10 @@ function submitReceive() {
       ' of ' +
       item.itemName +
       '?'
-
-    );
-
-
-  if (!confirmed) {
-
+    )
+  ) {
     return;
-
   }
-
-
-  const requestId =
-    generateRequestId();
 
 
   showLoading(
@@ -3023,15 +2042,17 @@ function submitReceive() {
 
 
   apiCall(
+
     'receive',
 
     {
-
       session:
         sessionToken,
 
       requestId:
-        requestId,
+        generateRequestId(
+          'RCV'
+        ),
 
       itemId:
         item.itemId,
@@ -3052,89 +2073,47 @@ function submitReceive() {
         unitCost,
 
       referenceNo:
-        referenceNo,
+        document.getElementById(
+          'receiveReference'
+        ).value.trim(),
 
       notes:
-        notes
-
+        document.getElementById(
+          'receiveNotes'
+        ).value.trim()
     },
 
     function(result) {
 
-
       hideLoading();
 
 
-      if (!result) {
-
-        alert(
-          'No response from IMS.'
-        );
-
-        return;
-
-      }
-
-
       if (
-        result.authenticated ===
-        false
-      ) {
-
-        sessionExpired();
-
-        return;
-
-      }
-
-
-      if (
+        !result ||
         result.success !== true
       ) {
 
         alert(
-          result.message ||
-          'Receive transaction failed.'
+          result &&
+          result.message
+            ? result.message
+            : 'Receive failed.'
         );
 
         return;
 
       }
-
-
-      const transaction =
-        result.result || {};
 
 
       closeReceive();
 
 
       alert(
-
-        'Stock received successfully.' +
-
-        (
-          transaction.transactionId
-            ? '\n\nTransaction: ' +
-              transaction.transactionId
-            : ''
-        ) +
-
-        (
-          transaction.availableAfter !==
-          undefined
-            ? '\nAvailable stock: ' +
-              transaction.availableAfter
-            : ''
-        )
-
+        'Stock received successfully.\n\n' +
+        'Transaction: ' +
+        result.result.transactionId
       );
 
-
-      /*
-        Automatically refresh
-        stock after successful receipt.
-      */
 
       lookupInventory(
         item.itemId
@@ -3147,10 +2126,454 @@ function submitReceive() {
 }
 
 
+/* ISSUE */
 
-/* =========================================================
-   STOCK THRESHOLD
-========================================================= */
+function openIssue() {
+
+  const item =
+    currentItemResult.item;
+
+
+  document
+    .getElementById(
+      'issueItemName'
+    )
+    .textContent =
+      item.itemName +
+      ' • ' +
+      item.itemId;
+
+
+  document
+    .getElementById(
+      'issueQty'
+    )
+    .value = '';
+
+
+  document
+    .getElementById(
+      'issueReason'
+    )
+    .value =
+      'Issuance';
+
+
+  document
+    .getElementById(
+      'issueReference'
+    )
+    .value = '';
+
+
+  document
+    .getElementById(
+      'issueNotes'
+    )
+    .value = '';
+
+
+  renderFefoPreview();
+
+
+  document
+    .getElementById(
+      'issueCard'
+    )
+    .classList.remove(
+      'hidden'
+    );
+
+
+  document
+    .getElementById(
+      'issueCard'
+    )
+    .scrollIntoView({
+      behavior: 'smooth'
+    });
+
+}
+
+
+function closeIssue() {
+
+  document
+    .getElementById(
+      'issueCard'
+    )
+    .classList.add(
+      'hidden'
+    );
+
+}
+
+
+function renderFefoPreview() {
+
+  const batches =
+    (
+      currentItemResult
+        .inventory
+        .batches || []
+    )
+    .filter(
+      b =>
+        Number(
+          b.qtyAvailable || 0
+        ) > 0
+    );
+
+
+  if (!batches.length) {
+
+    document
+      .getElementById(
+        'fefoPreview'
+      )
+      .innerHTML =
+        'No available stock.';
+
+    return;
+
+  }
+
+
+  const first =
+    batches[0];
+
+
+  document
+    .getElementById(
+      'fefoPreview'
+    )
+    .innerHTML =
+
+      '<b>FEFO:</b> The system will automatically issue from the earliest-expiring batch first.<br><br>' +
+
+      'First batch: <b>' +
+      escapeHtml(
+        first.batchNo ||
+        'No Batch'
+      ) +
+      '</b><br>' +
+
+      'Expiry: ' +
+      escapeHtml(
+        first.expiryDate ||
+        'N/A'
+      ) +
+      '<br>' +
+
+      'Available: <b>' +
+      first.qtyAvailable +
+      '</b>';
+
+}
+
+
+function submitIssue() {
+
+  const item =
+    currentItemResult.item;
+
+
+  const quantity =
+    Number(
+      document
+        .getElementById(
+          'issueQty'
+        )
+        .value
+    );
+
+
+  const available =
+    Number(
+      currentItemResult
+        .inventory
+        .totalAvailable || 0
+    );
+
+
+  if (
+    !quantity ||
+    quantity <= 0
+  ) {
+
+    alert(
+      'Enter a valid quantity.'
+    );
+
+    return;
+
+  }
+
+
+  if (
+    quantity >
+    available
+  ) {
+
+    alert(
+      'Insufficient stock.\n\n' +
+      'Available: ' +
+      available
+    );
+
+    return;
+
+  }
+
+
+  const reason =
+    document
+      .getElementById(
+        'issueReason'
+      )
+      .value
+      .trim();
+
+
+  const confirmed =
+    confirm(
+
+      'Issue ' +
+      quantity +
+      ' ' +
+      (
+        item.uom || ''
+      ) +
+      ' of ' +
+      item.itemName +
+      '?\n\n' +
+
+      'The system will use FEFO automatically.'
+
+    );
+
+
+  if (!confirmed) {
+    return;
+  }
+
+
+  showLoading(
+    'Issuing stock using FEFO...'
+  );
+
+
+  apiCall(
+
+    'issue',
+
+    {
+
+      session:
+        sessionToken,
+
+      requestId:
+        generateRequestId(
+          'ISS'
+        ),
+
+      itemId:
+        item.itemId,
+
+      quantity:
+        quantity,
+
+      reason:
+        reason ||
+        'Issuance',
+
+      referenceNo:
+        document
+          .getElementById(
+            'issueReference'
+          )
+          .value
+          .trim(),
+
+      notes:
+        document
+          .getElementById(
+            'issueNotes'
+          )
+          .value
+          .trim()
+
+    },
+
+    function(result) {
+
+      hideLoading();
+
+
+      if (
+        !result ||
+        result.success !== true
+      ) {
+
+        alert(
+          result &&
+          result.message
+            ? result.message
+            : 'Issue transaction failed.'
+        );
+
+        return;
+
+      }
+
+
+      closeIssue();
+
+
+      const r =
+        result.result;
+
+
+      let message =
+
+        'Stock issued successfully.\n\n' +
+
+        'Total issued: ' +
+        r.totalIssued +
+
+        '\nAvailable after: ' +
+        r.availableAfter;
+
+
+      if (
+        r.deductions &&
+        r.deductions.length
+      ) {
+
+        message +=
+          '\n\nFEFO batches used:';
+
+
+        r.deductions.forEach(
+          function(batch) {
+
+            message +=
+
+              '\n• ' +
+
+              (
+                batch.batchNo ||
+                batch.batchStockId
+              ) +
+
+              ': ' +
+
+              batch.quantityIssued;
+
+          }
+        );
+
+      }
+
+
+      alert(message);
+
+
+      lookupInventory(
+        item.itemId
+      );
+
+    }
+
+  );
+
+}
+
+
+/* DISPLAY */
+
+function renderBatches(
+  batches
+) {
+
+  const container =
+    document.getElementById(
+      'batchContainer'
+    );
+
+
+  if (
+    !batches ||
+    !batches.length
+  ) {
+
+    container.innerHTML =
+      '<div class="batch-heading">BATCH INVENTORY</div>' +
+      '<div class="batch">No inventory batches.</div>';
+
+    return;
+
+  }
+
+
+  let html =
+    '<div class="batch-heading">BATCH INVENTORY • FEFO</div>';
+
+
+  batches.forEach(
+    function(b) {
+
+      html += `
+
+        <div class="batch">
+
+          <b>
+            ${escapeHtml(
+              b.batchNo ||
+              'No Batch'
+            )}
+          </b>
+
+          <br>
+
+          Expiry:
+          ${escapeHtml(
+            b.expiryDate ||
+            'N/A'
+          )}
+
+          <br>
+
+          Available:
+          <b>
+            ${b.qtyAvailable}
+          </b>
+
+          • Quarantine:
+          <b>
+            ${b.qtyQuarantined}
+          </b>
+
+          <br>
+
+          Location:
+          ${escapeHtml(
+            b.locationId ||
+            '-'
+          )}
+
+        </div>
+
+      `;
+
+    }
+  );
+
+
+  container.innerHTML =
+    html;
+
+}
 
 
 function renderThreshold(
@@ -3158,12 +2581,10 @@ function renderThreshold(
   threshold
 ) {
 
-
   const box =
-    document
-      .getElementById(
-        'stockLevel'
-      );
+    document.getElementById(
+      'stockLevel'
+    );
 
 
   if (!threshold) {
@@ -3191,17 +2612,9 @@ function renderThreshold(
     box.className =
       'level level-critical';
 
-
     box.textContent =
-
-      '⚠ Critical stock level. ' +
-
-      'Available: ' +
-      available +
-
-      ' • Critical: ' +
-      threshold.criticalLevel;
-
+      '⚠ Critical stock level. Available: ' +
+      available;
 
     return;
 
@@ -3217,17 +2630,11 @@ function renderThreshold(
     box.className =
       'level level-reorder';
 
-
     box.textContent =
-
-      '⚠ Reorder level reached. ' +
-
-      'Available: ' +
+      '⚠ Reorder level reached. Available: ' +
       available +
-
       ' • Reorder at: ' +
       threshold.reorderLevel;
-
 
     return;
 
@@ -3237,137 +2644,17 @@ function renderThreshold(
   box.className =
     'level level-good';
 
-
   box.textContent =
     '✓ Stock level is within configured threshold.';
 
 }
 
 
-
-/* =========================================================
-   BATCH DISPLAY
-========================================================= */
-
-
-function renderBatches(
-  batches
-) {
-
-
-  const container =
-    document
-      .getElementById(
-        'batchContainer'
-      );
-
-
-  if (
-    !batches ||
-    !batches.length
-  ) {
-
-    container.innerHTML =
-
-      '<div class="batch-heading">' +
-      'BATCH INVENTORY' +
-      '</div>' +
-
-      '<div class="batch">' +
-      'No inventory batches.' +
-      '</div>';
-
-
-    return;
-
-  }
-
-
-  let html =
-
-    '<div class="batch-heading">' +
-    'BATCH INVENTORY • FEFO' +
-    '</div>';
-
-
-  batches.forEach(
-    function(batch) {
-
-
-      html += `
-
-        <div class="batch">
-
-          <b>
-            ${escapeHtml(
-              batch.batchNo ||
-              'No Batch'
-            )}
-          </b>
-
-          <br>
-
-          Expiry:
-          ${escapeHtml(
-            batch.expiryDate ||
-            'N/A'
-          )}
-
-          <br>
-
-          Available:
-          <b>
-            ${batch.qtyAvailable}
-          </b>
-
-          &nbsp; • &nbsp;
-
-          Quarantine:
-          <b>
-            ${batch.qtyQuarantined}
-          </b>
-
-          <br>
-
-          Location:
-          ${escapeHtml(
-            batch.locationId ||
-            '-'
-          )}
-
-          ${
-            batch.unitCost
-              ? '<br>Unit Cost: ₱' +
-                Number(
-                  batch.unitCost
-                ).toFixed(2)
-              : ''
-          }
-
-        </div>
-
-      `;
-
-    }
-  );
-
-
-  container.innerHTML =
-    html;
-
-}
-
-
-
-/* =========================================================
-   SCAN ANOTHER
-========================================================= */
-
-
 function scanAnother() {
 
-
   closeReceive();
+
+  closeIssue();
 
 
   document
@@ -3386,12 +2673,9 @@ function scanAnother() {
     .value = '';
 
 
-  currentItemResult =
-    null;
+  currentItemResult = null;
 
-
-  scanLocked =
-    false;
+  scanLocked = false;
 
 
   openScanner();
@@ -3399,11 +2683,7 @@ function scanAnother() {
 }
 
 
-
-/* =========================================================
-   JSONP API
-========================================================= */
-
+/* JSONP */
 
 function apiCall(
   action,
@@ -3411,15 +2691,10 @@ function apiCall(
   callback
 ) {
 
-
   const callbackName =
-
     'ims_' +
-
     Date.now() +
-
     '_' +
-
     Math.floor(
       Math.random() *
       100000
@@ -3427,10 +2702,9 @@ function apiCall(
 
 
   const script =
-    document
-      .createElement(
-        'script'
-      );
+    document.createElement(
+      'script'
+    );
 
 
   let completed =
@@ -3441,32 +2715,22 @@ function apiCall(
     setTimeout(
       function() {
 
-
         if (completed) {
-
           return;
-
         }
 
 
-        completed =
-          true;
-
+        completed = true;
 
         cleanup();
-
 
         hideLoading();
 
 
         callback({
-
-          success:
-            false,
-
+          success: false,
           message:
             'IMS API timed out.'
-
         });
 
       },
@@ -3476,20 +2740,16 @@ function apiCall(
 
   function cleanup() {
 
-
     clearTimeout(
       timeout
     );
 
 
     try {
-
       delete window[
         callbackName
       ];
-
     }
-
     catch (error) {}
 
 
@@ -3512,24 +2772,16 @@ function apiCall(
   ] =
     function(result) {
 
-
       if (completed) {
-
         return;
-
       }
 
 
-      completed =
-        true;
-
+      completed = true;
 
       cleanup();
 
-
-      callback(
-        result
-      );
+      callback(result);
 
   };
 
@@ -3549,20 +2801,17 @@ function apiCall(
   ).forEach(
     function(key) {
 
-
-      const value =
-        params[key];
-
-
       if (
-        value !== null &&
-        typeof value !==
+        params[key] !== null &&
+        typeof params[key] !==
           'undefined'
       ) {
 
         query.set(
           key,
-          String(value)
+          String(
+            params[key]
+          )
         );
 
       }
@@ -3577,10 +2826,6 @@ function apiCall(
   );
 
 
-  /*
-    Prevent browser caching.
-  */
-
   query.set(
     '_',
     Date.now()
@@ -3588,46 +2833,33 @@ function apiCall(
 
 
   script.src =
-
     API_URL +
-
     '?' +
-
     query.toString();
 
 
   script.onerror =
     function() {
 
-
       if (completed) {
-
         return;
-
       }
 
 
-      completed =
-        true;
-
+      completed = true;
 
       cleanup();
-
 
       hideLoading();
 
 
       callback({
-
-        success:
-          false,
-
+        success: false,
         message:
           'Unable to reach IMS API.'
-
       });
 
-    };
+  };
 
 
   document.body
@@ -3638,14 +2870,11 @@ function apiCall(
 }
 
 
+/* HELPERS */
 
-/* =========================================================
-   HELPERS
-========================================================= */
-
-
-function generateRequestId() {
-
+function generateRequestId(
+  prefix
+) {
 
   if (
     window.crypto &&
@@ -3653,7 +2882,8 @@ function generateRequestId() {
   ) {
 
     return (
-      'RCV-' +
+      prefix +
+      '-' +
       crypto.randomUUID()
     );
 
@@ -3661,37 +2891,14 @@ function generateRequestId() {
 
 
   return (
-
-    'RCV-' +
-
-    Date.now() +
-
+    prefix +
     '-' +
-
+    Date.now() +
+    '-' +
     Math.random()
       .toString(36)
       .slice(2)
-
   );
-
-}
-
-
-function sessionExpired() {
-
-
-  hideLoading();
-
-
-  clearSession();
-
-
-  alert(
-    'Your session expired. Please sign in again.'
-  );
-
-
-  location.reload();
 
 }
 
@@ -3701,18 +2908,17 @@ function showStatus(
   type
 ) {
 
-
   const box =
-    document
-      .getElementById(
-        'statusBox'
-      );
+    document.getElementById(
+      'statusBox'
+    );
 
 
   box.className =
     'status ' +
     (
-      type || 'info'
+      type ||
+      'info'
     );
 
 
@@ -3725,7 +2931,6 @@ function showStatus(
 function showLoading(
   message
 ) {
-
 
   document
     .getElementById(
@@ -3749,7 +2954,6 @@ function showLoading(
 
 function hideLoading() {
 
-
   document
     .getElementById(
       'loading'
@@ -3765,41 +2969,38 @@ function escapeHtml(
   value
 ) {
 
-
   return String(
     value || ''
   )
 
-    .replace(
-      /&/g,
-      '&amp;'
-    )
+  .replace(
+    /&/g,
+    '&amp;'
+  )
 
-    .replace(
-      /</g,
-      '&lt;'
-    )
+  .replace(
+    /</g,
+    '&lt;'
+  )
 
-    .replace(
-      />/g,
-      '&gt;'
-    )
+  .replace(
+    />/g,
+    '&gt;'
+  )
 
-    .replace(
-      /"/g,
-      '&quot;'
-    )
+  .replace(
+    /"/g,
+    '&quot;'
+  )
 
-    .replace(
-      /'/g,
-      '&#039;'
-    );
+  .replace(
+    /'/g,
+    '&#039;'
+  );
 
 }
-
 
 </script>
 
 </body>
-
 </html>
