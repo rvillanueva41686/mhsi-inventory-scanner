@@ -151,6 +151,7 @@ body {
   border-radius: 13px;
   margin-bottom: 15px;
   font-size: 13px;
+  line-height: 1.5;
 }
 
 .info {
@@ -417,6 +418,7 @@ label {
 .incoming-batches {
   margin-top: 10px;
   font-size: 12px;
+  line-height: 1.6;
 }
 
 .badge {
@@ -426,6 +428,21 @@ label {
   background: #fff7e8;
   color: #945b00;
   font-size: 10px;
+  font-weight: 800;
+}
+
+.incoming-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 24px;
+  padding: 0 7px;
+  margin-left: 6px;
+  border-radius: 999px;
+  background: #0f766e;
+  color: white;
+  font-size: 11px;
   font-weight: 800;
 }
 
@@ -459,7 +476,9 @@ label {
 }
 
 
-/* MODAL */
+/* =========================================================
+   CUSTOM MODAL
+========================================================= */
 
 .modal-backdrop {
   position: fixed;
@@ -471,6 +490,7 @@ label {
   justify-content: center;
   padding: 22px;
   backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
 }
 
 .modal-card {
@@ -633,9 +653,13 @@ label {
 
 <header class="header">
 
-  <h1>MHSI Inventory Scanner</h1>
+  <h1>
+    MHSI Inventory Scanner
+  </h1>
 
-  <p>Secure Inventory Management</p>
+  <p>
+    Secure Inventory Management
+  </p>
 
 </header>
 
@@ -690,7 +714,9 @@ label {
     <button
       class="logout"
       onclick="logout()">
+
       LOG OUT
+
     </button>
 
   </div>
@@ -712,16 +738,29 @@ label {
 </div>
 
 
+<!-- ======================================================
+     INCOMING TRANSFERS
+     HIDDEN WHEN THERE ARE NONE
+======================================================= -->
+
 <div
   id="incomingSection"
   class="card hidden">
 
   <div class="form-title">
+
     Incoming Transfers
+
+    <span
+      id="incomingCount"
+      class="incoming-count">
+      0
+    </span>
+
   </div>
 
   <div class="form-item">
-    Transfers currently in transit to your PCC.
+    Stock currently in transit to your PCC.
   </div>
 
   <div id="incomingList"></div>
@@ -737,7 +776,13 @@ label {
 </div>
 
 
-<div class="card">
+<!-- ======================================================
+     SCANNER
+======================================================= -->
+
+<div
+  id="scannerCard"
+  class="card">
 
   <div class="camera-shell">
 
@@ -775,6 +820,10 @@ label {
 </div>
 
 
+<!-- ======================================================
+     MANUAL SEARCH
+======================================================= -->
+
 <div class="card">
 
   <div class="form-item">
@@ -799,6 +848,10 @@ label {
 
 </div>
 
+
+<!-- ======================================================
+     ITEM CARD
+======================================================= -->
 
 <div
   id="itemCard"
@@ -836,6 +889,7 @@ label {
 
     </div>
 
+
     <div class="stock-box">
 
       <div
@@ -849,6 +903,7 @@ label {
       </div>
 
     </div>
+
 
     <div class="stock-box">
 
@@ -921,7 +976,9 @@ label {
 </div>
 
 
-<!-- RECEIVE -->
+<!-- ======================================================
+     RECEIVE STOCK
+======================================================= -->
 
 <div
   id="receiveCard"
@@ -936,7 +993,10 @@ label {
     class="form-item">
   </div>
 
-  <label>Quantity *</label>
+
+  <label>
+    Quantity *
+  </label>
 
   <input
     id="receiveQty"
@@ -944,11 +1004,13 @@ label {
     min="0.01"
     step="0.01">
 
+
   <label>
     Batch / Lot
   </label>
 
   <input id="receiveBatch">
+
 
   <label>
     Expiry Date
@@ -958,11 +1020,19 @@ label {
     id="receiveExpiry"
     type="date">
 
+
   <label>
     Location *
   </label>
 
-  <select id="receiveLocation"></select>
+  <select id="receiveLocation">
+
+    <option value="">
+      Select location
+    </option>
+
+  </select>
+
 
   <label>
     Unit Cost
@@ -974,11 +1044,13 @@ label {
     min="0"
     step="0.01">
 
+
   <label>
     Reference No.
   </label>
 
   <input id="receiveReference">
+
 
   <label>
     Notes
@@ -989,6 +1061,7 @@ label {
     rows="3">
   </textarea>
 
+
   <button
     class="receive"
     onclick="submitReceive()">
@@ -996,6 +1069,7 @@ label {
     CONFIRM RECEIVE
 
   </button>
+
 
   <button
     class="secondary"
@@ -1008,7 +1082,9 @@ label {
 </div>
 
 
-<!-- ISSUE -->
+<!-- ======================================================
+     ISSUE STOCK
+======================================================= -->
 
 <div
   id="issueCard"
@@ -1023,10 +1099,12 @@ label {
     class="form-item">
   </div>
 
+
   <div
     id="fefoPreview"
     class="note fefo-note">
   </div>
+
 
   <label>
     Quantity *
@@ -1038,6 +1116,7 @@ label {
     min="0.01"
     step="0.01">
 
+
   <label>
     Reason
   </label>
@@ -1046,11 +1125,13 @@ label {
     id="issueReason"
     value="Issuance">
 
+
   <label>
     Reference No.
   </label>
 
   <input id="issueReference">
+
 
   <label>
     Notes
@@ -1061,6 +1142,7 @@ label {
     rows="3">
   </textarea>
 
+
   <button
     class="issue"
     onclick="submitIssue()">
@@ -1068,6 +1150,7 @@ label {
     CONFIRM ISSUE
 
   </button>
+
 
   <button
     class="secondary"
@@ -1080,7 +1163,9 @@ label {
 </div>
 
 
-<!-- QUARANTINE -->
+<!-- ======================================================
+     QUARANTINE
+======================================================= -->
 
 <div
   id="quarantineCard"
@@ -1095,15 +1180,26 @@ label {
     class="form-item">
   </div>
 
+
   <div class="note quarantine-note">
+
     Select the exact batch that will be quarantined.
+
   </div>
+
 
   <label>
     Batch *
   </label>
 
-  <select id="quarantineBatch"></select>
+  <select id="quarantineBatch">
+
+    <option value="">
+      Select batch
+    </option>
+
+  </select>
+
 
   <label>
     Quantity *
@@ -1115,6 +1211,7 @@ label {
     min="0.01"
     step="0.01">
 
+
   <label>
     Reason *
   </label>
@@ -1125,21 +1222,43 @@ label {
       Select reason
     </option>
 
-    <option>Expired</option>
-    <option>Damaged</option>
-    <option>Recalled</option>
-    <option>Suspected Defect</option>
-    <option>Temperature Excursion</option>
-    <option>For Verification</option>
-    <option>Others</option>
+    <option value="Expired">
+      Expired
+    </option>
+
+    <option value="Damaged">
+      Damaged
+    </option>
+
+    <option value="Recalled">
+      Recalled
+    </option>
+
+    <option value="Suspected Defect">
+      Suspected Defect
+    </option>
+
+    <option value="Temperature Excursion">
+      Temperature Excursion
+    </option>
+
+    <option value="For Verification">
+      For Verification
+    </option>
+
+    <option value="Others">
+      Others
+    </option>
 
   </select>
+
 
   <label>
     Reference No.
   </label>
 
   <input id="quarantineReference">
+
 
   <label>
     Notes
@@ -1150,6 +1269,7 @@ label {
     rows="3">
   </textarea>
 
+
   <button
     class="quarantine"
     onclick="submitQuarantine()">
@@ -1157,6 +1277,7 @@ label {
     CONFIRM QUARANTINE
 
   </button>
+
 
   <button
     class="secondary"
@@ -1169,7 +1290,9 @@ label {
 </div>
 
 
-<!-- TRANSFER -->
+<!-- ======================================================
+     TRANSFER
+======================================================= -->
 
 <div
   id="transferCard"
@@ -1184,11 +1307,15 @@ label {
     class="form-item">
   </div>
 
+
   <div class="note transfer-note">
+
     Stock will leave your Available inventory and remain
     In Transit until the destination PCC confirms receipt.
     FEFO will be used automatically.
+
   </div>
+
 
   <label>
     Destination PCC *
@@ -1202,6 +1329,7 @@ label {
 
   </select>
 
+
   <label>
     Quantity *
   </label>
@@ -1212,6 +1340,7 @@ label {
     min="0.01"
     step="0.01">
 
+
   <label>
     Reference No.
   </label>
@@ -1219,6 +1348,7 @@ label {
   <input
     id="transferReference"
     placeholder="DR / Transfer Reference">
+
 
   <label>
     Remarks
@@ -1229,6 +1359,7 @@ label {
     rows="3">
   </textarea>
 
+
   <button
     class="transfer"
     onclick="submitTransfer()">
@@ -1236,6 +1367,7 @@ label {
     CONFIRM TRANSFER
 
   </button>
+
 
   <button
     class="secondary"
@@ -1248,7 +1380,9 @@ label {
 </div>
 
 
-<!-- RECEIVE TRANSFER -->
+<!-- ======================================================
+     RECEIVE TRANSFER
+======================================================= -->
 
 <div
   id="receiveTransferCard"
@@ -1263,16 +1397,25 @@ label {
     class="form-item">
   </div>
 
+
   <div
     id="receiveTransferDetails"
     class="note transfer-note">
   </div>
 
+
   <label>
     Destination Location *
   </label>
 
-  <select id="transferReceiveLocation"></select>
+  <select id="transferReceiveLocation">
+
+    <option value="">
+      Select location
+    </option>
+
+  </select>
+
 
   <button
     class="incoming"
@@ -1281,6 +1424,7 @@ label {
     CONFIRM RECEIPT
 
   </button>
+
 
   <button
     class="secondary"
@@ -1299,6 +1443,7 @@ label {
 
 
 <script>
+
 
 const GOOGLE_CLIENT_ID =
   '717366343479-qjs60uj0gumr9m326phdtjp5kp0o6vrq.apps.googleusercontent.com';
@@ -1344,6 +1489,10 @@ window.addEventListener(
 );
 
 
+/* =========================================================
+   INITIALIZE
+========================================================= */
+
 function initialize() {
 
   if (sessionToken) {
@@ -1361,7 +1510,9 @@ function initialize() {
           google.accounts.id
         ) {
 
-          clearInterval(timer);
+          clearInterval(
+            timer
+          );
 
           initializeGoogleLogin();
 
@@ -1407,6 +1558,10 @@ function initializeGoogleLogin() {
 }
 
 
+/* =========================================================
+   LOGIN
+========================================================= */
+
 function handleGoogleCredential(
   response
 ) {
@@ -1417,11 +1572,18 @@ function handleGoogleCredential(
   ) {
 
     showMessageModal({
-      type: 'error',
-      title: 'Sign-in Failed',
+
+      type:
+        'error',
+
+      title:
+        'Sign-in Failed',
+
       message:
         'Google sign-in could not be completed.'
+
     });
+
 
     return;
 
@@ -1434,11 +1596,14 @@ function handleGoogleCredential(
 
 
   apiCall(
+
     'login',
+
     {
       credential:
         response.credential
     },
+
     function(result) {
 
       hideLoading();
@@ -1450,12 +1615,19 @@ function handleGoogleCredential(
       ) {
 
         showMessageModal({
-          type: 'error',
-          title: 'Access Denied',
+
+          type:
+            'error',
+
+          title:
+            'Access Denied',
+
           message:
             result?.message ||
             'Your account could not be authorized.'
+
         });
+
 
         return;
 
@@ -1479,6 +1651,7 @@ function handleGoogleCredential(
       openApp();
 
     }
+
   );
 
 }
@@ -1487,11 +1660,14 @@ function handleGoogleCredential(
 function validateStoredSession() {
 
   apiCall(
+
     'session',
+
     {
       session:
         sessionToken
     },
+
     function(result) {
 
       if (
@@ -1501,6 +1677,7 @@ function validateStoredSession() {
 
         currentUser =
           result.user;
+
 
         openApp();
 
@@ -1513,6 +1690,7 @@ function validateStoredSession() {
       }
 
     }
+
   );
 
 }
@@ -1563,7 +1741,7 @@ function openApp() {
         currentUser.pccId
       ) +
 
-      ' • ' +
+      '<br>• ' +
 
       escapeHtml(
         currentUser.email
@@ -1577,11 +1755,20 @@ function openApp() {
   loadPccs();
 
 
+  /*
+    Automatically check incoming
+    transfers after login.
+
+    Section stays hidden when zero.
+  */
+
   if (
     currentUser.permissions.receive
   ) {
 
-    loadIncomingTransfers();
+    loadIncomingTransfers(
+      false
+    );
 
   }
 
@@ -1594,6 +1781,10 @@ function openApp() {
 }
 
 
+/* =========================================================
+   PERMISSIONS
+========================================================= */
+
 function renderPermissions() {
 
   const p =
@@ -1604,20 +1795,36 @@ function renderPermissions() {
 
 
   if (p.receive) {
-    labels.push('RECEIVE');
+    labels.push(
+      'RECEIVE'
+    );
   }
+
 
   if (p.issue) {
-    labels.push('ISSUE');
-    labels.push('QUARANTINE');
+
+    labels.push(
+      'ISSUE'
+    );
+
+    labels.push(
+      'QUARANTINE'
+    );
+
   }
+
 
   if (p.transfer) {
-    labels.push('TRANSFER');
+    labels.push(
+      'TRANSFER'
+    );
   }
 
+
   if (p.count) {
-    labels.push('COUNT');
+    labels.push(
+      'COUNT'
+    );
   }
 
 
@@ -1629,9 +1836,15 @@ function renderPermissions() {
 
       labels.map(
         label =>
+
           '<span class="permission">' +
-          escapeHtml(label) +
+
+          escapeHtml(
+            label
+          ) +
+
           '</span>'
+
       )
       .join('');
 
@@ -1645,11 +1858,14 @@ function renderPermissions() {
 function loadLocations() {
 
   apiCall(
+
     'locations',
+
     {
       session:
         sessionToken
     },
+
     function(result) {
 
       if (
@@ -1674,6 +1890,7 @@ function loadLocations() {
       );
 
     }
+
   );
 
 }
@@ -1733,18 +1950,23 @@ function populateLocationSelect(
 function loadPccs() {
 
   apiCall(
+
     'pccs',
+
     {
       session:
         sessionToken
     },
+
     function(result) {
 
       if (
         !result ||
         result.success !== true
       ) {
+
         return;
+
       }
 
 
@@ -1787,6 +2009,7 @@ function loadPccs() {
       );
 
     }
+
   );
 
 }
@@ -1800,18 +2023,35 @@ function loadIncomingTransfers(
   scrollToSection = false
 ) {
 
+  if (
+    !currentUser ||
+    !currentUser.permissions.receive
+  ) {
+
+    hideIncomingSection();
+
+    return;
+
+  }
+
+
   apiCall(
+
     'incomingtransfers',
+
     {
       session:
         sessionToken
     },
+
     function(result) {
 
       if (
         !result ||
         result.success !== true
       ) {
+
+        hideIncomingSection();
 
         return;
 
@@ -1825,21 +2065,65 @@ function loadIncomingTransfers(
       renderIncomingTransfers();
 
 
-      if (scrollToSection) {
+      if (
+        scrollToSection &&
+        incomingTransfers.length
+      ) {
 
-        document
-          .getElementById(
-            'incomingSection'
-          )
-          .scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-          });
+        setTimeout(
+          function() {
+
+            document
+              .getElementById(
+                'incomingSection'
+              )
+              .scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+              });
+
+          },
+          100
+        );
 
       }
 
     }
+
   );
+
+}
+
+
+function hideIncomingSection() {
+
+  incomingTransfers = [];
+
+
+  const section =
+    document.getElementById(
+      'incomingSection'
+    );
+
+
+  section.classList.add(
+    'hidden'
+  );
+
+
+  document
+    .getElementById(
+      'incomingList'
+    )
+    .innerHTML = '';
+
+
+  document
+    .getElementById(
+      'incomingCount'
+    )
+    .textContent =
+      '0';
 
 }
 
@@ -1858,24 +2142,37 @@ function renderIncomingTransfers() {
     );
 
 
-  section.classList.remove(
-    'hidden'
-  );
+  const count =
+    incomingTransfers.length;
 
+
+  /*
+    IMPORTANT:
+    No transfer = hide entire section.
+  */
 
   if (
-    !incomingTransfers.length
+    count === 0
   ) {
 
-    list.innerHTML = `
-      <div class="note info">
-        No incoming transfers at this time.
-      </div>
-    `;
+    hideIncomingSection();
 
     return;
 
   }
+
+
+  document
+    .getElementById(
+      'incomingCount'
+    )
+    .textContent =
+      count;
+
+
+  section.classList.remove(
+    'hidden'
+  );
 
 
   let html = '';
@@ -1894,14 +2191,19 @@ function renderIncomingTransfers() {
         function(item) {
 
           itemText +=
+
             '<div>' +
+
             escapeHtml(
               item.itemName
             ) +
+
             ' — <b>' +
+
             escapeHtml(
               item.quantity
             ) +
+
             '</b></div>';
 
         }
@@ -1913,16 +2215,22 @@ function renderIncomingTransfers() {
         <div class="incoming-card">
 
           <div class="incoming-id">
+
             ${escapeHtml(
               transfer.transferId
             )}
+
           </div>
 
+
           <div style="margin-top:6px;">
+
             <span class="badge">
               IN TRANSIT
             </span>
+
           </div>
+
 
           <div class="incoming-meta">
 
@@ -1949,13 +2257,26 @@ function renderIncomingTransfers() {
               '-'
             )}
 
+            ${
+              transfer.remarks
+                ?
+                '<br>Remarks: ' +
+                escapeHtml(
+                  transfer.remarks
+                )
+                :
+                ''
+            }
+
           </div>
+
 
           <div class="incoming-batches">
 
             ${itemText}
 
           </div>
+
 
           <button
             class="incoming"
@@ -1991,11 +2312,14 @@ async function openScanner() {
     scannerRunning ||
     !sessionToken
   ) {
+
     return;
+
   }
 
 
-  scanLocked = false;
+  scanLocked =
+    false;
 
 
   try {
@@ -2039,9 +2363,19 @@ async function openScanner() {
 
 
           return (
-            label.includes('back') ||
-            label.includes('rear') ||
-            label.includes('environment')
+
+            label.includes(
+              'back'
+            ) ||
+
+            label.includes(
+              'rear'
+            ) ||
+
+            label.includes(
+              'environment'
+            )
+
           );
 
         }
@@ -2078,9 +2412,12 @@ async function openScanner() {
 
               if (value) {
 
-                scanLocked = true;
+                scanLocked =
+                  true;
+
 
                 stopScanner();
+
 
                 lookupInventory(
                   value
@@ -2098,16 +2435,46 @@ async function openScanner() {
     scannerRunning =
       true;
 
+
+    document
+      .getElementById(
+        'openButton'
+      )
+      .classList.add(
+        'hidden'
+      );
+
+
+    document
+      .getElementById(
+        'stopButton'
+      )
+      .classList.remove(
+        'hidden'
+      );
+
+
+    showStatus(
+      'Camera ready.',
+      'success'
+    );
+
   }
 
   catch (error) {
 
     showMessageModal({
-      type: 'error',
-      title: 'Camera Error',
+
+      type:
+        'error',
+
+      title:
+        'Camera Error',
+
       message:
         error.message ||
         String(error)
+
     });
 
   }
@@ -2127,11 +2494,16 @@ async function stopScanner() {
   catch (error) {}
 
 
-  controls = null;
+  controls =
+    null;
 
-  codeReader = null;
 
-  scannerRunning = false;
+  codeReader =
+    null;
+
+
+  scannerRunning =
+    false;
 
 
   const video =
@@ -2145,7 +2517,8 @@ async function stopScanner() {
     video.srcObject
   ) {
 
-    video.srcObject
+    video
+      .srcObject
       .getTracks()
       .forEach(
         track =>
@@ -2157,6 +2530,24 @@ async function stopScanner() {
       null;
 
   }
+
+
+  document
+    .getElementById(
+      'openButton'
+    )
+    .classList.remove(
+      'hidden'
+    );
+
+
+  document
+    .getElementById(
+      'stopButton'
+    )
+    .classList.add(
+      'hidden'
+    );
 
 }
 
@@ -2177,7 +2568,23 @@ function manualLookup() {
 
 
   if (!value) {
+
+    showMessageModal({
+
+      type:
+        'warning',
+
+      title:
+        'Enter Item Code',
+
+      message:
+        'Enter a Barcode or Item ID before searching.'
+
+    });
+
+
     return;
+
   }
 
 
@@ -2198,19 +2605,26 @@ function lookupInventory(
 
 
   apiCall(
+
     'lookup',
+
     {
+
       session:
         sessionToken,
 
       code:
         code
+
     },
+
     function(result) {
 
       hideLoading();
 
-      scanLocked = false;
+
+      scanLocked =
+        false;
 
 
       if (
@@ -2219,12 +2633,19 @@ function lookupInventory(
       ) {
 
         showMessageModal({
-          type: 'error',
-          title: 'Lookup Failed',
+
+          type:
+            'error',
+
+          title:
+            'Lookup Failed',
+
           message:
             result?.message ||
             'Inventory lookup failed.'
+
         });
+
 
         return;
 
@@ -2236,11 +2657,18 @@ function lookupInventory(
       ) {
 
         showMessageModal({
-          type: 'warning',
-          title: 'Item Not Found',
+
+          type:
+            'warning',
+
+          title:
+            'Item Not Found',
+
           message:
             'The scanned item was not found.'
+
         });
+
 
         return;
 
@@ -2256,6 +2684,7 @@ function lookupInventory(
       );
 
     }
+
   );
 
 }
@@ -2287,7 +2716,9 @@ function displayItem(
       'itemCode'
     )
     .textContent =
+
       item.itemId +
+
       (
         item.barcode
           ? ' • ' +
@@ -2311,15 +2742,21 @@ function displayItem(
     .innerHTML =
 
       'Category: <b>' +
+
       escapeHtml(
-        item.category || '-'
+        item.category ||
+        '-'
       ) +
+
       '</b><br>' +
 
       'UOM: <b>' +
+
       escapeHtml(
-        item.uom || '-'
+        item.uom ||
+        '-'
       ) +
+
       '</b>';
 
 
@@ -2367,9 +2804,14 @@ function displayItem(
       'issueButton'
     )
     .classList.toggle(
+
       'hidden',
+
       !currentUser.permissions.issue ||
-      inv.totalAvailable <= 0
+      Number(
+        inv.totalAvailable || 0
+      ) <= 0
+
     );
 
 
@@ -2378,9 +2820,14 @@ function displayItem(
       'quarantineButton'
     )
     .classList.toggle(
+
       'hidden',
+
       !currentUser.permissions.issue ||
-      inv.totalAvailable <= 0
+      Number(
+        inv.totalAvailable || 0
+      ) <= 0
+
     );
 
 
@@ -2389,20 +2836,37 @@ function displayItem(
       'transferButton'
     )
     .classList.toggle(
+
       'hidden',
+
       !currentUser.permissions.transfer ||
-      inv.totalAvailable <= 0
+      Number(
+        inv.totalAvailable || 0
+      ) <= 0
+
     );
 
 
-  document
-    .getElementById(
-      'itemCard'
-    )
-    .scrollIntoView({
-      behavior: 'smooth',
-      block: 'start'
-    });
+  setTimeout(
+    function() {
+
+      document
+        .getElementById(
+          'itemCard'
+        )
+        .scrollIntoView({
+
+          behavior:
+            'smooth',
+
+          block:
+            'start'
+
+        });
+
+    },
+    100
+  );
 
 }
 
@@ -2420,27 +2884,56 @@ function openReceive() {
     currentItemResult.item;
 
 
-  document.getElementById(
-    'receiveItemName'
-  ).textContent =
-    item.itemName +
-    ' • ' +
-    item.itemId;
+  document
+    .getElementById(
+      'receiveItemName'
+    )
+    .textContent =
+      item.itemName +
+      ' • ' +
+      item.itemId;
 
 
-  document.getElementById(
-    'receiveQty'
-  ).value = '';
+  document
+    .getElementById(
+      'receiveQty'
+    )
+    .value = '';
 
 
-  document.getElementById(
-    'receiveBatch'
-  ).value = '';
+  document
+    .getElementById(
+      'receiveBatch'
+    )
+    .value = '';
 
 
-  document.getElementById(
-    'receiveExpiry'
-  ).value = '';
+  document
+    .getElementById(
+      'receiveExpiry'
+    )
+    .value = '';
+
+
+  document
+    .getElementById(
+      'receiveUnitCost'
+    )
+    .value = '';
+
+
+  document
+    .getElementById(
+      'receiveReference'
+    )
+    .value = '';
+
+
+  document
+    .getElementById(
+      'receiveNotes'
+    )
+    .value = '';
 
 
   const card =
@@ -2454,21 +2947,35 @@ function openReceive() {
   );
 
 
-  card.scrollIntoView({
-    behavior: 'smooth',
-    block: 'start'
-  });
+  setTimeout(
+    function() {
+
+      card.scrollIntoView({
+
+        behavior:
+          'smooth',
+
+        block:
+          'start'
+
+      });
+
+    },
+    100
+  );
 
 }
 
 
 function closeReceive() {
 
-  document.getElementById(
-    'receiveCard'
-  ).classList.add(
-    'hidden'
-  );
+  document
+    .getElementById(
+      'receiveCard'
+    )
+    .classList.add(
+      'hidden'
+    );
 
 }
 
@@ -2481,52 +2988,118 @@ function submitReceive() {
 
   const quantity =
     Number(
-      document.getElementById(
-        'receiveQty'
-      ).value
+      document
+        .getElementById(
+          'receiveQty'
+        )
+        .value
     );
 
 
   const batchNo =
-    document.getElementById(
-      'receiveBatch'
-    ).value.trim();
+    document
+      .getElementById(
+        'receiveBatch'
+      )
+      .value
+      .trim();
 
 
   const expiryDate =
-    document.getElementById(
-      'receiveExpiry'
-    ).value;
+    document
+      .getElementById(
+        'receiveExpiry'
+      )
+      .value;
 
 
   const locationId =
-    document.getElementById(
-      'receiveLocation'
-    ).value;
+    document
+      .getElementById(
+        'receiveLocation'
+      )
+      .value;
 
 
   if (
     !quantity ||
     quantity <= 0
   ) {
+
+    showMessageModal({
+
+      type:
+        'warning',
+
+      title:
+        'Invalid Quantity',
+
+      message:
+        'Enter a valid quantity greater than zero.'
+
+    });
+
+
     return;
+
+  }
+
+
+  if (!locationId) {
+
+    showMessageModal({
+
+      type:
+        'warning',
+
+      title:
+        'Location Required',
+
+      message:
+        'Select a storage location.'
+
+    });
+
+
+    return;
+
   }
 
 
   showConfirmModal({
 
-    type: 'info',
+    type:
+      'info',
 
-    title: 'Confirm Stock Receipt',
+    title:
+      'Confirm Stock Receipt',
 
     message:
       'Review the transaction before posting.',
 
     summary: [
-      ['Item', item.itemName],
-      ['Quantity', quantity],
-      ['Batch', batchNo || 'No Batch'],
-      ['Location', locationId]
+
+      [
+        'Item',
+        item.itemName
+      ],
+
+      [
+        'Quantity',
+        quantity
+      ],
+
+      [
+        'Batch',
+        batchNo ||
+        'No Batch'
+      ],
+
+      [
+        'Location',
+        locationId
+      ]
+
     ],
 
     confirmText:
@@ -2544,7 +3117,9 @@ function submitReceive() {
 
 
         apiCall(
+
           'receive',
+
           {
 
             session:
@@ -2571,21 +3146,31 @@ function submitReceive() {
               locationId,
 
             unitCost:
-              document.getElementById(
-                'receiveUnitCost'
-              ).value || 0,
+              document
+                .getElementById(
+                  'receiveUnitCost'
+                )
+                .value ||
+              0,
 
             referenceNo:
-              document.getElementById(
-                'receiveReference'
-              ).value.trim(),
+              document
+                .getElementById(
+                  'receiveReference'
+                )
+                .value
+                .trim(),
 
             notes:
-              document.getElementById(
-                'receiveNotes'
-              ).value.trim()
+              document
+                .getElementById(
+                  'receiveNotes'
+                )
+                .value
+                .trim()
 
           },
+
           function(result) {
 
             hideLoading();
@@ -2597,12 +3182,19 @@ function submitReceive() {
             ) {
 
               showMessageModal({
-                type: 'error',
-                title: 'Receive Failed',
+
+                type:
+                  'error',
+
+                title:
+                  'Receive Failed',
+
                 message:
                   result?.message ||
                   'Transaction failed.'
+
               });
+
 
               return;
 
@@ -2613,23 +3205,31 @@ function submitReceive() {
 
 
             showSuccessAndRefresh(
+
               'Stock Received',
+
               item.itemId,
+
               [
+
                 [
                   'Quantity',
                   result.result
                     .quantityReceived
                 ],
+
                 [
                   'Transaction',
                   result.result
                     .transactionId
                 ]
+
               ]
+
             );
 
           }
+
         );
 
       }
@@ -2652,15 +3252,38 @@ function openIssue() {
     currentItemResult.item;
 
 
-  document.getElementById(
-    'issueItemName'
-  ).textContent =
-    item.itemName;
+  document
+    .getElementById(
+      'issueItemName'
+    )
+    .textContent =
+      item.itemName +
+      ' • ' +
+      item.itemId;
 
 
-  document.getElementById(
-    'issueQty'
-  ).value = '';
+  document
+    .getElementById(
+      'issueQty'
+    )
+    .value = '';
+
+
+  document
+    .getElementById(
+      'issueReference'
+    )
+    .value = '';
+
+
+  document
+    .getElementById(
+      'issueNotes'
+    )
+    .value = '';
+
+
+  renderFefoPreview();
 
 
   const card =
@@ -2674,21 +3297,114 @@ function openIssue() {
   );
 
 
-  card.scrollIntoView({
-    behavior: 'smooth',
-    block: 'start'
-  });
+  setTimeout(
+    function() {
+
+      card.scrollIntoView({
+
+        behavior:
+          'smooth',
+
+        block:
+          'start'
+
+      });
+
+    },
+    100
+  );
+
+}
+
+
+function renderFefoPreview() {
+
+  const batches =
+    (
+      currentItemResult
+        .inventory
+        .batches || []
+    )
+    .filter(
+      function(batch) {
+
+        return (
+          Number(
+            batch.qtyAvailable || 0
+          ) > 0
+        );
+
+      }
+    );
+
+
+  if (!batches.length) {
+
+    document
+      .getElementById(
+        'fefoPreview'
+      )
+      .innerHTML =
+        'No available stock.';
+
+
+    return;
+
+  }
+
+
+  const first =
+    batches[0];
+
+
+  document
+    .getElementById(
+      'fefoPreview'
+    )
+    .innerHTML =
+
+      '<b>FEFO:</b> Earliest-expiring batch will be used first.' +
+
+      '<br><br>' +
+
+      'First batch: <b>' +
+
+      escapeHtml(
+        first.batchNo ||
+        first.batchStockId
+      ) +
+
+      '</b><br>' +
+
+      'Expiry: ' +
+
+      escapeHtml(
+        first.expiryDate ||
+        'N/A'
+      ) +
+
+      '<br>' +
+
+      'Available: <b>' +
+
+      escapeHtml(
+        first.qtyAvailable
+      ) +
+
+      '</b>';
 
 }
 
 
 function closeIssue() {
 
-  document.getElementById(
-    'issueCard'
-  ).classList.add(
-    'hidden'
-  );
+  document
+    .getElementById(
+      'issueCard'
+    )
+    .classList.add(
+      'hidden'
+    );
 
 }
 
@@ -2701,16 +3417,81 @@ function submitIssue() {
 
   const quantity =
     Number(
-      document.getElementById(
-        'issueQty'
-      ).value
+      document
+        .getElementById(
+          'issueQty'
+        )
+        .value
+    );
+
+
+  const available =
+    Number(
+      currentItemResult
+        .inventory
+        .totalAvailable || 0
     );
 
 
   if (
+    !quantity ||
     quantity <= 0
   ) {
+
+    showMessageModal({
+
+      type:
+        'warning',
+
+      title:
+        'Invalid Quantity',
+
+      message:
+        'Enter a valid quantity greater than zero.'
+
+    });
+
+
     return;
+
+  }
+
+
+  if (
+    quantity >
+    available
+  ) {
+
+    showMessageModal({
+
+      type:
+        'warning',
+
+      title:
+        'Insufficient Stock',
+
+      message:
+        'Requested quantity exceeds available stock.',
+
+      summary: [
+
+        [
+          'Requested',
+          quantity
+        ],
+
+        [
+          'Available',
+          available
+        ]
+
+      ]
+
+    });
+
+
+    return;
+
   }
 
 
@@ -2722,17 +3503,27 @@ function submitIssue() {
 
   showConfirmModal({
 
-    type: 'warning',
+    type:
+      'warning',
 
     title:
       'Confirm Stock Issue',
 
     message:
-      'Inventory will be deducted using FEFO.',
+      'Inventory will be deducted automatically using FEFO.',
 
     summary: [
-      ['Item', item.itemName],
-      ['Quantity', quantity]
+
+      [
+        'Item',
+        item.itemName
+      ],
+
+      [
+        'Quantity',
+        quantity
+      ]
+
     ],
 
     batches:
@@ -2753,7 +3544,9 @@ function submitIssue() {
 
 
         apiCall(
+
           'issue',
+
           {
 
             session:
@@ -2771,21 +3564,31 @@ function submitIssue() {
               quantity,
 
             reason:
-              document.getElementById(
-                'issueReason'
-              ).value.trim(),
+              document
+                .getElementById(
+                  'issueReason'
+                )
+                .value
+                .trim(),
 
             referenceNo:
-              document.getElementById(
-                'issueReference'
-              ).value.trim(),
+              document
+                .getElementById(
+                  'issueReference'
+                )
+                .value
+                .trim(),
 
             notes:
-              document.getElementById(
-                'issueNotes'
-              ).value.trim()
+              document
+                .getElementById(
+                  'issueNotes'
+                )
+                .value
+                .trim()
 
           },
+
           function(result) {
 
             hideLoading();
@@ -2797,12 +3600,19 @@ function submitIssue() {
             ) {
 
               showMessageModal({
-                type: 'error',
-                title: 'Issue Failed',
+
+                type:
+                  'error',
+
+                title:
+                  'Issue Failed',
+
                 message:
                   result?.message ||
                   'Transaction failed.'
+
               });
+
 
               return;
 
@@ -2813,23 +3623,31 @@ function submitIssue() {
 
 
             showSuccessAndRefresh(
+
               'Stock Issued',
+
               item.itemId,
+
               [
+
                 [
                   'Total Issued',
                   result.result
                     .totalIssued
                 ],
+
                 [
                   'Available After',
                   result.result
                     .availableAfter
                 ]
+
               ]
+
             );
 
           }
+
         );
 
       }
@@ -2852,10 +3670,14 @@ function openQuarantine() {
     currentItemResult.item;
 
 
-  document.getElementById(
-    'quarantineItemName'
-  ).textContent =
-    item.itemName;
+  document
+    .getElementById(
+      'quarantineItemName'
+    )
+    .textContent =
+      item.itemName +
+      ' • ' +
+      item.itemId;
 
 
   const select =
@@ -2872,10 +3694,15 @@ function openQuarantine() {
     .inventory
     .batches
     .filter(
-      batch =>
-        Number(
-          batch.qtyAvailable || 0
-        ) > 0
+      function(batch) {
+
+        return (
+          Number(
+            batch.qtyAvailable || 0
+          ) > 0
+        );
+
+      }
     )
     .forEach(
       function(batch) {
@@ -2891,11 +3718,14 @@ function openQuarantine() {
 
 
         option.textContent =
+
           (
             batch.batchNo ||
             batch.batchStockId
           ) +
+
           ' • Available ' +
+
           batch.qtyAvailable;
 
 
@@ -2905,6 +3735,34 @@ function openQuarantine() {
 
       }
     );
+
+
+  document
+    .getElementById(
+      'quarantineQty'
+    )
+    .value = '';
+
+
+  document
+    .getElementById(
+      'quarantineReason'
+    )
+    .value = '';
+
+
+  document
+    .getElementById(
+      'quarantineReference'
+    )
+    .value = '';
+
+
+  document
+    .getElementById(
+      'quarantineNotes'
+    )
+    .value = '';
 
 
   const card =
@@ -2918,21 +3776,35 @@ function openQuarantine() {
   );
 
 
-  card.scrollIntoView({
-    behavior: 'smooth',
-    block: 'start'
-  });
+  setTimeout(
+    function() {
+
+      card.scrollIntoView({
+
+        behavior:
+          'smooth',
+
+        block:
+          'start'
+
+      });
+
+    },
+    100
+  );
 
 }
 
 
 function closeQuarantine() {
 
-  document.getElementById(
-    'quarantineCard'
-  ).classList.add(
-    'hidden'
-  );
+  document
+    .getElementById(
+      'quarantineCard'
+    )
+    .classList.add(
+      'hidden'
+    );
 
 }
 
@@ -2944,28 +3816,101 @@ function submitQuarantine() {
 
 
   const batchStockId =
-    document.getElementById(
-      'quarantineBatch'
-    ).value;
+    document
+      .getElementById(
+        'quarantineBatch'
+      )
+      .value;
 
 
   const quantity =
     Number(
-      document.getElementById(
-        'quarantineQty'
-      ).value
+      document
+        .getElementById(
+          'quarantineQty'
+        )
+        .value
     );
 
 
   const reason =
-    document.getElementById(
-      'quarantineReason'
-    ).value;
+    document
+      .getElementById(
+        'quarantineReason'
+      )
+      .value;
+
+
+  if (!batchStockId) {
+
+    showMessageModal({
+
+      type:
+        'warning',
+
+      title:
+        'Batch Required',
+
+      message:
+        'Select the exact batch to quarantine.'
+
+    });
+
+
+    return;
+
+  }
+
+
+  if (
+    !quantity ||
+    quantity <= 0
+  ) {
+
+    showMessageModal({
+
+      type:
+        'warning',
+
+      title:
+        'Invalid Quantity',
+
+      message:
+        'Enter a valid quantity greater than zero.'
+
+    });
+
+
+    return;
+
+  }
+
+
+  if (!reason) {
+
+    showMessageModal({
+
+      type:
+        'warning',
+
+      title:
+        'Reason Required',
+
+      message:
+        'Select a quarantine reason.'
+
+    });
+
+
+    return;
+
+  }
 
 
   showConfirmModal({
 
-    type: 'warning',
+    type:
+      'warning',
 
     title:
       'Confirm Quarantine',
@@ -2974,9 +3919,22 @@ function submitQuarantine() {
       'Selected stock will be removed from Available inventory.',
 
     summary: [
-      ['Item', item.itemName],
-      ['Quantity', quantity],
-      ['Reason', reason]
+
+      [
+        'Item',
+        item.itemName
+      ],
+
+      [
+        'Quantity',
+        quantity
+      ],
+
+      [
+        'Reason',
+        reason
+      ]
+
     ],
 
     confirmText:
@@ -2994,7 +3952,9 @@ function submitQuarantine() {
 
 
         apiCall(
+
           'quarantine',
+
           {
 
             session:
@@ -3015,16 +3975,23 @@ function submitQuarantine() {
               reason,
 
             referenceNo:
-              document.getElementById(
-                'quarantineReference'
-              ).value.trim(),
+              document
+                .getElementById(
+                  'quarantineReference'
+                )
+                .value
+                .trim(),
 
             notes:
-              document.getElementById(
-                'quarantineNotes'
-              ).value.trim()
+              document
+                .getElementById(
+                  'quarantineNotes'
+                )
+                .value
+                .trim()
 
           },
+
           function(result) {
 
             hideLoading();
@@ -3036,12 +4003,19 @@ function submitQuarantine() {
             ) {
 
               showMessageModal({
-                type: 'error',
-                title: 'Quarantine Failed',
+
+                type:
+                  'error',
+
+                title:
+                  'Quarantine Failed',
+
                 message:
                   result?.message ||
                   'Transaction failed.'
+
               });
+
 
               return;
 
@@ -3052,23 +4026,31 @@ function submitQuarantine() {
 
 
             showSuccessAndRefresh(
+
               'Stock Quarantined',
+
               item.itemId,
+
               [
+
                 [
                   'Quantity',
                   result.result
                     .quantityQuarantined
                 ],
+
                 [
                   'Quarantine After',
                   result.result
                     .quarantinedAfter
                 ]
+
               ]
+
             );
 
           }
+
         );
 
       }
@@ -3091,27 +4073,42 @@ function openTransfer() {
     currentItemResult.item;
 
 
-  document.getElementById(
-    'transferItemName'
-  ).textContent =
-    item.itemName +
-    ' • ' +
-    item.itemId;
+  document
+    .getElementById(
+      'transferItemName'
+    )
+    .textContent =
+      item.itemName +
+      ' • ' +
+      item.itemId;
 
 
-  document.getElementById(
-    'transferQty'
-  ).value = '';
+  document
+    .getElementById(
+      'transferPcc'
+    )
+    .value = '';
 
 
-  document.getElementById(
-    'transferReference'
-  ).value = '';
+  document
+    .getElementById(
+      'transferQty'
+    )
+    .value = '';
 
 
-  document.getElementById(
-    'transferRemarks'
-  ).value = '';
+  document
+    .getElementById(
+      'transferReference'
+    )
+    .value = '';
+
+
+  document
+    .getElementById(
+      'transferRemarks'
+    )
+    .value = '';
 
 
   const card =
@@ -3125,21 +4122,35 @@ function openTransfer() {
   );
 
 
-  card.scrollIntoView({
-    behavior: 'smooth',
-    block: 'start'
-  });
+  setTimeout(
+    function() {
+
+      card.scrollIntoView({
+
+        behavior:
+          'smooth',
+
+        block:
+          'start'
+
+      });
+
+    },
+    100
+  );
 
 }
 
 
 function closeTransfer() {
 
-  document.getElementById(
-    'transferCard'
-  ).classList.add(
-    'hidden'
-  );
+  document
+    .getElementById(
+      'transferCard'
+    )
+    .classList.add(
+      'hidden'
+    );
 
 }
 
@@ -3151,27 +4162,46 @@ function submitTransfer() {
 
 
   const toPccId =
-    document.getElementById(
-      'transferPcc'
-    ).value;
+    document
+      .getElementById(
+        'transferPcc'
+      )
+      .value;
 
 
   const quantity =
     Number(
-      document.getElementById(
-        'transferQty'
-      ).value
+      document
+        .getElementById(
+          'transferQty'
+        )
+        .value
+    );
+
+
+  const available =
+    Number(
+      currentItemResult
+        .inventory
+        .totalAvailable || 0
     );
 
 
   if (!toPccId) {
 
     showMessageModal({
-      type: 'warning',
-      title: 'Destination Required',
+
+      type:
+        'warning',
+
+      title:
+        'Destination Required',
+
       message:
         'Select the PCC that will receive this stock.'
+
     });
+
 
     return;
 
@@ -3183,6 +4213,58 @@ function submitTransfer() {
     quantity <= 0
   ) {
 
+    showMessageModal({
+
+      type:
+        'warning',
+
+      title:
+        'Invalid Quantity',
+
+      message:
+        'Enter a valid transfer quantity.'
+
+    });
+
+
+    return;
+
+  }
+
+
+  if (
+    quantity >
+    available
+  ) {
+
+    showMessageModal({
+
+      type:
+        'warning',
+
+      title:
+        'Insufficient Stock',
+
+      message:
+        'Transfer quantity exceeds available inventory.',
+
+      summary: [
+
+        [
+          'Requested',
+          quantity
+        ],
+
+        [
+          'Available',
+          available
+        ]
+
+      ]
+
+    });
+
+
     return;
 
   }
@@ -3190,9 +4272,14 @@ function submitTransfer() {
 
   const destination =
     pccList.find(
-      pcc =>
-        pcc.pccId ===
-        toPccId
+      function(pcc) {
+
+        return (
+          pcc.pccId ===
+          toPccId
+        );
+
+      }
     );
 
 
@@ -3204,7 +4291,8 @@ function submitTransfer() {
 
   showConfirmModal({
 
-    type: 'info',
+    type:
+      'info',
 
     title:
       'Confirm Stock Transfer',
@@ -3213,14 +4301,24 @@ function submitTransfer() {
       'Stock will move to In Transit until the destination PCC confirms receipt.',
 
     summary: [
-      ['Item', item.itemName],
-      ['Quantity', quantity],
+
+      [
+        'Item',
+        item.itemName
+      ],
+
+      [
+        'Quantity',
+        quantity
+      ],
+
       [
         'Destination',
         destination
           ? destination.pccName
           : toPccId
       ]
+
     ],
 
     batches:
@@ -3241,7 +4339,9 @@ function submitTransfer() {
 
 
         apiCall(
+
           'transfer',
+
           {
 
             session:
@@ -3262,16 +4362,23 @@ function submitTransfer() {
               toPccId,
 
             referenceNo:
-              document.getElementById(
-                'transferReference'
-              ).value.trim(),
+              document
+                .getElementById(
+                  'transferReference'
+                )
+                .value
+                .trim(),
 
             remarks:
-              document.getElementById(
-                'transferRemarks'
-              ).value.trim()
+              document
+                .getElementById(
+                  'transferRemarks'
+                )
+                .value
+                .trim()
 
           },
+
           function(result) {
 
             hideLoading();
@@ -3283,12 +4390,19 @@ function submitTransfer() {
             ) {
 
               showMessageModal({
-                type: 'error',
-                title: 'Transfer Failed',
+
+                type:
+                  'error',
+
+                title:
+                  'Transfer Failed',
+
                 message:
                   result?.message ||
                   'Transfer could not be created.'
+
               });
+
 
               return;
 
@@ -3300,7 +4414,8 @@ function submitTransfer() {
 
             showMessageModal({
 
-              type: 'success',
+              type:
+                'success',
 
               title:
                 'Transfer Dispatched',
@@ -3351,6 +4466,7 @@ function submitTransfer() {
             });
 
           }
+
         );
 
       }
@@ -3361,7 +4477,7 @@ function submitTransfer() {
 
 
 /* =========================================================
-   RECEIVE TRANSFER UI
+   RECEIVE TRANSFER
 ========================================================= */
 
 function openReceiveTransfer(
@@ -3370,15 +4486,36 @@ function openReceiveTransfer(
 
   selectedIncomingTransfer =
     incomingTransfers.find(
-      transfer =>
-        transfer.transferId ===
-        transferId
+      function(transfer) {
+
+        return (
+          transfer.transferId ===
+          transferId
+        );
+
+      }
     );
 
 
   if (
     !selectedIncomingTransfer
   ) {
+
+    showMessageModal({
+
+      type:
+        'error',
+
+      title:
+        'Transfer Not Found',
+
+      message:
+        'The selected incoming transfer is no longer available.'
+
+    });
+
+
+    loadIncomingTransfers();
 
     return;
 
@@ -3388,14 +4525,24 @@ function openReceiveTransfer(
   closeAllActionCards();
 
 
-  document.getElementById(
-    'receiveTransferTitle'
-  ).textContent =
-    selectedIncomingTransfer
-      .transferId;
+  document
+    .getElementById(
+      'receiveTransferTitle'
+    )
+    .textContent =
+      selectedIncomingTransfer
+        .transferId;
 
 
-  let allocationHtml = '';
+  document
+    .getElementById(
+      'transferReceiveLocation'
+    )
+    .value = '';
+
+
+  let allocationHtml =
+    '';
 
 
   (
@@ -3407,21 +4554,25 @@ function openReceiveTransfer(
 
       allocationHtml +=
 
-        '<div>' +
+        '<div style="margin-top:6px;">' +
 
         '<b>' +
+
         escapeHtml(
           allocation.itemId
         ) +
+
         '</b>' +
 
         ' • Batch ' +
+
         escapeHtml(
           allocation.batchNo ||
           allocation.batchStockId
         ) +
 
         ' • Qty ' +
+
         escapeHtml(
           allocation.quantity
         ) +
@@ -3432,27 +4583,32 @@ function openReceiveTransfer(
   );
 
 
-  document.getElementById(
-    'receiveTransferDetails'
-  ).innerHTML =
+  document
+    .getElementById(
+      'receiveTransferDetails'
+    )
+    .innerHTML =
 
-    'From: <b>' +
-    escapeHtml(
-      selectedIncomingTransfer
-        .fromPccName
-    ) +
-    '</b><br>' +
+      'From: <b>' +
 
-    'Reference: ' +
-    escapeHtml(
-      selectedIncomingTransfer
-        .referenceNo ||
-      '-'
-    ) +
+      escapeHtml(
+        selectedIncomingTransfer
+          .fromPccName
+      ) +
 
-    '<br><br>' +
+      '</b><br>' +
 
-    allocationHtml;
+      'Reference: ' +
+
+      escapeHtml(
+        selectedIncomingTransfer
+          .referenceNo ||
+        '-'
+      ) +
+
+      '<br><br>' +
+
+      allocationHtml;
 
 
   const card =
@@ -3466,21 +4622,35 @@ function openReceiveTransfer(
   );
 
 
-  card.scrollIntoView({
-    behavior: 'smooth',
-    block: 'start'
-  });
+  setTimeout(
+    function() {
+
+      card.scrollIntoView({
+
+        behavior:
+          'smooth',
+
+        block:
+          'start'
+
+      });
+
+    },
+    100
+  );
 
 }
 
 
 function closeReceiveTransfer() {
 
-  document.getElementById(
-    'receiveTransferCard'
-  ).classList.add(
-    'hidden'
-  );
+  document
+    .getElementById(
+      'receiveTransferCard'
+    )
+    .classList.add(
+      'hidden'
+    );
 
 
   selectedIncomingTransfer =
@@ -3494,58 +4664,82 @@ function submitReceiveTransfer() {
   if (
     !selectedIncomingTransfer
   ) {
+
     return;
+
   }
 
 
   const locationId =
-    document.getElementById(
-      'transferReceiveLocation'
-    ).value;
+    document
+      .getElementById(
+        'transferReceiveLocation'
+      )
+      .value;
 
 
   if (!locationId) {
 
     showMessageModal({
-      type: 'warning',
-      title: 'Location Required',
+
+      type:
+        'warning',
+
+      title:
+        'Location Required',
+
       message:
         'Select where the transferred stock will be stored.'
+
     });
+
 
     return;
 
   }
 
 
+  const transferId =
+    selectedIncomingTransfer
+      .transferId;
+
+
+  const fromPccName =
+    selectedIncomingTransfer
+      .fromPccName;
+
+
+  const totalQuantity =
+    selectedIncomingTransfer
+      .totalQuantity;
+
+
   showConfirmModal({
 
-    type: 'info',
+    type:
+      'info',
 
     title:
       'Confirm Transfer Receipt',
 
     message:
-      'Once confirmed, stock will become Available at your PCC.',
+      'Once confirmed, the transferred stock will become Available at your PCC.',
 
     summary: [
 
       [
         'Transfer ID',
-        selectedIncomingTransfer
-          .transferId
+        transferId
       ],
 
       [
         'From',
-        selectedIncomingTransfer
-          .fromPccName
+        fromPccName
       ],
 
       [
         'Total Quantity',
-        selectedIncomingTransfer
-          .totalQuantity
+        totalQuantity
       ],
 
       [
@@ -3564,18 +4758,15 @@ function submitReceiveTransfer() {
     onConfirm:
       function() {
 
-        const transferId =
-          selectedIncomingTransfer
-            .transferId;
-
-
         showLoading(
           'Receiving transfer...'
         );
 
 
         apiCall(
+
           'receivetransfer',
+
           {
 
             session:
@@ -3593,6 +4784,7 @@ function submitReceiveTransfer() {
               locationId
 
           },
+
           function(result) {
 
             hideLoading();
@@ -3604,12 +4796,19 @@ function submitReceiveTransfer() {
             ) {
 
               showMessageModal({
-                type: 'error',
-                title: 'Receipt Failed',
+
+                type:
+                  'error',
+
+                title:
+                  'Receipt Failed',
+
                 message:
                   result?.message ||
                   'Transfer receipt failed.'
+
               });
+
 
               return;
 
@@ -3619,9 +4818,21 @@ function submitReceiveTransfer() {
             closeReceiveTransfer();
 
 
+            /*
+              Immediately refresh incoming transfers.
+              If this was the last transfer,
+              the section disappears.
+            */
+
+            loadIncomingTransfers(
+              false
+            );
+
+
             showMessageModal({
 
-              type: 'success',
+              type:
+                'success',
 
               title:
                 'Transfer Received',
@@ -3650,18 +4861,12 @@ function submitReceiveTransfer() {
               ],
 
               primaryText:
-                'DONE',
-
-              onClose:
-                function() {
-
-                  loadIncomingTransfers();
-
-                }
+                'DONE'
 
             });
 
           }
+
         );
 
       }
@@ -3691,8 +4896,15 @@ function renderBatches(
   ) {
 
     container.innerHTML =
-      '<div class="batch-heading">BATCH INVENTORY</div>' +
-      '<div class="batch">No inventory batches.</div>';
+
+      '<div class="batch-heading">' +
+      'BATCH INVENTORY' +
+      '</div>' +
+
+      '<div class="batch">' +
+      'No inventory batches.' +
+      '</div>';
+
 
     return;
 
@@ -3700,7 +4912,10 @@ function renderBatches(
 
 
   let html =
-    '<div class="batch-heading">BATCH INVENTORY • FEFO</div>';
+
+    '<div class="batch-heading">' +
+    'BATCH INVENTORY • FEFO' +
+    '</div>';
 
 
   batches.forEach(
@@ -3729,17 +4944,23 @@ function renderBatches(
 
           Available:
           <b>
-            ${batch.qtyAvailable}
+            ${escapeHtml(
+              batch.qtyAvailable
+            )}
           </b>
 
           • In Transit:
           <b>
-            ${batch.qtyInTransit}
+            ${escapeHtml(
+              batch.qtyInTransit
+            )}
           </b>
 
           • Quarantine:
           <b>
-            ${batch.qtyQuarantined}
+            ${escapeHtml(
+              batch.qtyQuarantined
+            )}
           </b>
 
           <br>
@@ -3747,6 +4968,14 @@ function renderBatches(
           Status:
           ${escapeHtml(
             batch.status ||
+            '-'
+          )}
+
+          <br>
+
+          Location:
+          ${escapeHtml(
+            batch.locationId ||
             '-'
           )}
 
@@ -3772,7 +5001,8 @@ function calculateFefoPreview(
     quantity;
 
 
-  const allocations = [];
+  const allocations =
+    [];
 
 
   const batches =
@@ -3782,10 +5012,15 @@ function calculateFefoPreview(
         .batches || []
     )
     .filter(
-      batch =>
-        Number(
-          batch.qtyAvailable || 0
-        ) > 0
+      function(batch) {
+
+        return (
+          Number(
+            batch.qtyAvailable || 0
+          ) > 0
+        );
+
+      }
     );
 
 
@@ -3797,14 +5032,21 @@ function calculateFefoPreview(
     if (
       remaining <= 0
     ) {
+
       break;
+
     }
 
 
     const qty =
       Math.min(
-        batch.qtyAvailable,
+
+        Number(
+          batch.qtyAvailable || 0
+        ),
+
         remaining
+
       );
 
 
@@ -3838,20 +5080,24 @@ function calculateFefoPreview(
 function closeAllActionCards() {
 
   [
+
     'receiveCard',
     'issueCard',
     'quarantineCard',
     'transferCard',
     'receiveTransferCard'
+
   ]
   .forEach(
     function(id) {
 
-      document.getElementById(
-        id
-      ).classList.add(
-        'hidden'
-      );
+      document
+        .getElementById(
+          id
+        )
+        .classList.add(
+          'hidden'
+        );
 
     }
   );
@@ -3864,28 +5110,58 @@ function scanAnother() {
   closeAllActionCards();
 
 
-  document.getElementById(
-    'itemCard'
-  ).classList.add(
-    'hidden'
+  document
+    .getElementById(
+      'itemCard'
+    )
+    .classList.add(
+      'hidden'
+    );
+
+
+  document
+    .getElementById(
+      'manualCode'
+    )
+    .value = '';
+
+
+  currentItemResult =
+    null;
+
+
+  scanLocked =
+    false;
+
+
+  const scanner =
+    document.getElementById(
+      'scannerCard'
+    );
+
+
+  setTimeout(
+    function() {
+
+      scanner.scrollIntoView({
+
+        behavior:
+          'smooth',
+
+        block:
+          'start'
+
+      });
+
+    },
+    100
   );
-
-
-  currentItemResult = null;
-
-  scanLocked = false;
-
-
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth'
-  });
 
 }
 
 
 /* =========================================================
-   MODAL
+   CUSTOM MODAL
 ========================================================= */
 
 function modalIconData(
@@ -3897,9 +5173,13 @@ function modalIconData(
   ) {
 
     return {
-      icon: '✓',
+
+      icon:
+        '✓',
+
       className:
         'modal-icon modal-icon-success'
+
     };
 
   }
@@ -3910,9 +5190,13 @@ function modalIconData(
   ) {
 
     return {
-      icon: '!',
+
+      icon:
+        '!',
+
       className:
         'modal-icon modal-icon-warning'
+
     };
 
   }
@@ -3923,18 +5207,26 @@ function modalIconData(
   ) {
 
     return {
-      icon: '×',
+
+      icon:
+        '×',
+
       className:
         'modal-icon modal-icon-error'
+
     };
 
   }
 
 
   return {
-    icon: 'i',
+
+    icon:
+      'i',
+
     className:
       'modal-icon modal-icon-info'
+
   };
 
 }
@@ -3950,41 +5242,58 @@ function openModalBase(
     );
 
 
-  document.getElementById(
-    'modalIcon'
-  ).className =
+  const icon =
+    document.getElementById(
+      'modalIcon'
+    );
+
+
+  icon.className =
     data.className;
 
 
-  document.getElementById(
-    'modalIcon'
-  ).textContent =
+  icon.textContent =
     data.icon;
 
 
-  document.getElementById(
-    'modalTitle'
-  ).textContent =
-    options.title || '';
+  document
+    .getElementById(
+      'modalTitle'
+    )
+    .textContent =
+      options.title ||
+      '';
 
 
-  document.getElementById(
-    'modalMessage'
-  ).textContent =
-    options.message || '';
+  document
+    .getElementById(
+      'modalMessage'
+    )
+    .textContent =
+      options.message ||
+      '';
 
 
   renderModalSummary(
+
     options.summary,
+
     options.batches
+
   );
 
 
-  document.getElementById(
-    'customModal'
-  ).classList.remove(
-    'hidden'
-  );
+  document
+    .getElementById(
+      'customModal'
+    )
+    .classList.remove(
+      'hidden'
+    );
+
+
+  document.body.style.overflow =
+    'hidden';
 
 }
 
@@ -4000,7 +5309,8 @@ function renderModalSummary(
     );
 
 
-  let html = '';
+  let html =
+    '';
 
 
   (
@@ -4014,11 +5324,15 @@ function renderModalSummary(
         <div class="modal-summary-row">
 
           <div class="modal-summary-label">
-            ${escapeHtml(row[0])}
+            ${escapeHtml(
+              row[0]
+            )}
           </div>
 
           <div class="modal-summary-value">
-            ${escapeHtml(row[1])}
+            ${escapeHtml(
+              row[1]
+            )}
           </div>
 
         </div>
@@ -4092,9 +5406,17 @@ function showConfirmModal(
     options.onConfirm;
 
 
-  document.getElementById(
-    'modalActions'
-  ).innerHTML = `
+  const actions =
+    document.getElementById(
+      'modalActions'
+    );
+
+
+  actions.className =
+    'modal-actions';
+
+
+  actions.innerHTML = `
 
     <button
       class="secondary"
@@ -4158,9 +5480,17 @@ function showMessageModal(
     null;
 
 
-  document.getElementById(
-    'modalActions'
-  ).innerHTML = `
+  const actions =
+    document.getElementById(
+      'modalActions'
+    );
+
+
+  actions.className =
+    'modal-actions single';
+
+
+  actions.innerHTML = `
 
     <button
       class="primary"
@@ -4186,7 +5516,8 @@ function showSuccessAndRefresh(
 
   showMessageModal({
 
-    type: 'success',
+    type:
+      'success',
 
     title:
       title,
@@ -4234,11 +5565,17 @@ function runModalClose() {
 
 function closeCustomModal() {
 
-  document.getElementById(
-    'customModal'
-  ).classList.add(
-    'hidden'
-  );
+  document
+    .getElementById(
+      'customModal'
+    )
+    .classList.add(
+      'hidden'
+    );
+
+
+  document.body.style.overflow =
+    '';
 
 
   modalConfirmCallback =
@@ -4253,18 +5590,85 @@ function closeCustomModal() {
 
 function logout() {
 
-  clearSession();
+  showConfirmModal({
 
-  location.reload();
+    type:
+      'warning',
+
+    title:
+      'Log Out?',
+
+    message:
+      'You will need to sign in again to access the inventory scanner.',
+
+    confirmText:
+      'LOG OUT',
+
+    confirmClass:
+      'danger',
+
+    onConfirm:
+      function() {
+
+        stopScanner();
+
+
+        apiCall(
+
+          'logout',
+
+          {
+            session:
+              sessionToken
+          },
+
+          function() {}
+
+        );
+
+
+        try {
+
+          google.accounts.id
+            .disableAutoSelect();
+
+        }
+        catch (error) {}
+
+
+        clearSession();
+
+
+        location.reload();
+
+      }
+
+  });
 
 }
 
 
 function clearSession() {
 
-  sessionToken = '';
+  sessionToken =
+    '';
 
-  currentUser = null;
+
+  currentUser =
+    null;
+
+
+  currentItemResult =
+    null;
+
+
+  incomingTransfers =
+    [];
+
+
+  selectedIncomingTransfer =
+    null;
+
 
   localStorage.removeItem(
     'mhsi_ims_session'
@@ -4274,7 +5678,7 @@ function clearSession() {
 
 
 /* =========================================================
-   JSONP
+   JSONP API
 ========================================================= */
 
 function apiCall(
@@ -4284,9 +5688,13 @@ function apiCall(
 ) {
 
   const callbackName =
+
     'ims_' +
+
     Date.now() +
+
     '_' +
+
     Math.floor(
       Math.random() *
       100000
@@ -4299,7 +5707,8 @@ function apiCall(
     );
 
 
-  let completed = false;
+  let completed =
+    false;
 
 
   const timeout =
@@ -4311,13 +5720,20 @@ function apiCall(
         }
 
 
-        completed = true;
+        completed =
+          true;
+
 
         cleanup();
 
+
+        hideLoading();
+
+
         callback({
 
-          success: false,
+          success:
+            false,
 
           message:
             'IMS API timed out.'
@@ -4350,7 +5766,8 @@ function apiCall(
       script.parentNode
     ) {
 
-      script.parentNode
+      script
+        .parentNode
         .removeChild(
           script
         );
@@ -4370,15 +5787,18 @@ function apiCall(
       }
 
 
-      completed = true;
+      completed =
+        true;
+
 
       cleanup();
+
 
       callback(
         result
       );
 
-  };
+    };
 
 
   const query =
@@ -4429,9 +5849,43 @@ function apiCall(
 
 
   script.src =
+
     API_URL +
+
     '?' +
+
     query.toString();
+
+
+  script.onerror =
+    function() {
+
+      if (completed) {
+        return;
+      }
+
+
+      completed =
+        true;
+
+
+      cleanup();
+
+
+      hideLoading();
+
+
+      callback({
+
+        success:
+          false,
+
+        message:
+          'Unable to reach IMS API.'
+
+      });
+
+    };
 
 
   document.body
@@ -4443,19 +5897,41 @@ function apiCall(
 
 
 /* =========================================================
-   GENERAL HELPERS
+   HELPERS
 ========================================================= */
 
 function generateRequestId(
   prefix
 ) {
 
+  if (
+    window.crypto &&
+    crypto.randomUUID
+  ) {
+
+    return (
+
+      prefix +
+
+      '-' +
+
+      crypto.randomUUID()
+
+    );
+
+  }
+
+
   return (
 
     prefix +
+
     '-' +
+
     Date.now() +
+
     '-' +
+
     Math.random()
       .toString(36)
       .slice(2)
@@ -4469,28 +5945,35 @@ function showLoading(
   message
 ) {
 
-  document.getElementById(
-    'loadingText'
-  ).textContent =
-    message;
+  document
+    .getElementById(
+      'loadingText'
+    )
+    .textContent =
+      message ||
+      'Loading...';
 
 
-  document.getElementById(
-    'loading'
-  ).classList.remove(
-    'hidden'
-  );
+  document
+    .getElementById(
+      'loading'
+    )
+    .classList.remove(
+      'hidden'
+    );
 
 }
 
 
 function hideLoading() {
 
-  document.getElementById(
-    'loading'
-  ).classList.add(
-    'hidden'
-  );
+  document
+    .getElementById(
+      'loading'
+    )
+    .classList.add(
+      'hidden'
+    );
 
 }
 
@@ -4508,7 +5991,10 @@ function showStatus(
 
   box.className =
     'status ' +
-    type;
+    (
+      type ||
+      'info'
+    );
 
 
   box.textContent =
@@ -4524,11 +6010,26 @@ function escapeHtml(
   return String(
     value ?? ''
   )
-  .replace(/&/g, '&amp;')
-  .replace(/</g, '&lt;')
-  .replace(/>/g, '&gt;')
-  .replace(/"/g, '&quot;')
-  .replace(/'/g, '&#039;');
+  .replace(
+    /&/g,
+    '&amp;'
+  )
+  .replace(
+    /</g,
+    '&lt;'
+  )
+  .replace(
+    />/g,
+    '&gt;'
+  )
+  .replace(
+    /"/g,
+    '&quot;'
+  )
+  .replace(
+    /'/g,
+    '&#039;'
+  );
 
 }
 
@@ -4540,8 +6041,14 @@ function escapeJs(
   return String(
     value ?? ''
   )
-  .replace(/\\/g, '\\\\')
-  .replace(/'/g, "\\'");
+  .replace(
+    /\\/g,
+    '\\\\'
+  )
+  .replace(
+    /'/g,
+    "\\'"
+  );
 
 }
 
