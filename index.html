@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
@@ -8,18 +7,20 @@
 
   <meta
     name="viewport"
-    content="
-      width=device-width,
-      initial-scale=1,
-      maximum-scale=1,
-      user-scalable=no
-    ">
+    content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
-  <title>
-    MHSI Inventory Scanner
-  </title>
+  <title>MHSI Inventory Scanner</title>
 
 
+  <!-- GOOGLE IDENTITY SERVICES -->
+  <script
+    src="https://accounts.google.com/gsi/client"
+    async
+    defer>
+  </script>
+
+
+  <!-- ZXING -->
   <script
     src="https://unpkg.com/@zxing/browser@latest">
   </script>
@@ -28,906 +29,360 @@
   <style>
 
     * {
-      box-sizing:
-        border-box;
+      box-sizing: border-box;
     }
 
-
-    html,
     body {
-
       margin: 0;
-
-      padding: 0;
-
       font-family:
         -apple-system,
         BlinkMacSystemFont,
         "Segoe UI",
         Arial,
         sans-serif;
-
-      background:
-        #f3f6fb;
-
-      color:
-        #172033;
-
+      background: #f3f6fb;
+      color: #172033;
     }
-
-
-    body {
-
-      min-height:
-        100vh;
-
-    }
-
 
     .header {
-
       background:
         linear-gradient(
           135deg,
           #1555b6,
           #3277df
         );
-
-      color:
-        white;
-
-      padding:
-        27px 20px;
-
+      color: white;
+      padding: 25px 20px;
     }
-
 
     .header h1 {
-
       margin: 0;
-
-      font-size:
-        25px;
-
-      font-weight:
-        800;
-
+      font-size: 24px;
     }
-
 
     .header p {
-
-      margin:
-        7px 0 0;
-
-      opacity:
-        .9;
-
-      font-size:
-        14px;
-
+      margin: 6px 0 0;
+      opacity: .9;
+      font-size: 13px;
     }
-
 
     .container {
-
-      width:
-        100%;
-
-      max-width:
-        650px;
-
-      margin:
-        auto;
-
-      padding:
-        17px;
-
+      max-width: 650px;
+      margin: auto;
+      padding: 16px;
     }
-
 
     .card {
-
-      background:
-        white;
-
-      border-radius:
-        20px;
-
-      padding:
-        18px;
-
-      margin-bottom:
-        15px;
-
+      background: white;
+      border-radius: 20px;
+      padding: 18px;
+      margin-bottom: 15px;
       box-shadow:
         0 4px 18px
-        rgba(
-          0,
-          0,
-          0,
-          .055
-        );
-
+        rgba(0,0,0,.055);
     }
-
-
-    .section-title {
-
-      font-size:
-        12px;
-
-      font-weight:
-        800;
-
-      color:
-        #687386;
-
-      margin-bottom:
-        7px;
-
-    }
-
-
-    /* =============================
-       PCC
-    ============================= */
-
-
-    .pcc-name {
-
-      font-size:
-        19px;
-
-      font-weight:
-        800;
-
-    }
-
-
-    .pcc-id {
-
-      margin-top:
-        4px;
-
-      font-size:
-        12px;
-
-      color:
-        #687386;
-
-    }
-
-
-    /* =============================
-       STATUS
-    ============================= */
-
-
-    .status {
-
-      padding:
-        13px 15px;
-
-      margin-bottom:
-        15px;
-
-      border-radius:
-        13px;
-
-      font-size:
-        13px;
-
-      line-height:
-        1.5;
-
-    }
-
-
-    .info {
-
-      background:
-        #edf4ff;
-
-      color:
-        #2459a9;
-
-    }
-
-
-    .success {
-
-      background:
-        #e8f7ee;
-
-      color:
-        #166534;
-
-    }
-
-
-    .error {
-
-      background:
-        #fff0f0;
-
-      color:
-        #b42318;
-
-    }
-
-
-    .warning {
-
-      background:
-        #fff7e8;
-
-      color:
-        #945b00;
-
-    }
-
-
-    /* =============================
-       CAMERA
-    ============================= */
-
-
-    .camera-shell {
-
-      position:
-        relative;
-
-      overflow:
-        hidden;
-
-      background:
-        #111;
-
-      border-radius:
-        16px;
-
-    }
-
-
-    #video {
-
-      display:
-        block;
-
-      width:
-        100%;
-
-      height:
-        340px;
-
-      background:
-        #111;
-
-      object-fit:
-        cover;
-
-    }
-
-
-    .scan-frame {
-
-      position:
-        absolute;
-
-      left:
-        7%;
-
-      right:
-        7%;
-
-      top:
-        34%;
-
-      height:
-        32%;
-
-      border:
-        2px solid
-        rgba(
-          255,
-          255,
-          255,
-          .9
-        );
-
-      border-radius:
-        12px;
-
-      pointer-events:
-        none;
-
-    }
-
-
-    .scan-line {
-
-      position:
-        absolute;
-
-      left:
-        10%;
-
-      right:
-        10%;
-
-      top:
-        50%;
-
-      height:
-        2px;
-
-      background:
-        white;
-
-      box-shadow:
-        0 0 8px
-        rgba(
-          255,
-          255,
-          255,
-          .8
-        );
-
-      pointer-events:
-        none;
-
-    }
-
-
-    /* =============================
-       BUTTONS
-    ============================= */
-
-
-    button {
-
-      width:
-        100%;
-
-      border:
-        none;
-
-      border-radius:
-        12px;
-
-      padding:
-        14px 16px;
-
-      margin-top:
-        10px;
-
-      font-size:
-        15px;
-
-      font-weight:
-        800;
-
-      cursor:
-        pointer;
-
-      -webkit-tap-highlight-color:
-        transparent;
-
-    }
-
-
-    button:active {
-
-      transform:
-        scale(.985);
-
-    }
-
-
-    .primary {
-
-      background:
-        #2d6ed5;
-
-      color:
-        white;
-
-    }
-
-
-    .secondary {
-
-      background:
-        #edf4ff;
-
-      color:
-        #2764c5;
-
-    }
-
-
-    .danger {
-
-      background:
-        #fff0f0;
-
-      color:
-        #b42318;
-
-    }
-
-
-    /* =============================
-       MANUAL
-    ============================= */
-
-
-    .manual-row {
-
-      display:
-        grid;
-
-      grid-template-columns:
-        1fr auto;
-
-      gap:
-        8px;
-
-      align-items:
-        stretch;
-
-    }
-
-
-    input {
-
-      width:
-        100%;
-
-      border:
-        1px solid
-        #d7dee8;
-
-      border-radius:
-        12px;
-
-      padding:
-        13px;
-
-      font-size:
-        16px;
-
-      outline:
-        none;
-
-    }
-
-
-    input:focus {
-
-      border-color:
-        #3277df;
-
-      box-shadow:
-        0 0 0 3px
-        rgba(
-          50,
-          119,
-          223,
-          .10
-        );
-
-    }
-
-
-    .manual-row button {
-
-      width:
-        auto;
-
-      margin:
-        0;
-
-      min-width:
-        90px;
-
-    }
-
-
-    /* =============================
-       ITEM
-    ============================= */
-
-
-    .item-code {
-
-      color:
-        #687386;
-
-      font-size:
-        12px;
-
-      font-weight:
-        700;
-
-      margin-bottom:
-        5px;
-
-    }
-
-
-    .item-name {
-
-      font-size:
-        23px;
-
-      line-height:
-        1.25;
-
-      font-weight:
-        800;
-
-    }
-
-
-    .item-details {
-
-      margin-top:
-        12px;
-
-      font-size:
-        13px;
-
-      line-height:
-        1.75;
-
-      color:
-        #667085;
-
-    }
-
-
-    .item-details b {
-
-      color:
-        #344054;
-
-    }
-
-
-    /* =============================
-       STOCK SUMMARY
-    ============================= */
-
-
-    .stock-grid {
-
-      display:
-        grid;
-
-      grid-template-columns:
-        repeat(
-          3,
-          1fr
-        );
-
-      gap:
-        9px;
-
-      margin-top:
-        17px;
-
-    }
-
-
-    .stock-box {
-
-      background:
-        #f5f8fc;
-
-      border-radius:
-        14px;
-
-      padding:
-        14px 7px;
-
-      text-align:
-        center;
-
-    }
-
-
-    .stock-number {
-
-      font-size:
-        24px;
-
-      font-weight:
-        800;
-
-      color:
-        #2868c9;
-
-    }
-
-
-    .stock-label {
-
-      margin-top:
-        3px;
-
-      font-size:
-        9px;
-
-      font-weight:
-        800;
-
-      color:
-        #697386;
-
-    }
-
-
-    /* =============================
-       LEVEL
-    ============================= */
-
-
-    .level {
-
-      margin-top:
-        14px;
-
-      border-radius:
-        12px;
-
-      padding:
-        12px;
-
-      font-size:
-        12px;
-
-      font-weight:
-        700;
-
-    }
-
-
-    .level-good {
-
-      background:
-        #ebf8ef;
-
-      color:
-        #166534;
-
-    }
-
-
-    .level-reorder {
-
-      background:
-        #fff7e8;
-
-      color:
-        #945b00;
-
-    }
-
-
-    .level-critical {
-
-      background:
-        #fff0f0;
-
-      color:
-        #b42318;
-
-    }
-
-
-    /* =============================
-       BATCHES
-    ============================= */
-
-
-    .batch-heading {
-
-      margin-top:
-        20px;
-
-      font-size:
-        11px;
-
-      font-weight:
-        800;
-
-      color:
-        #687386;
-
-    }
-
-
-    .batch {
-
-      padding:
-        12px 0;
-
-      border-top:
-        1px solid
-        #edf0f4;
-
-      font-size:
-        12px;
-
-      line-height:
-        1.6;
-
-    }
-
-
-    .batch:first-of-type {
-
-      margin-top:
-        7px;
-
-    }
-
-
-    .batch-name {
-
-      font-weight:
-        800;
-
-      color:
-        #344054;
-
-    }
-
-
-    .batch-expiring {
-
-      color:
-        #b42318;
-
-      font-weight:
-        700;
-
-    }
-
-
-    /* =============================
-       LOADING
-    ============================= */
-
-
-    .loading-overlay {
-
-      position:
-        fixed;
-
-      inset:
-        0;
-
-      display:
-        flex;
-
-      flex-direction:
-        column;
-
-      align-items:
-        center;
-
-      justify-content:
-        center;
-
-      z-index:
-        9999;
-
-      background:
-        rgba(
-          255,
-          255,
-          255,
-          .92
-        );
-
-      color:
-        #2868c9;
-
-      font-weight:
-        800;
-
-    }
-
-
-    .spinner {
-
-      width:
-        38px;
-
-      height:
-        38px;
-
-      border:
-        4px solid
-        #dce8f8;
-
-      border-top-color:
-        #2868c9;
-
-      border-radius:
-        50%;
-
-      animation:
-        spin .8s linear
-        infinite;
-
-      margin-bottom:
-        12px;
-
-    }
-
-
-    @keyframes spin {
-
-      to {
-
-        transform:
-          rotate(
-            360deg
-          );
-
-      }
-
-    }
-
 
     .hidden {
-
-      display:
-        none !important;
-
+      display: none !important;
     }
 
-
-    .tip {
-
-      margin-top:
-        12px;
-
-      font-size:
-        11px;
-
-      line-height:
-        1.5;
-
-      color:
-        #7b8493;
-
+    .login-card {
+      text-align: center;
+      padding: 30px 20px;
     }
 
+    .login-icon {
+      font-size: 52px;
+      margin-bottom: 12px;
+    }
 
-    @media (
-      max-width: 480px
-    ) {
+    .login-title {
+      font-size: 22px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
 
-      #video {
+    .login-text {
+      color: #667085;
+      font-size: 13px;
+      line-height: 1.55;
+      max-width: 380px;
+      margin: auto auto 22px;
+    }
 
-        height:
-          320px;
+    #googleButton {
+      display: flex;
+      justify-content: center;
+    }
 
+    .user-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+    }
+
+    .user-name {
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .user-meta {
+      margin-top: 4px;
+      color: #667085;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .logout-button {
+      width: auto;
+      margin: 0;
+      padding: 10px 13px;
+      background: #fff0f0;
+      color: #b42318;
+      white-space: nowrap;
+    }
+
+    .permission-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 13px;
+    }
+
+    .permission {
+      padding: 6px 9px;
+      border-radius: 20px;
+      background: #edf4ff;
+      color: #2764c5;
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    .status {
+      padding: 13px 15px;
+      border-radius: 13px;
+      margin-bottom: 15px;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .info {
+      background: #edf4ff;
+      color: #2459a9;
+    }
+
+    .success {
+      background: #e8f7ee;
+      color: #166534;
+    }
+
+    .error {
+      background: #fff0f0;
+      color: #b42318;
+    }
+
+    .warning {
+      background: #fff7e8;
+      color: #945b00;
+    }
+
+    .camera-shell {
+      position: relative;
+      overflow: hidden;
+      background: #111;
+      border-radius: 16px;
+    }
+
+    #video {
+      display: block;
+      width: 100%;
+      height: 330px;
+      object-fit: cover;
+      background: #111;
+    }
+
+    .scan-frame {
+      position: absolute;
+      left: 7%;
+      right: 7%;
+      top: 34%;
+      height: 32%;
+      border:
+        2px solid rgba(255,255,255,.9);
+      border-radius: 12px;
+      pointer-events: none;
+    }
+
+    .scan-line {
+      position: absolute;
+      left: 10%;
+      right: 10%;
+      top: 50%;
+      height: 2px;
+      background: white;
+      pointer-events: none;
+    }
+
+    button {
+      width: 100%;
+      border: 0;
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-top: 10px;
+      font-size: 15px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .primary {
+      background: #2d6ed5;
+      color: white;
+    }
+
+    .secondary {
+      background: #edf4ff;
+      color: #2764c5;
+    }
+
+    .manual-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+    }
+
+    input {
+      width: 100%;
+      border: 1px solid #d7dee8;
+      border-radius: 12px;
+      padding: 13px;
+      font-size: 16px;
+    }
+
+    .manual-row button {
+      width: auto;
+      min-width: 90px;
+      margin: 0;
+    }
+
+    .section-title {
+      font-size: 11px;
+      font-weight: 800;
+      color: #687386;
+      margin-bottom: 8px;
+    }
+
+    .item-code {
+      color: #687386;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .item-name {
+      margin-top: 5px;
+      font-size: 23px;
+      font-weight: 800;
+    }
+
+    .item-details {
+      margin-top: 11px;
+      color: #667085;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .stock-grid {
+      display: grid;
+      grid-template-columns:
+        repeat(3,1fr);
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .stock-box {
+      background: #f5f8fc;
+      border-radius: 14px;
+      padding: 14px 5px;
+      text-align: center;
+    }
+
+    .stock-number {
+      color: #2868c9;
+      font-size: 23px;
+      font-weight: 800;
+    }
+
+    .stock-label {
+      margin-top: 3px;
+      color: #697386;
+      font-size: 9px;
+      font-weight: 800;
+    }
+
+    .batch-heading {
+      margin-top: 19px;
+      color: #687386;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .batch {
+      padding: 11px 0;
+      border-top: 1px solid #edf0f4;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .level {
+      margin-top: 14px;
+      border-radius: 12px;
+      padding: 12px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .level-good {
+      background: #ebf8ef;
+      color: #166534;
+    }
+
+    .level-reorder {
+      background: #fff7e8;
+      color: #945b00;
+    }
+
+    .level-critical {
+      background: #fff0f0;
+      color: #b42318;
+    }
+
+    .loading {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: rgba(255,255,255,.93);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: #2868c9;
+      font-weight: 800;
+    }
+
+    .spinner {
+      width: 38px;
+      height: 38px;
+      border: 4px solid #dce8f8;
+      border-top-color: #2868c9;
+      border-radius: 50%;
+      margin-bottom: 12px;
+      animation: spin .8s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
       }
-
-
-      .stock-number {
-
-        font-size:
-          21px;
-
-      }
-
     }
 
   </style>
@@ -938,18 +393,11 @@
 <body>
 
 
-<!-- ===============================
-     LOADING
-================================ -->
-
-
 <div
   id="loading"
-  class="loading-overlay hidden">
+  class="loading hidden">
 
-  <div
-    class="spinner">
-  </div>
+  <div class="spinner"></div>
 
   <div id="loadingText">
     Loading...
@@ -958,305 +406,253 @@
 </div>
 
 
-<!-- ===============================
-     HEADER
-================================ -->
-
-
-<header
-  class="header">
+<header class="header">
 
   <h1>
     MHSI Inventory Scanner
   </h1>
 
   <p>
-    QR • Barcode • Inventory Lookup
+    Secure Inventory Management
   </p>
 
 </header>
 
 
-<main
-  class="container">
+<main class="container">
 
 
-  <!-- =============================
-       PCC
-  ============================== -->
-
+  <!-- LOGIN -->
 
   <div
-    class="card">
+    id="loginCard"
+    class="card login-card">
 
-    <div
-      class="section-title">
-      CURRENT LOCATION
+    <div class="login-icon">
+      🔐
     </div>
 
-    <div
-      id="pccName"
-      class="pcc-name">
-      Filinvest Alabang
+    <div class="login-title">
+      Sign in to IMS
     </div>
 
-    <div
-      id="pccIdText"
-      class="pcc-id">
-      PCC-001
+    <div class="login-text">
+      Sign in using your authorized
+      MHSI Google account to access
+      your assigned Primary Care Clinic
+      inventory.
     </div>
+
+    <div id="googleButton"></div>
 
   </div>
 
 
-  <!-- =============================
-       STATUS
-  ============================== -->
-
+  <!-- APP -->
 
   <div
-    id="statusBox"
-    class="status info">
-
-    Tap OPEN SCANNER to begin.
-
-  </div>
+    id="appArea"
+    class="hidden">
 
 
-  <!-- =============================
-       SCANNER
-  ============================== -->
+    <!-- USER -->
+
+    <div class="card">
+
+      <div class="user-top">
+
+        <div>
+
+          <div
+            id="userName"
+            class="user-name">
+          </div>
+
+          <div
+            id="userMeta"
+            class="user-meta">
+          </div>
+
+        </div>
 
 
-  <div
-    class="card">
+        <button
+          class="logout-button"
+          onclick="logout()">
 
+          LOG OUT
 
-    <div
-      class="camera-shell">
+        </button>
 
-      <video
-        id="video"
-        autoplay
-        muted
-        playsinline>
-      </video>
-
-
-      <div
-        class="scan-frame">
       </div>
 
 
       <div
-        class="scan-line">
+        id="permissionList"
+        class="permission-list">
       </div>
 
     </div>
 
 
-    <button
-      id="openButton"
-      class="primary"
-      onclick="
-        openScanner()
-      ">
-
-      OPEN SCANNER
-
-    </button>
-
-
-    <button
-      id="stopButton"
-      class="secondary hidden"
-      onclick="
-        stopScanner()
-      ">
-
-      STOP SCANNER
-
-    </button>
-
-
     <div
-      class="tip">
+      id="statusBox"
+      class="status info">
 
-      Keep the full barcode inside
-      the box. For long barcodes,
-      turning the phone sideways may
-      help.
-
-    </div>
-
-  </div>
-
-
-  <!-- =============================
-       MANUAL SEARCH
-  ============================== -->
-
-
-  <div
-    class="card">
-
-    <div
-      class="section-title">
-
-      MANUAL SEARCH
+      Ready to scan.
 
     </div>
 
 
-    <div
-      class="manual-row">
+    <!-- SCANNER -->
 
-      <input
-        id="manualCode"
-        type="text"
-        autocomplete="off"
-        autocorrect="off"
-        autocapitalize="characters"
-        placeholder="
-          Barcode / Item ID">
+    <div class="card">
+
+      <div class="camera-shell">
+
+        <video
+          id="video"
+          autoplay
+          muted
+          playsinline>
+        </video>
+
+        <div class="scan-frame"></div>
+        <div class="scan-line"></div>
+
+      </div>
 
 
       <button
+        id="openButton"
         class="primary"
-        onclick="
-          manualLookup()
-        ">
+        onclick="openScanner()">
 
-        SEARCH
+        OPEN SCANNER
+
+      </button>
+
+
+      <button
+        id="stopButton"
+        class="secondary hidden"
+        onclick="stopScanner()">
+
+        STOP SCANNER
 
       </button>
 
     </div>
 
-  </div>
 
+    <!-- MANUAL -->
 
-  <!-- =============================
-       ITEM RESULT
-  ============================== -->
+    <div class="card">
 
+      <div class="section-title">
+        MANUAL SEARCH
+      </div>
 
-  <div
-    id="itemCard"
-    class="card hidden">
+      <div class="manual-row">
 
+        <input
+          id="manualCode"
+          placeholder="Barcode / Item ID">
 
-    <div
-      id="itemCode"
-      class="item-code">
+        <button
+          class="primary"
+          onclick="manualLookup()">
+
+          SEARCH
+
+        </button>
+
+      </div>
+
     </div>
 
 
-    <div
-      id="itemName"
-      class="item-name">
-    </div>
-
+    <!-- ITEM -->
 
     <div
-      id="itemDetails"
-      class="item-details">
-    </div>
-
-
-    <div
-      class="stock-grid">
-
+      id="itemCard"
+      class="card hidden">
 
       <div
-        class="stock-box">
+        id="itemCode"
+        class="item-code">
+      </div>
 
-        <div
-          id="availableStock"
-          class="stock-number">
+      <div
+        id="itemName"
+        class="item-name">
+      </div>
 
-          0
+      <div
+        id="itemDetails"
+        class="item-details">
+      </div>
 
+
+      <div class="stock-grid">
+
+        <div class="stock-box">
+          <div
+            id="availableStock"
+            class="stock-number">
+            0
+          </div>
+          <div class="stock-label">
+            AVAILABLE
+          </div>
         </div>
 
-        <div
-          class="stock-label">
+        <div class="stock-box">
+          <div
+            id="quarantineStock"
+            class="stock-number">
+            0
+          </div>
+          <div class="stock-label">
+            QUARANTINE
+          </div>
+        </div>
 
-          AVAILABLE
-
+        <div class="stock-box">
+          <div
+            id="transitStock"
+            class="stock-number">
+            0
+          </div>
+          <div class="stock-label">
+            IN TRANSIT
+          </div>
         </div>
 
       </div>
 
 
       <div
-        class="stock-box">
-
-        <div
-          id="quarantineStock"
-          class="stock-number">
-
-          0
-
-        </div>
-
-        <div
-          class="stock-label">
-
-          QUARANTINE
-
-        </div>
-
+        id="stockLevel"
+        class="level hidden">
       </div>
 
 
-      <div
-        class="stock-box">
+      <div id="batchContainer"></div>
 
-        <div
-          id="transitStock"
-          class="stock-number">
 
-          0
+      <button
+        class="primary"
+        onclick="scanAnother()">
 
-        </div>
+        SCAN ANOTHER ITEM
 
-        <div
-          class="stock-label">
-
-          IN TRANSIT
-
-        </div>
-
-      </div>
-
+      </button>
 
     </div>
 
-
-    <div
-      id="stockLevel"
-      class="level hidden">
-    </div>
-
-
-    <div
-      id="batchContainer">
-    </div>
-
-
-    <button
-      class="primary"
-      onclick="
-        scanAnother()
-      ">
-
-      SCAN ANOTHER ITEM
-
-    </button>
 
   </div>
-
 
 </main>
 
@@ -1265,41 +661,37 @@
 
 
 /* =========================================================
-   IMPORTANT SETTINGS
+   SETTINGS
 ========================================================= */
 
 
+const GOOGLE_CLIENT_ID =
+  '717366343479-qjs60uj0gumr9m326phdtjp5kp0o6vrq.apps.googleusercontent.com';
+
+
 /*
-  PASTE YOUR APPS SCRIPT
-  /exec URL HERE
+  REPLACE WITH YOUR EXISTING
+  APPS SCRIPT /exec URL
 */
 
 const API_URL =
-  'https://script.google.com/macros/s/AKfycbwSGG51EMk-47M9QqAfGUosXfslYvrq8MB6sSdVAO8NMFKL3YjzDsLXoLxsO-JvbMKwCA/exec';
-
-
-/*
-  PILOT PCC:
-
-  PCC-001 =
-  Filinvest Alabang
-
-  Later, this will be based
-  on authenticated user.
-*/
-
-const PCC_ID =
-  'PCC-001';
-
-
-const PCC_NAME =
-  'Filinvest Alabang';
+  'PASTE_YOUR_APPS_SCRIPT_EXEC_URL_HERE';
 
 
 
 /* =========================================================
-   GLOBAL VARIABLES
+   STATE
 ========================================================= */
+
+
+let sessionToken =
+  localStorage.getItem(
+    'mhsi_ims_session'
+  ) || '';
+
+
+let currentUser =
+  null;
 
 
 let codeReader =
@@ -1318,52 +710,442 @@ let scanLocked =
   false;
 
 
-let lastScannedValue =
-  '';
-
-
 
 /* =========================================================
-   INITIALIZE
+   GOOGLE INITIALIZATION
 ========================================================= */
 
 
 window.addEventListener(
   'load',
-  function() {
+  initialize
+);
 
 
-    document
-      .getElementById(
-        'pccName'
-      )
-      .textContent =
-        PCC_NAME;
+function initialize() {
 
 
-    document
-      .getElementById(
-        'pccIdText'
-      )
-      .textContent =
-        PCC_ID;
+  if (
+    sessionToken
+  ) {
 
-
-    /*
-      Optional health test.
-      Uncomment later if needed.
-    */
-
-    // testApi();
-
+    validateStoredSession();
 
   }
-);
+
+
+  const wait =
+    setInterval(
+      function() {
+
+        if (
+          window.google &&
+          google.accounts &&
+          google.accounts.id
+        ) {
+
+          clearInterval(
+            wait
+          );
+
+          initializeGoogleLogin();
+
+        }
+
+      },
+      100
+    );
+
+}
+
+
+function initializeGoogleLogin() {
+
+
+  google.accounts.id.initialize({
+
+    client_id:
+      GOOGLE_CLIENT_ID,
+
+    callback:
+      handleGoogleCredential,
+
+    auto_select:
+      false,
+
+    cancel_on_tap_outside:
+      true
+
+  });
+
+
+  google.accounts.id.renderButton(
+
+    document
+      .getElementById(
+        'googleButton'
+      ),
+
+    {
+
+      type:
+        'standard',
+
+      theme:
+        'outline',
+
+      size:
+        'large',
+
+      text:
+        'signin_with',
+
+      shape:
+        'rectangular',
+
+      width:
+        280
+
+    }
+
+  );
+
+}
 
 
 
 /* =========================================================
-   OPEN ZXING SCANNER
+   GOOGLE CREDENTIAL
+========================================================= */
+
+
+function handleGoogleCredential(
+  response
+) {
+
+
+  if (
+    !response ||
+    !response.credential
+  ) {
+
+    showLoginError(
+      'Google sign-in failed.'
+    );
+
+    return;
+
+  }
+
+
+  showLoading(
+    'Verifying your MHSI account...'
+  );
+
+
+  apiCall(
+    'login',
+    {
+      credential:
+        response.credential
+    },
+
+    function(result) {
+
+
+      hideLoading();
+
+
+      if (
+        !result ||
+        result.success !== true
+      ) {
+
+        showLoginError(
+          result?.message ||
+          'Access denied.'
+        );
+
+        return;
+
+      }
+
+
+      sessionToken =
+        result.sessionToken;
+
+
+      localStorage.setItem(
+        'mhsi_ims_session',
+        sessionToken
+      );
+
+
+      currentUser =
+        result.user;
+
+
+      openApp();
+
+    }
+
+  );
+
+}
+
+
+
+/* =========================================================
+   STORED SESSION
+========================================================= */
+
+
+function validateStoredSession() {
+
+
+  apiCall(
+    'session',
+    {
+      session:
+        sessionToken
+    },
+
+    function(result) {
+
+
+      if (
+        result &&
+        result.success === true &&
+        result.authenticated === true
+      ) {
+
+        currentUser =
+          result.user;
+
+        openApp();
+
+      }
+
+      else {
+
+        clearLocalSession();
+
+      }
+
+    }
+
+  );
+
+}
+
+
+
+/* =========================================================
+   OPEN APP
+========================================================= */
+
+
+function openApp() {
+
+
+  document
+    .getElementById(
+      'loginCard'
+    )
+    .classList
+    .add(
+      'hidden'
+    );
+
+
+  document
+    .getElementById(
+      'appArea'
+    )
+    .classList
+    .remove(
+      'hidden'
+    );
+
+
+  document
+    .getElementById(
+      'userName'
+    )
+    .textContent =
+      currentUser.fullName;
+
+
+  document
+    .getElementById(
+      'userMeta'
+    )
+    .innerHTML =
+
+      escapeHtml(
+        currentUser.role
+      ) +
+
+      '<br>' +
+
+      escapeHtml(
+        currentUser.pccName ||
+        currentUser.pccId
+      ) +
+
+      ' • ' +
+
+      escapeHtml(
+        currentUser.email
+      );
+
+
+  renderPermissions();
+
+
+  showStatus(
+    'Signed in successfully. Ready to scan.',
+    'success'
+  );
+
+}
+
+
+
+/* =========================================================
+   PERMISSIONS
+========================================================= */
+
+
+function renderPermissions() {
+
+
+  const container =
+    document
+      .getElementById(
+        'permissionList'
+      );
+
+
+  const p =
+    currentUser.permissions || {};
+
+
+  const labels = [];
+
+
+  if (p.receive) {
+    labels.push('RECEIVE');
+  }
+
+  if (p.issue) {
+    labels.push('ISSUE');
+  }
+
+  if (p.transfer) {
+    labels.push('TRANSFER');
+  }
+
+  if (p.count) {
+    labels.push('COUNT');
+  }
+
+  if (p.approveAdjustment) {
+    labels.push(
+      'APPROVE ADJUSTMENT'
+    );
+  }
+
+  if (p.reportAccess) {
+
+    labels.push(
+      'REPORTS: ' +
+      p.reportAccess
+    );
+
+  }
+
+
+  container.innerHTML =
+    labels
+      .map(
+        label =>
+          '<span class="permission">' +
+          escapeHtml(label) +
+          '</span>'
+      )
+      .join('');
+
+}
+
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+
+function logout() {
+
+
+  stopScanner();
+
+
+  if (
+    sessionToken
+  ) {
+
+    apiCall(
+      'logout',
+      {
+        session:
+          sessionToken
+      },
+      function() {}
+    );
+
+  }
+
+
+  /*
+    Disable auto account selection.
+  */
+
+  try {
+
+    google.accounts.id
+      .disableAutoSelect();
+
+  }
+  catch (error) {}
+
+
+  clearLocalSession();
+
+
+  location.reload();
+
+}
+
+
+function clearLocalSession() {
+
+
+  sessionToken = '';
+
+  currentUser = null;
+
+
+  localStorage.removeItem(
+    'mhsi_ims_session'
+  );
+
+}
+
+
+
+/* =========================================================
+   ZXING CAMERA
 ========================================================= */
 
 
@@ -1371,7 +1153,8 @@ async function openScanner() {
 
 
   if (
-    scannerRunning
+    scannerRunning ||
+    !sessionToken
   ) {
 
     return;
@@ -1379,21 +1162,10 @@ async function openScanner() {
   }
 
 
-  scanLocked =
-    false;
-
-
-  lastScannedValue =
-    '';
+  scanLocked = false;
 
 
   try {
-
-
-    showStatus(
-      'Opening camera...',
-      'info'
-    );
 
 
     codeReader =
@@ -1419,76 +1191,49 @@ async function openScanner() {
     }
 
 
-    let selectedDevice =
+    let selected =
       devices[0];
 
 
-    /*
-      Prefer rear/back camera.
-    */
-
-    const rearCamera =
+    const rear =
       devices.find(
-        function(device) {
-
+        d => {
 
           const label =
             String(
-              device.label || ''
+              d.label || ''
             )
             .toLowerCase();
 
-
           return (
-
-            label.includes(
-              'back'
-            ) ||
-
-            label.includes(
-              'rear'
-            ) ||
-
-            label.includes(
-              'environment'
-            )
-
+            label.includes('back') ||
+            label.includes('rear') ||
+            label.includes('environment')
           );
 
         }
       );
 
 
-    if (
-      rearCamera
-    ) {
+    if (rear) {
 
-      selectedDevice =
-        rearCamera;
+      selected = rear;
 
     }
-
-
-    const video =
-      document
-        .getElementById(
-          'video'
-        );
 
 
     controls =
       await codeReader
         .decodeFromVideoDevice(
 
-          selectedDevice.deviceId,
+          selected.deviceId,
 
-          video,
+          document
+            .getElementById(
+              'video'
+            ),
 
-          function(
-            result,
-            error,
-            control
-          ) {
+          function(result) {
 
 
             if (
@@ -1496,26 +1241,19 @@ async function openScanner() {
               !scanLocked
             ) {
 
-
               const value =
                 String(
-                  result.getText
-                    ? result.getText()
-                    : result.text || ''
-                )
-                .trim();
+                  result.getText()
+                ).trim();
 
 
-              if (!value) {
+              if (value) {
 
-                return;
+                handleScannedCode(
+                  value
+                );
 
               }
-
-
-              handleScannedCode(
-                value
-              );
 
             }
 
@@ -1524,8 +1262,7 @@ async function openScanner() {
         );
 
 
-    scannerRunning =
-      true;
+    scannerRunning = true;
 
 
     document
@@ -1549,31 +1286,17 @@ async function openScanner() {
 
 
     showStatus(
-      'Camera ready. Point at a barcode or QR code.',
+      'Camera ready.',
       'success'
     );
-
 
   }
 
   catch (error) {
 
 
-    console.error(
-      error
-    );
-
-
-    scannerRunning =
-      false;
-
-
     showStatus(
-      'Camera error: ' +
-      (
-        error.message ||
-        String(error)
-      ),
+      error.message,
       'error'
     );
 
@@ -1582,120 +1305,23 @@ async function openScanner() {
 }
 
 
-
-/* =========================================================
-   HANDLE SCANNED CODE
-========================================================= */
-
-
-async function handleScannedCode(
-  value
-) {
-
-
-  if (
-    scanLocked
-  ) {
-
-    return;
-
-  }
-
-
-  if (
-    value ===
-    lastScannedValue
-  ) {
-
-    return;
-
-  }
-
-
-  scanLocked =
-    true;
-
-
-  lastScannedValue =
-    value;
-
-
-  if (
-    navigator.vibrate
-  ) {
-
-    navigator.vibrate(
-      120
-    );
-
-  }
-
-
-  /*
-    Stop camera so it won't
-    scan repeatedly.
-  */
-
-  await stopScanner();
-
-
-  showStatus(
-    'Barcode detected. Looking up item...',
-    'info'
-  );
-
-
-  lookupInventory(
-    value
-  );
-
-}
-
-
-
-/* =========================================================
-   STOP SCANNER
-========================================================= */
-
-
 async function stopScanner() {
 
 
   try {
 
-
-    if (
-      controls
-    ) {
-
-      controls.stop();
-
-    }
-
+    controls?.stop();
 
   }
 
-  catch (error) {
+  catch (error) {}
 
 
-    console.log(
-      error
-    );
+  controls = null;
 
+  codeReader = null;
 
-  }
-
-
-  controls =
-    null;
-
-
-  codeReader =
-    null;
-
-
-  scannerRunning =
-    false;
+  scannerRunning = false;
 
 
   const video =
@@ -1706,19 +1332,14 @@ async function stopScanner() {
 
 
   if (
-    video &&
     video.srcObject
   ) {
-
 
     video.srcObject
       .getTracks()
       .forEach(
-        function(track) {
-
-          track.stop();
-
-        }
+        track =>
+          track.stop()
       );
 
 
@@ -1752,7 +1373,43 @@ async function stopScanner() {
 
 
 /* =========================================================
-   MANUAL LOOKUP
+   SCANNED VALUE
+========================================================= */
+
+
+async function handleScannedCode(
+  value
+) {
+
+
+  if (scanLocked) {
+
+    return;
+
+  }
+
+
+  scanLocked = true;
+
+
+  navigator.vibrate?.(
+    100
+  );
+
+
+  await stopScanner();
+
+
+  lookupInventory(
+    value
+  );
+
+}
+
+
+
+/* =========================================================
+   MANUAL SEARCH
 ========================================================= */
 
 
@@ -1760,24 +1417,20 @@ function manualLookup() {
 
 
   const value =
-    String(
-      document
-        .getElementById(
-          'manualCode'
-        )
-        .value || ''
-    )
-    .trim();
+    document
+      .getElementById(
+        'manualCode'
+      )
+      .value
+      .trim();
 
 
   if (!value) {
-
 
     showStatus(
       'Enter a Barcode or Item ID.',
       'error'
     );
-
 
     return;
 
@@ -1793,32 +1446,13 @@ function manualLookup() {
 
 
 /* =========================================================
-   IMS API LOOKUP
+   LOOKUP
 ========================================================= */
 
 
 function lookupInventory(
-  scannedCode
+  code
 ) {
-
-
-  if (
-    !API_URL ||
-    API_URL.includes(
-      'PASTE_YOUR'
-    )
-  ) {
-
-
-    showStatus(
-      'Apps Script API URL has not been configured yet.',
-      'error'
-    );
-
-
-    return;
-
-  }
 
 
   showLoading(
@@ -1826,292 +1460,111 @@ function lookupInventory(
   );
 
 
-  const callbackName =
-    'imsCallback_' +
-    Date.now() +
-    '_' +
-    Math.floor(
-      Math.random() *
-      100000
-    );
+  apiCall(
+    'lookup',
 
+    {
+      session:
+        sessionToken,
 
-  const script =
-    document
-      .createElement(
-        'script'
-      );
+      code:
+        code
+    },
 
-
-  let completed =
-    false;
-
-
-  const timeout =
-    setTimeout(
-      function() {
-
-
-        if (
-          completed
-        ) {
-
-          return;
-
-        }
-
-
-        completed =
-          true;
-
-
-        cleanup();
-
-
-        hideLoading();
-
-
-        showStatus(
-          'Unable to connect to the IMS database. Please check the Apps Script deployment.',
-          'error'
-        );
-
-
-        scanLocked =
-          false;
-
-
-      },
-      15000
-    );
-
-
-  function cleanup() {
-
-
-    clearTimeout(
-      timeout
-    );
-
-
-    try {
-
-
-      delete window[
-        callbackName
-      ];
-
-
-    }
-
-    catch (error) {
-
-
-      window[
-        callbackName
-      ] =
-        undefined;
-
-
-    }
-
-
-    if (
-      script.parentNode
-    ) {
-
-
-      script.parentNode
-        .removeChild(
-          script
-        );
-
-
-    }
-
-  }
-
-
-  window[
-    callbackName
-  ] =
     function(result) {
 
 
+      hideLoading();
+
+
       if (
-        completed
+        !result
       ) {
+
+        showStatus(
+          'No response from IMS.',
+          'error'
+        );
+
+        scanLocked = false;
 
         return;
 
       }
 
 
-      completed =
-        true;
-
-
-      cleanup();
-
-
-      hideLoading();
-
-
-      processLookupResult(
-        result,
-        scannedCode
-      );
-
-  };
-
-
-  script.onerror =
-    function() {
-
-
       if (
-        completed
+        result.authenticated ===
+        false
       ) {
+
+        clearLocalSession();
+
+        alert(
+          'Your session expired. Please sign in again.'
+        );
+
+        location.reload();
 
         return;
 
       }
 
 
-      completed =
-        true;
+      if (
+        result.success !== true
+      ) {
+
+        showStatus(
+          result.message ||
+          'IMS lookup failed.',
+          'error'
+        );
+
+        scanLocked = false;
+
+        return;
+
+      }
 
 
-      cleanup();
+      if (
+        result.found !== true
+      ) {
+
+        document
+          .getElementById(
+            'itemCard'
+          )
+          .classList
+          .add(
+            'hidden'
+          );
 
 
-      hideLoading();
+        showStatus(
+          'Item not found in ITEM_MASTER.',
+          'warning'
+        );
 
 
-      showStatus(
-        'Unable to reach the IMS API.',
-        'error'
+        scanLocked = false;
+
+        return;
+
+      }
+
+
+      displayItem(
+        result
       );
 
 
-      scanLocked =
-        false;
+      scanLocked = false;
 
-  };
+    }
 
-
-  script.src =
-
-    API_URL +
-
-    '?action=lookup' +
-
-    '&code=' +
-    encodeURIComponent(
-      scannedCode
-    ) +
-
-    '&pcc=' +
-    encodeURIComponent(
-      PCC_ID
-    ) +
-
-    '&callback=' +
-    encodeURIComponent(
-      callbackName
-    ) +
-
-    '&_=' +
-    Date.now();
-
-
-  document.body
-    .appendChild(
-      script
-    );
-
-}
-
-
-
-/* =========================================================
-   PROCESS LOOKUP RESULT
-========================================================= */
-
-
-function processLookupResult(
-  result,
-  scannedCode
-) {
-
-
-  if (
-    !result ||
-    result.success !== true
-  ) {
-
-
-    hideItemCard();
-
-
-    showStatus(
-      result &&
-      result.message
-        ? result.message
-        : 'IMS lookup failed.',
-      'error'
-    );
-
-
-    scanLocked =
-      false;
-
-
-    return;
-
-  }
-
-
-  if (
-    result.found !== true
-  ) {
-
-
-    hideItemCard();
-
-
-    showStatus(
-      'Barcode scanned successfully, but "' +
-      escapeHtml(
-        scannedCode
-      ) +
-      '" is not registered in ITEM_MASTER.',
-      'warning'
-    );
-
-
-    scanLocked =
-      false;
-
-
-    return;
-
-  }
-
-
-  displayInventoryItem(
-    result
   );
-
-
-  showStatus(
-    'Item found in IMS.',
-    'success'
-  );
-
-
-  scanLocked =
-    false;
 
 }
 
@@ -2122,7 +1575,7 @@ function processLookupResult(
 ========================================================= */
 
 
-function displayInventoryItem(
+function displayItem(
   result
 ) {
 
@@ -2131,22 +1584,14 @@ function displayInventoryItem(
     result.item;
 
 
-  const inventory =
+  const inv =
     result.inventory;
 
 
-  const threshold =
-    result.threshold;
-
-
-  const itemCard =
-    document
-      .getElementById(
-        'itemCard'
-      );
-
-
-  itemCard
+  document
+    .getElementById(
+      'itemCard'
+    )
     .classList
     .remove(
       'hidden'
@@ -2160,6 +1605,7 @@ function displayInventoryItem(
     .textContent =
 
       item.itemId +
+
       (
         item.barcode
           ? ' • ' +
@@ -2173,82 +1619,7 @@ function displayInventoryItem(
       'itemName'
     )
     .textContent =
-
-      item.itemName ||
-      'Unnamed Item';
-
-
-  let details = '';
-
-
-  if (
-    item.category
-  ) {
-
-
-    details +=
-
-      'Category: <b>' +
-
-      escapeHtml(
-        item.category
-      ) +
-
-      '</b><br>';
-
-  }
-
-
-  if (
-    item.brand
-  ) {
-
-
-    details +=
-
-      'Brand: <b>' +
-
-      escapeHtml(
-        item.brand
-      ) +
-
-      '</b><br>';
-
-  }
-
-
-  if (
-    item.uom
-  ) {
-
-
-    details +=
-
-      'UOM: <b>' +
-
-      escapeHtml(
-        item.uom
-      ) +
-
-      '</b>';
-
-  }
-
-
-  if (
-    item.description
-  ) {
-
-
-    details +=
-
-      '<br>Description: ' +
-
-      escapeHtml(
-        item.description
-      );
-
-  }
+      item.itemName;
 
 
   document
@@ -2256,7 +1627,28 @@ function displayInventoryItem(
       'itemDetails'
     )
     .innerHTML =
-      details;
+
+      'Category: <b>' +
+      escapeHtml(
+        item.category || '-'
+      ) +
+      '</b><br>' +
+
+      'UOM: <b>' +
+      escapeHtml(
+        item.uom || '-'
+      ) +
+      '</b>' +
+
+      (
+        item.brand
+          ? '<br>Brand: <b>' +
+            escapeHtml(
+              item.brand
+            ) +
+            '</b>'
+          : ''
+      );
 
 
   document
@@ -2264,11 +1656,7 @@ function displayInventoryItem(
       'availableStock'
     )
     .textContent =
-
-      formatQty(
-        inventory
-          .totalAvailable
-      );
+      inv.totalAvailable;
 
 
   document
@@ -2276,11 +1664,7 @@ function displayInventoryItem(
       'quarantineStock'
     )
     .textContent =
-
-      formatQty(
-        inventory
-          .totalQuarantined
-      );
+      inv.totalQuarantined;
 
 
   document
@@ -2288,37 +1672,32 @@ function displayInventoryItem(
       'transitStock'
     )
     .textContent =
-
-      formatQty(
-        inventory
-          .totalInTransit
-      );
+      inv.totalInTransit;
 
 
-  renderStockLevel(
-    Number(
-      inventory
-        .totalAvailable || 0
-    ),
-    threshold
+  renderThreshold(
+    inv.totalAvailable,
+    result.threshold
   );
 
 
   renderBatches(
-    inventory.batches ||
-    []
+    inv.batches
   );
 
 
-  itemCard
+  showStatus(
+    'Item found.',
+    'success'
+  );
+
+
+  document
+    .getElementById(
+      'itemCard'
+    )
     .scrollIntoView({
-
-      behavior:
-        'smooth',
-
-      block:
-        'start'
-
+      behavior: 'smooth'
     });
 
 }
@@ -2326,11 +1705,11 @@ function displayInventoryItem(
 
 
 /* =========================================================
-   STOCK LEVEL
+   THRESHOLD
 ========================================================= */
 
 
-function renderStockLevel(
+function renderThreshold(
   available,
   threshold
 ) {
@@ -2343,75 +1722,33 @@ function renderStockLevel(
       );
 
 
-  if (
-    !threshold
-  ) {
+  if (!threshold) {
 
-
-    box
-      .classList
-      .add(
-        'hidden'
-      );
-
+    box.classList.add(
+      'hidden'
+    );
 
     return;
 
   }
 
 
-  box
-    .classList
-    .remove(
-      'hidden'
-    );
-
-
-  const critical =
-    Number(
-      threshold
-        .criticalLevel || 0
-    );
-
-
-  const reorder =
-    Number(
-      threshold
-        .reorderLevel || 0
-    );
-
-
-  const safety =
-    Number(
-      threshold
-        .safetyStock || 0
-    );
+  box.classList.remove(
+    'hidden'
+  );
 
 
   if (
-    critical > 0 &&
-    available <= critical
+    threshold.criticalLevel &&
+    available <=
+      threshold.criticalLevel
   ) {
-
 
     box.className =
       'level level-critical';
 
-
-    box.innerHTML =
-
-      '⚠️ Critical stock level. ' +
-
-      'Available: ' +
-      formatQty(
-        available
-      ) +
-
-      ' • Critical level: ' +
-      formatQty(
-        critical
-      );
-
+    box.textContent =
+      '⚠ Critical stock level.';
 
     return;
 
@@ -2419,29 +1756,19 @@ function renderStockLevel(
 
 
   if (
-    reorder > 0 &&
-    available <= reorder
+    threshold.reorderLevel &&
+    available <=
+      threshold.reorderLevel
   ) {
-
 
     box.className =
       'level level-reorder';
 
-
-    box.innerHTML =
-
-      '⚠️ Reorder level reached. ' +
-
-      'Available: ' +
-      formatQty(
-        available
-      ) +
-
+    box.textContent =
+      '⚠ Reorder level reached. Available: ' +
+      available +
       ' • Reorder at: ' +
-      formatQty(
-        reorder
-      );
-
+      threshold.reorderLevel;
 
     return;
 
@@ -2451,19 +1778,8 @@ function renderStockLevel(
   box.className =
     'level level-good';
 
-
-  box.innerHTML =
-
-    '✓ Stock level is within configured threshold. ' +
-
-    (
-      safety
-        ? 'Safety stock: ' +
-          formatQty(
-            safety
-          )
-        : ''
-    );
+  box.textContent =
+    '✓ Stock level is within configured threshold.';
 
 }
 
@@ -2488,141 +1804,63 @@ function renderBatches(
 
   if (
     !batches ||
-    batches.length === 0
+    !batches.length
   ) {
 
-
-    container.innerHTML = `
-
-      <div
-        class="batch-heading">
-
-        BATCH INVENTORY
-
-      </div>
-
-
-      <div
-        class="batch">
-
-        No current batch inventory
-        for this PCC.
-
-      </div>
-
-    `;
-
+    container.innerHTML =
+      '<div class="batch-heading">BATCH INVENTORY</div>' +
+      '<div class="batch">No inventory batches.</div>';
 
     return;
 
   }
 
 
-  let html = `
-
-    <div
-      class="batch-heading">
-
-      BATCH INVENTORY • FEFO
-
-    </div>
-
-  `;
+  let html =
+    '<div class="batch-heading">BATCH INVENTORY • FEFO</div>';
 
 
   batches.forEach(
-    function(batch) {
-
-
-      const expiryText =
-        batch.expiryDate
-          ? batch.expiryDate
-          : 'No expiry';
-
-
-      const expiryClass =
-        isNearExpiry(
-          batch.expiryDate,
-          90
-        )
-          ? 'batch-expiring'
-          : '';
-
+    b => {
 
       html += `
 
-        <div
-          class="batch">
+        <div class="batch">
 
-
-          <div
-            class="batch-name">
-
+          <b>
             ${escapeHtml(
-              batch.batchNo ||
+              b.batchNo ||
               'No Batch'
             )}
-
-          </div>
-
-
-          Expiry:
-
-          <span
-            class="${expiryClass}">
-
-            ${escapeHtml(
-              expiryText
-            )}
-
-          </span>
-
+          </b>
 
           <br>
 
+          Expiry:
+          ${escapeHtml(
+            b.expiryDate ||
+            'N/A'
+          )}
+
+          <br>
 
           Available:
           <b>
-
-            ${formatQty(
-              batch.qtyAvailable
-            )}
-
+            ${b.qtyAvailable}
           </b>
 
-
-          &nbsp; • &nbsp;
-
-
-          Quarantine:
+          • Quarantine:
           <b>
-
-            ${formatQty(
-              batch.qtyQuarantined
-            )}
-
+            ${b.qtyQuarantined}
           </b>
-
 
           <br>
 
-
           Location:
           ${escapeHtml(
-            batch.locationId ||
+            b.locationId ||
             '-'
           )}
-
-
-          ${
-            batch.status
-              ? '<br>Status: ' +
-                escapeHtml(
-                  batch.status
-                )
-              : ''
-          }
-
 
         </div>
 
@@ -2640,113 +1878,11 @@ function renderBatches(
 
 
 /* =========================================================
-   NEAR EXPIRY
-========================================================= */
-
-
-function isNearExpiry(
-  dateString,
-  days
-) {
-
-
-  if (!dateString) {
-
-    return false;
-
-  }
-
-
-  const expiry =
-    new Date(
-      dateString +
-      'T23:59:59'
-    );
-
-
-  if (
-    isNaN(
-      expiry.getTime()
-    )
-  ) {
-
-    return false;
-
-  }
-
-
-  const now =
-    new Date();
-
-
-  const difference =
-    expiry.getTime() -
-    now.getTime();
-
-
-  const daysRemaining =
-    difference /
-    (
-      1000 *
-      60 *
-      60 *
-      24
-    );
-
-
-  return (
-    daysRemaining <= days
-  );
-
-}
-
-
-
-/* =========================================================
-   SCAN ANOTHER
+   SCAN AGAIN
 ========================================================= */
 
 
 function scanAnother() {
-
-
-  hideItemCard();
-
-
-  document
-    .getElementById(
-      'manualCode'
-    )
-    .value =
-      '';
-
-
-  scanLocked =
-    false;
-
-
-  lastScannedValue =
-    '';
-
-
-  showStatus(
-    'Ready for next item.',
-    'info'
-  );
-
-
-  openScanner();
-
-}
-
-
-
-/* =========================================================
-   HIDE ITEM
-========================================================= */
-
-
-function hideItemCard() {
 
 
   document
@@ -2758,12 +1894,188 @@ function hideItemCard() {
       'hidden'
     );
 
+
+  document
+    .getElementById(
+      'manualCode'
+    )
+    .value = '';
+
+
+  scanLocked = false;
+
+
+  openScanner();
+
 }
 
 
 
 /* =========================================================
-   STATUS
+   JSONP API
+========================================================= */
+
+
+function apiCall(
+  action,
+  params,
+  callback
+) {
+
+
+  if (
+    API_URL.includes(
+      'PASTE_YOUR'
+    )
+  ) {
+
+    hideLoading();
+
+    alert(
+      'Set API_URL first.'
+    );
+
+    return;
+
+  }
+
+
+  const callbackName =
+    'ims_' +
+    Date.now() +
+    '_' +
+    Math.floor(
+      Math.random() *
+      100000
+    );
+
+
+  const script =
+    document.createElement(
+      'script'
+    );
+
+
+  let completed =
+    false;
+
+
+  const timeout =
+    setTimeout(
+      function() {
+
+        if (completed) return;
+
+        completed = true;
+
+        cleanup();
+
+        hideLoading();
+
+        callback({
+          success: false,
+          message:
+            'IMS API timed out.'
+        });
+
+      },
+      15000
+    );
+
+
+  function cleanup() {
+
+    clearTimeout(
+      timeout
+    );
+
+
+    try {
+
+      delete window[
+        callbackName
+      ];
+
+    }
+
+    catch (error) {}
+
+
+    script.remove();
+
+  }
+
+
+  window[
+    callbackName
+  ] =
+    function(result) {
+
+      if (completed) return;
+
+      completed = true;
+
+      cleanup();
+
+      callback(result);
+
+    };
+
+
+  const query =
+    new URLSearchParams({
+
+      action:
+        action,
+
+      ...params,
+
+      callback:
+        callbackName,
+
+      _:
+        Date.now()
+
+    });
+
+
+  script.src =
+    API_URL +
+    '?' +
+    query.toString();
+
+
+  script.onerror =
+    function() {
+
+      if (completed) return;
+
+      completed = true;
+
+      cleanup();
+
+      hideLoading();
+
+      callback({
+        success: false,
+        message:
+          'Unable to reach IMS API.'
+      });
+
+    };
+
+
+  document.body
+    .appendChild(
+      script
+    );
+
+}
+
+
+
+/* =========================================================
+   HELPERS
 ========================================================= */
 
 
@@ -2771,7 +2083,6 @@ function showStatus(
   message,
   type
 ) {
-
 
   const box =
     document
@@ -2793,35 +2104,31 @@ function showStatus(
 }
 
 
-
-/* =========================================================
-   LOADING
-========================================================= */
-
-
-function showLoading(
+function showLoginError(
   message
 ) {
 
+  alert(message);
 
-  const overlay =
-    document
-      .getElementById(
-        'loading'
-      );
+}
 
+
+function showLoading(
+  text
+) {
 
   document
     .getElementById(
       'loadingText'
     )
     .textContent =
-
-      message ||
-      'Loading...';
+      text || 'Loading...';
 
 
-  overlay
+  document
+    .getElementById(
+      'loading'
+    )
     .classList
     .remove(
       'hidden'
@@ -2831,7 +2138,6 @@ function showLoading(
 
 
 function hideLoading() {
-
 
   document
     .getElementById(
@@ -2845,57 +2151,9 @@ function hideLoading() {
 }
 
 
-
-/* =========================================================
-   FORMAT QUANTITY
-========================================================= */
-
-
-function formatQty(
-  value
-) {
-
-
-  const number =
-    Number(
-      value || 0
-    );
-
-
-  if (
-    Number.isInteger(
-      number
-    )
-  ) {
-
-
-    return String(
-      number
-    );
-
-  }
-
-
-  return number
-    .toFixed(2)
-    .replace(
-      /\.?0+$/,
-      ''
-    );
-
-}
-
-
-
-/* =========================================================
-   HTML ESCAPE
-========================================================= */
-
-
 function escapeHtml(
   value
 ) {
-
 
   return String(
     value || ''
@@ -2928,26 +2186,7 @@ function escapeHtml(
 
 }
 
-
-
-/* =========================================================
-   OPTIONAL API TEST
-========================================================= */
-
-
-function testApi() {
-
-
-  lookupInventory(
-    'MED-0001'
-  );
-
-}
-
-
 </script>
 
-
 </body>
-
 </html>
