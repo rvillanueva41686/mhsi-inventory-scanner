@@ -21,7 +21,6 @@
   src="https://unpkg.com/@zxing/browser@latest">
 </script>
 
-
 <style>
 
 * {
@@ -190,8 +189,7 @@ body {
   right: 7%;
   top: 34%;
   height: 32%;
-  border:
-    2px solid rgba(255,255,255,.9);
+  border: 2px solid rgba(255,255,255,.9);
   border-radius: 12px;
 }
 
@@ -237,6 +235,11 @@ button {
 
 .quarantine {
   background: #8b5cf6;
+  color: white;
+}
+
+.danger {
+  background: #b42318;
   color: white;
 }
 
@@ -305,8 +308,7 @@ label {
 
 .stock-grid {
   display: grid;
-  grid-template-columns:
-    repeat(3,1fr);
+  grid-template-columns: repeat(3,1fr);
   gap: 8px;
   margin-top: 16px;
 }
@@ -426,10 +428,153 @@ label {
   }
 }
 
+
+/* =========================================================
+   CUSTOM MODAL
+========================================================= */
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: rgba(16,24,40,.58);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 22px;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+.modal-card {
+  width: 100%;
+  max-width: 430px;
+  background: white;
+  border-radius: 26px;
+  padding: 24px;
+  box-shadow:
+    0 24px 70px rgba(0,0,0,.25);
+  animation: modalIn .18s ease-out;
+}
+
+@keyframes modalIn {
+  from {
+    transform: translateY(15px) scale(.98);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+.modal-icon {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  font-size: 28px;
+  font-weight: 900;
+}
+
+.modal-icon-success {
+  background: #e8f7ee;
+  color: #15805b;
+}
+
+.modal-icon-warning {
+  background: #fff7e8;
+  color: #d97706;
+}
+
+.modal-icon-error {
+  background: #fff0f0;
+  color: #b42318;
+}
+
+.modal-icon-info {
+  background: #edf4ff;
+  color: #2d6ed5;
+}
+
+.modal-title {
+  font-size: 22px;
+  font-weight: 850;
+  margin-bottom: 8px;
+}
+
+.modal-message {
+  color: #667085;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.modal-summary {
+  margin-top: 18px;
+  border-radius: 16px;
+  background: #f7f9fc;
+  padding: 14px;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.modal-summary-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 4px 0;
+}
+
+.modal-summary-label {
+  color: #667085;
+}
+
+.modal-summary-value {
+  font-weight: 800;
+  text-align: right;
+}
+
+.modal-batches {
+  margin-top: 12px;
+}
+
+.modal-batch {
+  border-top: 1px solid #e9edf3;
+  padding: 10px 0;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.modal-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.modal-actions.single {
+  grid-template-columns: 1fr;
+}
+
+.modal-actions button {
+  margin: 0;
+}
+
+@media (max-width: 420px) {
+
+  .modal-actions {
+    grid-template-columns: 1fr;
+  }
+
+}
+
 </style>
 
 </head>
-
 
 <body>
 
@@ -442,6 +587,45 @@ label {
 
   <div id="loadingText">
     Loading...
+  </div>
+
+</div>
+
+
+<!-- CUSTOM MODAL -->
+
+<div
+  id="customModal"
+  class="modal-backdrop hidden">
+
+  <div class="modal-card">
+
+    <div
+      id="modalIcon"
+      class="modal-icon modal-icon-info">
+      i
+    </div>
+
+    <div
+      id="modalTitle"
+      class="modal-title">
+    </div>
+
+    <div
+      id="modalMessage"
+      class="modal-message">
+    </div>
+
+    <div
+      id="modalSummary"
+      class="modal-summary hidden">
+    </div>
+
+    <div
+      id="modalActions"
+      class="modal-actions">
+    </div>
+
   </div>
 
 </div>
@@ -507,7 +691,6 @@ label {
 
     </div>
 
-
     <button
       class="logout"
       onclick="logout()">
@@ -515,7 +698,6 @@ label {
     </button>
 
   </div>
-
 
   <div
     id="permissionList"
@@ -549,14 +731,12 @@ label {
 
   </div>
 
-
   <button
     id="openButton"
     class="primary"
     onclick="openScanner()">
     OPEN SCANNER
   </button>
-
 
   <button
     id="stopButton"
@@ -579,7 +759,6 @@ label {
     ">
     MANUAL SEARCH
   </div>
-
 
   <div class="manual-row">
 
@@ -783,7 +962,6 @@ label {
     rows="3">
   </textarea>
 
-
   <button
     class="receive"
     onclick="submitReceive()">
@@ -814,12 +992,10 @@ label {
     class="form-item">
   </div>
 
-
   <div
     id="fefoPreview"
     class="note fefo-note">
   </div>
-
 
   <label>
     Quantity to Issue *
@@ -831,7 +1007,6 @@ label {
     min="0.01"
     step="0.01">
 
-
   <label>
     Purpose / Reason
   </label>
@@ -840,13 +1015,11 @@ label {
     id="issueReason"
     value="Issuance">
 
-
   <label>
     Reference No.
   </label>
 
   <input id="issueReference">
-
 
   <label>
     Notes
@@ -857,13 +1030,11 @@ label {
     rows="3">
   </textarea>
 
-
   <button
     class="issue"
     onclick="submitIssue()">
     CONFIRM ISSUE
   </button>
-
 
   <button
     class="secondary"
@@ -889,11 +1060,9 @@ label {
     class="form-item">
   </div>
 
-
   <div class="note quarantine-note">
     Quarantined quantity will be removed from available stock and cannot be issued through FEFO.
   </div>
-
 
   <label>
     Batch / Lot *
@@ -909,12 +1078,10 @@ label {
 
   </select>
 
-
   <div
     id="quarantineBatchInfo"
     class="note info hidden">
   </div>
-
 
   <label>
     Quantity *
@@ -925,7 +1092,6 @@ label {
     type="number"
     min="0.01"
     step="0.01">
-
 
   <label>
     Reason *
@@ -967,7 +1133,6 @@ label {
 
   </select>
 
-
   <label>
     Reference No.
   </label>
@@ -975,7 +1140,6 @@ label {
   <input
     id="quarantineReference"
     placeholder="Recall memo / Incident / Reference">
-
 
   <label>
     Notes
@@ -986,13 +1150,11 @@ label {
     rows="3">
   </textarea>
 
-
   <button
     class="quarantine"
     onclick="submitQuarantine()">
     CONFIRM QUARANTINE
   </button>
-
 
   <button
     class="secondary"
@@ -1038,6 +1200,8 @@ let controls = null;
 let scannerRunning = false;
 
 let scanLocked = false;
+
+let modalConfirmCallback = null;
 
 
 
@@ -1120,9 +1284,12 @@ function handleGoogleCredential(
     !response.credential
   ) {
 
-    alert(
-      'Google sign-in failed.'
-    );
+    showMessageModal({
+      type: 'error',
+      title: 'Sign-in Failed',
+      message:
+        'Google sign-in could not be completed.'
+    });
 
     return;
 
@@ -1153,10 +1320,13 @@ function handleGoogleCredential(
         result.success !== true
       ) {
 
-        alert(
-          result?.message ||
-          'Access denied.'
-        );
+        showMessageModal({
+          type: 'error',
+          title: 'Access Denied',
+          message:
+            result?.message ||
+            'Your account could not be authorized.'
+        });
 
         return;
 
@@ -1336,31 +1506,54 @@ function renderPermissions() {
 
 function logout() {
 
-  stopScanner();
+  showConfirmModal({
+
+    type: 'warning',
+
+    title:
+      'Log Out?',
+
+    message:
+      'You will need to sign in again to access the inventory scanner.',
+
+    confirmText:
+      'LOG OUT',
+
+    confirmClass:
+      'danger',
+
+    onConfirm:
+      function() {
+
+        stopScanner();
 
 
-  apiCall(
-    'logout',
-    {
-      session:
-        sessionToken
-    },
-    function() {}
-  );
+        apiCall(
+          'logout',
+          {
+            session:
+              sessionToken
+          },
+          function() {}
+        );
 
 
-  try {
+        try {
 
-    google.accounts.id
-      .disableAutoSelect();
+          google.accounts.id
+            .disableAutoSelect();
 
-  }
-  catch (error) {}
+        }
+        catch (error) {}
 
 
-  clearSession();
+        clearSession();
 
-  location.reload();
+        location.reload();
+
+      }
+
+  });
 
 }
 
@@ -1593,11 +1786,13 @@ async function openScanner() {
 
   catch (error) {
 
-    showStatus(
-      error.message ||
-      String(error),
-      'error'
-    );
+    showMessageModal({
+      type: 'error',
+      title: 'Camera Error',
+      message:
+        error.message ||
+        String(error)
+    });
 
   }
 
@@ -1711,10 +1906,12 @@ function manualLookup() {
 
   if (!value) {
 
-    showStatus(
-      'Enter a Barcode or Item ID.',
-      'error'
-    );
+    showMessageModal({
+      type: 'warning',
+      title: 'Enter Item Code',
+      message:
+        'Enter a Barcode or Item ID before searching.'
+    });
 
     return;
 
@@ -1759,11 +1956,13 @@ function lookupInventory(
         result.success !== true
       ) {
 
-        showStatus(
-          result?.message ||
-          'IMS lookup failed.',
-          'error'
-        );
+        showMessageModal({
+          type: 'error',
+          title: 'Lookup Failed',
+          message:
+            result?.message ||
+            'The inventory lookup could not be completed.'
+        });
 
         scanLocked = false;
 
@@ -1785,10 +1984,12 @@ function lookupInventory(
           );
 
 
-        showStatus(
-          'Item not found in ITEM_MASTER.',
-          'warning'
-        );
+        showMessageModal({
+          type: 'warning',
+          title: 'Item Not Found',
+          message:
+            'The scanned Barcode or Item ID was not found in ITEM_MASTER.'
+        });
 
 
         scanLocked = false;
@@ -2116,9 +2317,12 @@ function submitReceive() {
     quantity <= 0
   ) {
 
-    alert(
-      'Enter a valid quantity.'
-    );
+    showMessageModal({
+      type: 'warning',
+      title: 'Invalid Quantity',
+      message:
+        'Enter a quantity greater than zero.'
+    });
 
     return;
 
@@ -2130,9 +2334,12 @@ function submitReceive() {
     !batchNo
   ) {
 
-    alert(
-      'Batch / Lot Number is required.'
-    );
+    showMessageModal({
+      type: 'warning',
+      title: 'Batch Required',
+      message:
+        'Enter the Batch or Lot Number for this item.'
+    });
 
     return;
 
@@ -2144,9 +2351,12 @@ function submitReceive() {
     !expiryDate
   ) {
 
-    alert(
-      'Expiry Date is required.'
-    );
+    showMessageModal({
+      type: 'warning',
+      title: 'Expiry Date Required',
+      message:
+        'Enter the expiry date for this item.'
+    });
 
     return;
 
@@ -2155,31 +2365,64 @@ function submitReceive() {
 
   if (!locationId) {
 
-    alert(
-      'Select a storage location.'
-    );
+    showMessageModal({
+      type: 'warning',
+      title: 'Location Required',
+      message:
+        'Select the storage location for the received stock.'
+    });
 
     return;
 
   }
 
 
-  if (
-    !confirm(
-      'Receive ' +
-      quantity +
-      ' ' +
-      (
-        item.uom || ''
-      ) +
-      ' of ' +
-      item.itemName +
-      '?'
-    )
-  ) {
-    return;
-  }
+  showConfirmModal({
 
+    type: 'info',
+
+    title:
+      'Confirm Stock Receipt',
+
+    message:
+      'Review the receipt details before posting this transaction.',
+
+    summary: [
+      ['Item', item.itemName],
+      ['Quantity', quantity + ' ' + (item.uom || '')],
+      ['Batch', batchNo || 'No Batch'],
+      ['Expiry', expiryDate || 'N/A'],
+      ['Location', locationId]
+    ],
+
+    confirmText:
+      'CONFIRM RECEIVE',
+
+    confirmClass:
+      'receive',
+
+    onConfirm:
+      function() {
+
+        performReceive({
+          item,
+          quantity,
+          batchNo,
+          expiryDate,
+          locationId,
+          unitCost
+        });
+
+      }
+
+  });
+
+}
+
+
+function performReceive(
+  data
+) {
 
   showLoading(
     'Receiving stock...'
@@ -2200,22 +2443,22 @@ function submitReceive() {
         ),
 
       itemId:
-        item.itemId,
+        data.item.itemId,
 
       quantity:
-        quantity,
+        data.quantity,
 
       batchNo:
-        batchNo,
+        data.batchNo,
 
       expiryDate:
-        expiryDate,
+        data.expiryDate,
 
       locationId:
-        locationId,
+        data.locationId,
 
       unitCost:
-        unitCost,
+        data.unitCost,
 
       referenceNo:
         document.getElementById(
@@ -2238,10 +2481,13 @@ function submitReceive() {
         result.success !== true
       ) {
 
-        alert(
-          result?.message ||
-          'Receive failed.'
-        );
+        showMessageModal({
+          type: 'error',
+          title: 'Receive Failed',
+          message:
+            result?.message ||
+            'The stock receipt could not be completed.'
+        });
 
         return;
 
@@ -2251,14 +2497,51 @@ function submitReceive() {
       closeReceive();
 
 
-      alert(
-        'Stock received successfully.'
-      );
+      const r =
+        result.result || {};
 
 
-      lookupInventory(
-        item.itemId
-      );
+      showMessageModal({
+
+        type: 'success',
+
+        title:
+          'Stock Received',
+
+        message:
+          'The stock receipt was posted successfully.',
+
+        summary: [
+          ['Item', data.item.itemName],
+          ['Quantity Received', r.quantityReceived ?? data.quantity],
+          ['Available After', r.availableAfter ?? '-'],
+          ['Batch', data.batchNo || 'No Batch'],
+          ['Transaction', r.transactionId || '-']
+        ],
+
+        primaryText:
+          'DONE',
+
+        secondaryText:
+          'SCAN NEXT ITEM',
+
+        onSecondary:
+          function() {
+
+            scanAnother();
+
+          },
+
+        onClose:
+          function() {
+
+            lookupInventory(
+              data.item.itemId
+            );
+
+          }
+
+      });
 
     }
 
@@ -2425,9 +2708,12 @@ function submitIssue() {
     quantity <= 0
   ) {
 
-    alert(
-      'Enter a valid quantity.'
-    );
+    showMessageModal({
+      type: 'warning',
+      title: 'Invalid Quantity',
+      message:
+        'Enter a quantity greater than zero.'
+    });
 
     return;
 
@@ -2439,34 +2725,158 @@ function submitIssue() {
     available
   ) {
 
-    alert(
-      'Insufficient stock.'
+    showMessageModal({
+      type: 'warning',
+      title: 'Insufficient Stock',
+      message:
+        'The requested quantity is greater than the current available inventory.',
+      summary: [
+        ['Requested', quantity],
+        ['Available', available]
+      ]
+    });
+
+    return;
+
+  }
+
+
+  const reason =
+    document
+      .getElementById(
+        'issueReason'
+      )
+      .value
+      .trim();
+
+
+  const fefo =
+    calculateFefoPreview(
+      quantity
     );
 
-    return;
 
-  }
+  showConfirmModal({
+
+    type: 'warning',
+
+    title:
+      'Confirm Stock Issue',
+
+    message:
+      'The system will deduct inventory automatically using FEFO.',
+
+    summary: [
+      ['Item', item.itemName],
+      ['Quantity', quantity + ' ' + (item.uom || '')],
+      ['Available Before', available],
+      ['Reason', reason || 'Issuance']
+    ],
+
+    batches:
+      fefo,
+
+    confirmText:
+      'CONFIRM ISSUE',
+
+    confirmClass:
+      'issue',
+
+    onConfirm:
+      function() {
+
+        performIssue({
+          item,
+          quantity,
+          reason
+        });
+
+      }
+
+  });
+
+}
 
 
-  if (
-    !confirm(
-      'Issue ' +
-      quantity +
-      ' ' +
-      (
-        item.uom || ''
-      ) +
-      ' of ' +
-      item.itemName +
-      ' using FEFO?'
+function calculateFefoPreview(
+  quantity
+) {
+
+  let remaining =
+    quantity;
+
+
+  const allocations = [];
+
+
+  const batches =
+    (
+      currentItemResult
+        .inventory
+        .batches || []
     )
+    .filter(
+      batch =>
+        Number(
+          batch.qtyAvailable || 0
+        ) > 0
+    );
+
+
+  for (
+    const batch
+    of batches
   ) {
-    return;
+
+    if (
+      remaining <= 0
+    ) {
+      break;
+    }
+
+
+    const useQty =
+      Math.min(
+        Number(
+          batch.qtyAvailable || 0
+        ),
+        remaining
+      );
+
+
+    allocations.push({
+
+      label:
+        batch.batchNo ||
+        batch.batchStockId,
+
+      quantity:
+        useQty,
+
+      expiry:
+        batch.expiryDate ||
+        'N/A'
+
+    });
+
+
+    remaining -=
+      useQty;
+
   }
 
+
+  return allocations;
+
+}
+
+
+function performIssue(
+  data
+) {
 
   showLoading(
-    'Issuing stock...'
+    'Issuing stock using FEFO...'
   );
 
 
@@ -2485,18 +2895,14 @@ function submitIssue() {
         ),
 
       itemId:
-        item.itemId,
+        data.item.itemId,
 
       quantity:
-        quantity,
+        data.quantity,
 
       reason:
-        document
-          .getElementById(
-            'issueReason'
-          )
-          .value
-          .trim(),
+        data.reason ||
+        'Issuance',
 
       referenceNo:
         document
@@ -2526,10 +2932,13 @@ function submitIssue() {
         result.success !== true
       ) {
 
-        alert(
-          result?.message ||
-          'Issue failed.'
-        );
+        showMessageModal({
+          type: 'error',
+          title: 'Issue Failed',
+          message:
+            result?.message ||
+            'The stock issue transaction could not be completed.'
+        });
 
         return;
 
@@ -2539,14 +2948,78 @@ function submitIssue() {
       closeIssue();
 
 
-      alert(
-        'Stock issued successfully.'
-      );
+      const r =
+        result.result || {};
 
 
-      lookupInventory(
-        item.itemId
-      );
+      const batchSummary =
+        (
+          r.deductions || []
+        )
+        .map(
+          function(batch) {
+
+            return {
+
+              label:
+                batch.batchNo ||
+                batch.batchStockId,
+
+              quantity:
+                batch.quantityIssued,
+
+              expiry:
+                batch.expiryDate ||
+                'N/A'
+
+            };
+
+          }
+        );
+
+
+      showMessageModal({
+
+        type: 'success',
+
+        title:
+          'Stock Issued',
+
+        message:
+          'The stock issue was posted successfully using FEFO.',
+
+        summary: [
+          ['Item', data.item.itemName],
+          ['Total Issued', r.totalIssued ?? data.quantity],
+          ['Available After', r.availableAfter ?? '-']
+        ],
+
+        batches:
+          batchSummary,
+
+        primaryText:
+          'DONE',
+
+        secondaryText:
+          'SCAN NEXT ITEM',
+
+        onSecondary:
+          function() {
+
+            scanAnother();
+
+          },
+
+        onClose:
+          function() {
+
+            lookupInventory(
+              data.item.itemId
+            );
+
+          }
+
+      });
 
     }
 
@@ -2814,9 +3287,12 @@ function submitQuarantine() {
 
   if (!batchStockId) {
 
-    alert(
-      'Select a batch.'
-    );
+    showMessageModal({
+      type: 'warning',
+      title: 'Select Batch',
+      message:
+        'Select the exact Batch or Lot that will be placed in quarantine.'
+    });
 
     return;
 
@@ -2828,9 +3304,12 @@ function submitQuarantine() {
     quantity <= 0
   ) {
 
-    alert(
-      'Enter a valid quantity.'
-    );
+    showMessageModal({
+      type: 'warning',
+      title: 'Invalid Quantity',
+      message:
+        'Enter a quantity greater than zero.'
+    });
 
     return;
 
@@ -2856,9 +3335,12 @@ function submitQuarantine() {
       )
   ) {
 
-    alert(
-      'Quantity exceeds available stock in this batch.'
-    );
+    showMessageModal({
+      type: 'warning',
+      title: 'Insufficient Batch Stock',
+      message:
+        'The quarantine quantity exceeds the available stock in this batch.'
+    });
 
     return;
 
@@ -2867,36 +3349,64 @@ function submitQuarantine() {
 
   if (!reason) {
 
-    alert(
-      'Select a quarantine reason.'
-    );
+    showMessageModal({
+      type: 'warning',
+      title: 'Reason Required',
+      message:
+        'Select the reason for placing this stock in quarantine.'
+    });
 
     return;
 
   }
 
 
-  if (
-    !confirm(
-      'Move ' +
-      quantity +
-      ' ' +
-      (
-        item.uom || ''
-      ) +
-      ' to quarantine?\n\n' +
-      'Batch: ' +
-      (
-        batch.batchNo ||
-        batch.batchStockId
-      ) +
-      '\nReason: ' +
-      reason
-    )
-  ) {
-    return;
-  }
+  showConfirmModal({
 
+    type: 'warning',
+
+    title:
+      'Confirm Quarantine',
+
+    message:
+      'This quantity will be removed from available stock and moved into quarantine.',
+
+    summary: [
+      ['Item', item.itemName],
+      ['Batch', batch.batchNo || batch.batchStockId],
+      ['Expiry', batch.expiryDate || 'N/A'],
+      ['Quantity', quantity + ' ' + (item.uom || '')],
+      ['Available Before', batch.qtyAvailable],
+      ['Reason', reason]
+    ],
+
+    confirmText:
+      'CONFIRM QUARANTINE',
+
+    confirmClass:
+      'quarantine',
+
+    onConfirm:
+      function() {
+
+        performQuarantine({
+          item,
+          batch,
+          batchStockId,
+          quantity,
+          reason
+        });
+
+      }
+
+  });
+
+}
+
+
+function performQuarantine(
+  data
+) {
 
   showLoading(
     'Moving stock to quarantine...'
@@ -2918,13 +3428,13 @@ function submitQuarantine() {
         ),
 
       batchStockId:
-        batchStockId,
+        data.batchStockId,
 
       quantity:
-        quantity,
+        data.quantity,
 
       reason:
-        reason,
+        data.reason,
 
       referenceNo:
         document
@@ -2954,10 +3464,13 @@ function submitQuarantine() {
         result.success !== true
       ) {
 
-        alert(
-          result?.message ||
-          'Quarantine transaction failed.'
-        );
+        showMessageModal({
+          type: 'error',
+          title: 'Quarantine Failed',
+          message:
+            result?.message ||
+            'The quarantine transaction could not be completed.'
+        });
 
         return;
 
@@ -2967,14 +3480,53 @@ function submitQuarantine() {
       closeQuarantine();
 
 
-      alert(
-        'Stock moved to quarantine successfully.'
-      );
+      const r =
+        result.result || {};
 
 
-      lookupInventory(
-        item.itemId
-      );
+      showMessageModal({
+
+        type: 'success',
+
+        title:
+          'Stock Quarantined',
+
+        message:
+          'The selected stock was moved to quarantine successfully.',
+
+        summary: [
+          ['Item', data.item.itemName],
+          ['Batch', data.batch.batchNo || data.batch.batchStockId],
+          ['Quantity Quarantined', r.quantityQuarantined ?? data.quantity],
+          ['Available After', r.availableAfter ?? '-'],
+          ['Quarantined After', r.quarantinedAfter ?? '-'],
+          ['Reason', data.reason],
+          ['Transaction', r.transactionId || '-']
+        ],
+
+        primaryText:
+          'DONE',
+
+        secondaryText:
+          'SCAN NEXT ITEM',
+
+        onSecondary:
+          function() {
+
+            scanAnother();
+
+          },
+
+        onClose:
+          function() {
+
+            lookupInventory(
+              data.item.itemId
+            );
+
+          }
+
+      });
 
     }
 
@@ -3182,6 +3734,463 @@ function scanAnother() {
 
 
   openScanner();
+
+}
+
+
+/* =========================================================
+   CUSTOM MODAL FUNCTIONS
+========================================================= */
+
+function modalIconData(
+  type
+) {
+
+  if (
+    type === 'success'
+  ) {
+
+    return {
+      icon: '✓',
+      className:
+        'modal-icon modal-icon-success'
+    };
+
+  }
+
+
+  if (
+    type === 'warning'
+  ) {
+
+    return {
+      icon: '!',
+      className:
+        'modal-icon modal-icon-warning'
+    };
+
+  }
+
+
+  if (
+    type === 'error'
+  ) {
+
+    return {
+      icon: '×',
+      className:
+        'modal-icon modal-icon-error'
+    };
+
+  }
+
+
+  return {
+    icon: 'i',
+    className:
+      'modal-icon modal-icon-info'
+  };
+
+}
+
+
+function renderModalSummary(
+  summary,
+  batches
+) {
+
+  const box =
+    document.getElementById(
+      'modalSummary'
+    );
+
+
+  let html = '';
+
+
+  if (
+    Array.isArray(summary)
+  ) {
+
+    summary.forEach(
+      function(row) {
+
+        html += `
+
+          <div class="modal-summary-row">
+
+            <div class="modal-summary-label">
+              ${escapeHtml(row[0])}
+            </div>
+
+            <div class="modal-summary-value">
+              ${escapeHtml(row[1])}
+            </div>
+
+          </div>
+
+        `;
+
+      }
+    );
+
+  }
+
+
+  if (
+    Array.isArray(batches) &&
+    batches.length
+  ) {
+
+    html +=
+      '<div class="modal-batches">' +
+      '<b>Batch Allocation</b>';
+
+
+    batches.forEach(
+      function(batch) {
+
+        html += `
+
+          <div class="modal-batch">
+
+            <b>
+              ${escapeHtml(
+                batch.label
+              )}
+            </b>
+
+            <br>
+
+            Quantity:
+            <b>
+              ${escapeHtml(
+                batch.quantity
+              )}
+            </b>
+
+            <br>
+
+            Expiry:
+            ${escapeHtml(
+              batch.expiry ||
+              'N/A'
+            )}
+
+          </div>
+
+        `;
+
+      }
+    );
+
+
+    html +=
+      '</div>';
+
+  }
+
+
+  if (!html) {
+
+    box.classList.add(
+      'hidden'
+    );
+
+    box.innerHTML = '';
+
+    return;
+
+  }
+
+
+  box.innerHTML =
+    html;
+
+
+  box.classList.remove(
+    'hidden'
+  );
+
+}
+
+
+function openModalBase(
+  options
+) {
+
+  const modal =
+    document.getElementById(
+      'customModal'
+    );
+
+
+  const iconData =
+    modalIconData(
+      options.type ||
+      'info'
+    );
+
+
+  const icon =
+    document.getElementById(
+      'modalIcon'
+    );
+
+
+  icon.textContent =
+    iconData.icon;
+
+
+  icon.className =
+    iconData.className;
+
+
+  document
+    .getElementById(
+      'modalTitle'
+    )
+    .textContent =
+      options.title || '';
+
+
+  document
+    .getElementById(
+      'modalMessage'
+    )
+    .textContent =
+      options.message || '';
+
+
+  renderModalSummary(
+    options.summary,
+    options.batches
+  );
+
+
+  modal.classList.remove(
+    'hidden'
+  );
+
+
+  document.body.style.overflow =
+    'hidden';
+
+}
+
+
+function closeCustomModal() {
+
+  document
+    .getElementById(
+      'customModal'
+    )
+    .classList.add(
+      'hidden'
+    );
+
+
+  document.body.style.overflow =
+    '';
+
+
+  modalConfirmCallback =
+    null;
+
+}
+
+
+function showConfirmModal(
+  options
+) {
+
+  openModalBase(
+    options
+  );
+
+
+  modalConfirmCallback =
+    options.onConfirm ||
+    null;
+
+
+  const actions =
+    document.getElementById(
+      'modalActions'
+    );
+
+
+  actions.className =
+    'modal-actions';
+
+
+  actions.innerHTML = `
+    <button
+      class="secondary"
+      onclick="closeCustomModal()">
+      CANCEL
+    </button>
+
+    <button
+      class="${escapeHtml(
+        options.confirmClass ||
+        'primary'
+      )}"
+      onclick="confirmCustomModal()">
+      ${escapeHtml(
+        options.confirmText ||
+        'CONFIRM'
+      )}
+    </button>
+  `;
+
+}
+
+
+function confirmCustomModal() {
+
+  const callback =
+    modalConfirmCallback;
+
+
+  closeCustomModal();
+
+
+  if (
+    typeof callback ===
+    'function'
+  ) {
+
+    callback();
+
+  }
+
+}
+
+
+function showMessageModal(
+  options
+) {
+
+  openModalBase(
+    options
+  );
+
+
+  const actions =
+    document.getElementById(
+      'modalActions'
+    );
+
+
+  const hasSecondary =
+    !!options.secondaryText;
+
+
+  actions.className =
+    hasSecondary
+      ? 'modal-actions'
+      : 'modal-actions single';
+
+
+  let html = '';
+
+
+  if (
+    hasSecondary
+  ) {
+
+    html += `
+      <button
+        class="secondary"
+        onclick="runModalSecondary()">
+        ${escapeHtml(
+          options.secondaryText
+        )}
+      </button>
+    `;
+
+  }
+
+
+  html += `
+    <button
+      class="primary"
+      onclick="runModalPrimary()">
+      ${escapeHtml(
+        options.primaryText ||
+        'DONE'
+      )}
+    </button>
+  `;
+
+
+  actions.innerHTML =
+    html;
+
+
+  window.__modalPrimary =
+    function() {
+
+      closeCustomModal();
+
+
+      if (
+        typeof options.onClose ===
+        'function'
+      ) {
+
+        options.onClose();
+
+      }
+
+    };
+
+
+  window.__modalSecondary =
+    function() {
+
+      closeCustomModal();
+
+
+      if (
+        typeof options.onSecondary ===
+        'function'
+      ) {
+
+        options.onSecondary();
+
+      }
+
+    };
+
+}
+
+
+function runModalPrimary() {
+
+  if (
+    typeof window.__modalPrimary ===
+    'function'
+  ) {
+
+    window.__modalPrimary();
+
+  }
+
+}
+
+
+function runModalSecondary() {
+
+  if (
+    typeof window.__modalSecondary ===
+    'function'
+  ) {
+
+    window.__modalSecondary();
+
+  }
 
 }
 
@@ -3474,7 +4483,7 @@ function escapeHtml(
 ) {
 
   return String(
-    value || ''
+    value ?? ''
   )
 
   .replace(
