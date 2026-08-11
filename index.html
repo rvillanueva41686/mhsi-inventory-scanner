@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
@@ -7,9 +8,16 @@
 
   <meta
     name="viewport"
-    content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    content="
+      width=device-width,
+      initial-scale=1,
+      maximum-scale=1,
+      user-scalable=no
+    ">
 
-  <title>MHSI Inventory Scanner</title>
+  <title>
+    MHSI Inventory Scanner
+  </title>
 
 
   <script
@@ -30,390 +38,952 @@
       box-sizing: border-box;
     }
 
+
     body {
+
       margin: 0;
+
       font-family:
         -apple-system,
         BlinkMacSystemFont,
         "Segoe UI",
         Arial,
         sans-serif;
-      background: #f3f6fb;
-      color: #172033;
+
+      background:
+        #f3f6fb;
+
+      color:
+        #172033;
+
     }
 
+
     .header {
+
       background:
         linear-gradient(
           135deg,
           #1555b6,
           #3277df
         );
-      color: white;
-      padding: 25px 20px;
+
+      color:
+        white;
+
+      padding:
+        25px 20px;
+
     }
+
 
     .header h1 {
+
       margin: 0;
-      font-size: 24px;
+
+      font-size:
+        24px;
+
     }
+
 
     .header p {
-      margin: 6px 0 0;
-      opacity: .9;
-      font-size: 13px;
+
+      margin:
+        6px 0 0;
+
+      opacity:
+        .9;
+
+      font-size:
+        13px;
+
     }
+
 
     .container {
-      max-width: 650px;
-      margin: auto;
-      padding: 16px;
+
+      max-width:
+        650px;
+
+      margin:
+        auto;
+
+      padding:
+        16px;
+
     }
+
 
     .card {
-      background: white;
-      border-radius: 20px;
-      padding: 18px;
-      margin-bottom: 15px;
+
+      background:
+        white;
+
+      border-radius:
+        20px;
+
+      padding:
+        18px;
+
+      margin-bottom:
+        15px;
+
       box-shadow:
-        0 4px 18px rgba(0,0,0,.055);
+        0 4px 18px
+        rgba(
+          0,
+          0,
+          0,
+          .055
+        );
+
     }
+
 
     .hidden {
-      display: none !important;
+
+      display:
+        none !important;
+
     }
+
+
+    /* LOGIN */
+
 
     .login-card {
-      text-align: center;
-      padding: 30px 20px;
+
+      text-align:
+        center;
+
+      padding:
+        32px 20px;
+
     }
+
 
     .login-icon {
-      font-size: 48px;
-      margin-bottom: 12px;
+
+      font-size:
+        50px;
+
+      margin-bottom:
+        12px;
+
     }
+
 
     .login-title {
-      font-size: 22px;
-      font-weight: 800;
-      margin-bottom: 8px;
+
+      font-size:
+        22px;
+
+      font-weight:
+        800;
+
+      margin-bottom:
+        8px;
+
     }
+
 
     .login-text {
-      color: #667085;
-      font-size: 13px;
-      line-height: 1.5;
-      margin-bottom: 22px;
+
+      color:
+        #667085;
+
+      font-size:
+        13px;
+
+      line-height:
+        1.55;
+
+      margin-bottom:
+        22px;
+
     }
+
 
     #googleButton {
-      display: flex;
-      justify-content: center;
+
+      display:
+        flex;
+
+      justify-content:
+        center;
+
     }
+
+
+    /* USER */
+
 
     .user-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
+
+      display:
+        flex;
+
+      justify-content:
+        space-between;
+
+      align-items:
+        center;
+
+      gap:
+        12px;
+
     }
+
 
     .user-name {
-      font-size: 18px;
-      font-weight: 800;
+
+      font-size:
+        18px;
+
+      font-weight:
+        800;
+
     }
+
 
     .user-meta {
-      margin-top: 4px;
-      color: #667085;
-      font-size: 12px;
-      line-height: 1.5;
+
+      margin-top:
+        4px;
+
+      color:
+        #667085;
+
+      font-size:
+        12px;
+
+      line-height:
+        1.5;
+
     }
+
 
     .permission-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 12px;
+
+      display:
+        flex;
+
+      flex-wrap:
+        wrap;
+
+      gap:
+        6px;
+
+      margin-top:
+        12px;
+
     }
+
 
     .permission {
-      background: #edf4ff;
-      color: #2764c5;
-      padding: 6px 9px;
-      border-radius: 20px;
-      font-size: 10px;
-      font-weight: 800;
+
+      background:
+        #edf4ff;
+
+      color:
+        #2764c5;
+
+      padding:
+        6px 9px;
+
+      border-radius:
+        20px;
+
+      font-size:
+        10px;
+
+      font-weight:
+        800;
+
     }
+
+
+    /* STATUS */
+
 
     .status {
-      padding: 13px 15px;
-      border-radius: 13px;
-      margin-bottom: 15px;
-      font-size: 13px;
-      line-height: 1.5;
+
+      padding:
+        13px 15px;
+
+      border-radius:
+        13px;
+
+      margin-bottom:
+        15px;
+
+      font-size:
+        13px;
+
+      line-height:
+        1.5;
+
     }
+
 
     .info {
-      background: #edf4ff;
-      color: #2459a9;
+
+      background:
+        #edf4ff;
+
+      color:
+        #2459a9;
+
     }
+
 
     .success {
-      background: #e8f7ee;
-      color: #166534;
+
+      background:
+        #e8f7ee;
+
+      color:
+        #166534;
+
     }
+
 
     .error {
-      background: #fff0f0;
-      color: #b42318;
+
+      background:
+        #fff0f0;
+
+      color:
+        #b42318;
+
     }
+
 
     .warning {
-      background: #fff7e8;
-      color: #945b00;
+
+      background:
+        #fff7e8;
+
+      color:
+        #945b00;
+
     }
+
+
+    /* CAMERA */
+
 
     .camera-shell {
-      position: relative;
-      overflow: hidden;
-      background: #111;
-      border-radius: 16px;
+
+      position:
+        relative;
+
+      overflow:
+        hidden;
+
+      background:
+        #111;
+
+      border-radius:
+        16px;
+
     }
+
 
     #video {
-      display: block;
-      width: 100%;
-      height: 330px;
-      object-fit: cover;
-      background: #111;
+
+      display:
+        block;
+
+      width:
+        100%;
+
+      height:
+        330px;
+
+      object-fit:
+        cover;
+
+      background:
+        #111;
+
     }
+
 
     .scan-frame {
-      position: absolute;
-      left: 7%;
-      right: 7%;
-      top: 34%;
-      height: 32%;
-      border: 2px solid rgba(255,255,255,.9);
-      border-radius: 12px;
-      pointer-events: none;
+
+      position:
+        absolute;
+
+      left:
+        7%;
+
+      right:
+        7%;
+
+      top:
+        34%;
+
+      height:
+        32%;
+
+      border:
+        2px solid
+        rgba(
+          255,
+          255,
+          255,
+          .9
+        );
+
+      border-radius:
+        12px;
+
+      pointer-events:
+        none;
+
     }
+
 
     .scan-line {
-      position: absolute;
-      left: 10%;
-      right: 10%;
-      top: 50%;
-      height: 2px;
-      background: white;
-      pointer-events: none;
+
+      position:
+        absolute;
+
+      left:
+        10%;
+
+      right:
+        10%;
+
+      top:
+        50%;
+
+      height:
+        2px;
+
+      background:
+        white;
+
+      pointer-events:
+        none;
+
     }
+
+
+    /* BUTTON */
+
 
     button {
-      width: 100%;
-      border: 0;
-      border-radius: 12px;
-      padding: 14px 16px;
-      margin-top: 10px;
-      font-size: 15px;
-      font-weight: 800;
-      cursor: pointer;
+
+      width:
+        100%;
+
+      border:
+        0;
+
+      border-radius:
+        12px;
+
+      padding:
+        14px 16px;
+
+      margin-top:
+        10px;
+
+      font-size:
+        15px;
+
+      font-weight:
+        800;
+
+      cursor:
+        pointer;
+
     }
+
 
     .primary {
-      background: #2d6ed5;
-      color: white;
+
+      background:
+        #2d6ed5;
+
+      color:
+        white;
+
     }
+
 
     .secondary {
-      background: #edf4ff;
-      color: #2764c5;
+
+      background:
+        #edf4ff;
+
+      color:
+        #2764c5;
+
     }
+
 
     .receive {
-      background: #16794f;
-      color: white;
+
+      background:
+        #15805b;
+
+      color:
+        white;
+
     }
 
+
     .logout {
-      width: auto;
-      margin: 0;
-      padding: 10px 13px;
-      background: #fff0f0;
-      color: #b42318;
+
+      width:
+        auto;
+
+      margin:
+        0;
+
+      padding:
+        10px 13px;
+
+      background:
+        #fff0f0;
+
+      color:
+        #b42318;
+
     }
+
+
+    /* FORMS */
+
 
     input,
     select,
     textarea {
-      width: 100%;
-      border: 1px solid #d7dee8;
-      border-radius: 12px;
-      padding: 13px;
-      font-size: 16px;
-      background: white;
-      margin-bottom: 13px;
+
+      width:
+        100%;
+
+      border:
+        1px solid
+        #d7dee8;
+
+      border-radius:
+        12px;
+
+      padding:
+        13px;
+
+      font-size:
+        16px;
+
+      background:
+        white;
+
+      margin-bottom:
+        13px;
+
     }
+
 
     label {
-      display: block;
-      margin-bottom: 5px;
-      font-size: 12px;
-      font-weight: 800;
-      color: #667085;
+
+      display:
+        block;
+
+      margin-bottom:
+        5px;
+
+      color:
+        #667085;
+
+      font-size:
+        12px;
+
+      font-weight:
+        800;
+
     }
 
-    .manual-row {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 8px;
-    }
-
-    .manual-row input {
-      margin: 0;
-    }
-
-    .manual-row button {
-      width: auto;
-      min-width: 90px;
-      margin: 0;
-    }
-
-    .section-title {
-      color: #687386;
-      font-size: 11px;
-      font-weight: 800;
-      margin-bottom: 8px;
-    }
-
-    .item-code {
-      color: #687386;
-      font-size: 12px;
-      font-weight: 700;
-    }
-
-    .item-name {
-      margin-top: 5px;
-      font-size: 23px;
-      font-weight: 800;
-    }
-
-    .item-details {
-      margin-top: 11px;
-      color: #667085;
-      font-size: 13px;
-      line-height: 1.7;
-    }
-
-    .stock-grid {
-      display: grid;
-      grid-template-columns:
-        repeat(3,1fr);
-      gap: 8px;
-      margin-top: 16px;
-    }
-
-    .stock-box {
-      background: #f5f8fc;
-      border-radius: 14px;
-      padding: 14px 5px;
-      text-align: center;
-    }
-
-    .stock-number {
-      color: #2868c9;
-      font-size: 23px;
-      font-weight: 800;
-    }
-
-    .stock-label {
-      margin-top: 3px;
-      color: #697386;
-      font-size: 9px;
-      font-weight: 800;
-    }
-
-    .batch-heading {
-      margin-top: 19px;
-      color: #687386;
-      font-size: 11px;
-      font-weight: 800;
-    }
-
-    .batch {
-      padding: 11px 0;
-      border-top: 1px solid #edf0f4;
-      font-size: 12px;
-      line-height: 1.6;
-    }
-
-    .level {
-      margin-top: 14px;
-      border-radius: 12px;
-      padding: 12px;
-      font-size: 12px;
-      font-weight: 700;
-    }
-
-    .level-good {
-      background: #ebf8ef;
-      color: #166534;
-    }
-
-    .level-reorder {
-      background: #fff7e8;
-      color: #945b00;
-    }
-
-    .level-critical {
-      background: #fff0f0;
-      color: #b42318;
-    }
-
-    .receive-title {
-      font-size: 21px;
-      font-weight: 800;
-      margin-bottom: 5px;
-    }
-
-    .receive-item {
-      color: #667085;
-      font-size: 13px;
-      margin-bottom: 18px;
-    }
 
     .required {
-      color: #b42318;
+
+      color:
+        #b42318;
+
     }
+
+
+    .manual-row {
+
+      display:
+        grid;
+
+      grid-template-columns:
+        1fr auto;
+
+      gap:
+        8px;
+
+    }
+
+
+    .manual-row input {
+
+      margin: 0;
+
+    }
+
+
+    .manual-row button {
+
+      width:
+        auto;
+
+      min-width:
+        90px;
+
+      margin:
+        0;
+
+    }
+
+
+    /* ITEM */
+
+
+    .section-title {
+
+      color:
+        #687386;
+
+      font-size:
+        11px;
+
+      font-weight:
+        800;
+
+      margin-bottom:
+        8px;
+
+    }
+
+
+    .item-code {
+
+      color:
+        #687386;
+
+      font-size:
+        12px;
+
+      font-weight:
+        700;
+
+    }
+
+
+    .item-name {
+
+      margin-top:
+        5px;
+
+      font-size:
+        23px;
+
+      font-weight:
+        800;
+
+    }
+
+
+    .item-details {
+
+      margin-top:
+        11px;
+
+      color:
+        #667085;
+
+      font-size:
+        13px;
+
+      line-height:
+        1.7;
+
+    }
+
+
+    .stock-grid {
+
+      display:
+        grid;
+
+      grid-template-columns:
+        repeat(
+          3,
+          1fr
+        );
+
+      gap:
+        8px;
+
+      margin-top:
+        16px;
+
+    }
+
+
+    .stock-box {
+
+      background:
+        #f5f8fc;
+
+      border-radius:
+        14px;
+
+      padding:
+        14px 5px;
+
+      text-align:
+        center;
+
+    }
+
+
+    .stock-number {
+
+      color:
+        #2868c9;
+
+      font-size:
+        23px;
+
+      font-weight:
+        800;
+
+    }
+
+
+    .stock-label {
+
+      margin-top:
+        3px;
+
+      color:
+        #697386;
+
+      font-size:
+        9px;
+
+      font-weight:
+        800;
+
+    }
+
+
+    .level {
+
+      margin-top:
+        14px;
+
+      border-radius:
+        12px;
+
+      padding:
+        12px;
+
+      font-size:
+        12px;
+
+      font-weight:
+        700;
+
+    }
+
+
+    .level-good {
+
+      background:
+        #ebf8ef;
+
+      color:
+        #166534;
+
+    }
+
+
+    .level-reorder {
+
+      background:
+        #fff7e8;
+
+      color:
+        #945b00;
+
+    }
+
+
+    .level-critical {
+
+      background:
+        #fff0f0;
+
+      color:
+        #b42318;
+
+    }
+
+
+    .batch-heading {
+
+      margin-top:
+        19px;
+
+      color:
+        #687386;
+
+      font-size:
+        11px;
+
+      font-weight:
+        800;
+
+    }
+
+
+    .batch {
+
+      padding:
+        11px 0;
+
+      border-top:
+        1px solid
+        #edf0f4;
+
+      font-size:
+        12px;
+
+      line-height:
+        1.6;
+
+    }
+
+
+    /* RECEIVE */
+
+
+    .receive-title {
+
+      font-size:
+        21px;
+
+      font-weight:
+        800;
+
+      margin-bottom:
+        5px;
+
+    }
+
+
+    .receive-item {
+
+      color:
+        #667085;
+
+      font-size:
+        13px;
+
+      margin-bottom:
+        18px;
+
+    }
+
+
+    /* LOADING */
+
 
     .loading {
-      position: fixed;
-      inset: 0;
-      z-index: 9999;
-      background: rgba(255,255,255,.93);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      color: #2868c9;
-      font-weight: 800;
+
+      position:
+        fixed;
+
+      inset:
+        0;
+
+      z-index:
+        9999;
+
+      background:
+        rgba(
+          255,
+          255,
+          255,
+          .93
+        );
+
+      display:
+        flex;
+
+      flex-direction:
+        column;
+
+      justify-content:
+        center;
+
+      align-items:
+        center;
+
+      color:
+        #2868c9;
+
+      font-weight:
+        800;
+
     }
+
 
     .spinner {
-      width: 38px;
-      height: 38px;
-      border: 4px solid #dce8f8;
-      border-top-color: #2868c9;
-      border-radius: 50%;
-      margin-bottom: 12px;
-      animation: spin .8s linear infinite;
+
+      width:
+        38px;
+
+      height:
+        38px;
+
+      border:
+        4px solid
+        #dce8f8;
+
+      border-top-color:
+        #2868c9;
+
+      border-radius:
+        50%;
+
+      margin-bottom:
+        12px;
+
+      animation:
+        spin .8s linear
+        infinite;
+
     }
 
+
     @keyframes spin {
+
       to {
-        transform: rotate(360deg);
+
+        transform:
+          rotate(360deg);
+
       }
+
     }
 
   </style>
@@ -455,6 +1025,7 @@
 
   <!-- LOGIN -->
 
+
   <div
     id="loginCard"
     class="card login-card">
@@ -468,7 +1039,10 @@
     </div>
 
     <div class="login-text">
-      Use your authorized MHSI Google account.
+
+      Sign in using your authorized
+      MHSI Google account.
+
     </div>
 
     <div id="googleButton"></div>
@@ -476,11 +1050,15 @@
   </div>
 
 
-  <!-- APP -->
+  <!-- APPLICATION -->
+
 
   <div
     id="appArea"
     class="hidden">
+
+
+    <!-- USER -->
 
 
     <div class="card">
@@ -521,6 +1099,9 @@
     </div>
 
 
+    <!-- STATUS -->
+
+
     <div
       id="statusBox"
       class="status info">
@@ -531,6 +1112,7 @@
 
 
     <!-- SCANNER -->
+
 
     <div class="card">
 
@@ -544,6 +1126,7 @@
         </video>
 
         <div class="scan-frame"></div>
+
         <div class="scan-line"></div>
 
       </div>
@@ -571,7 +1154,8 @@
     </div>
 
 
-    <!-- MANUAL -->
+    <!-- MANUAL SEARCH -->
+
 
     <div class="card">
 
@@ -579,11 +1163,14 @@
         MANUAL SEARCH
       </div>
 
+
       <div class="manual-row">
 
         <input
           id="manualCode"
+          type="text"
           placeholder="Barcode / Item ID">
+
 
         <button
           class="primary"
@@ -598,21 +1185,25 @@
     </div>
 
 
-    <!-- ITEM CARD -->
+    <!-- ITEM -->
+
 
     <div
       id="itemCard"
       class="card hidden">
+
 
       <div
         id="itemCode"
         class="item-code">
       </div>
 
+
       <div
         id="itemName"
         class="item-name">
       </div>
+
 
       <div
         id="itemDetails"
@@ -621,6 +1212,7 @@
 
 
       <div class="stock-grid">
+
 
         <div class="stock-box">
 
@@ -666,6 +1258,7 @@
 
         </div>
 
+
       </div>
 
 
@@ -696,18 +1289,22 @@
 
       </button>
 
+
     </div>
 
 
     <!-- RECEIVE FORM -->
 
+
     <div
       id="receiveCard"
       class="card hidden">
 
+
       <div class="receive-title">
         Receive Stock
       </div>
+
 
       <div
         id="receiveItemName"
@@ -716,9 +1313,12 @@
 
 
       <label>
+
         Quantity
         <span class="required">*</span>
+
       </label>
+
 
       <input
         id="receiveQty"
@@ -729,47 +1329,51 @@
         placeholder="Quantity received">
 
 
-      <div id="batchField">
+      <label>
 
-        <label>
-          Batch / Lot Number
-          <span
-            id="batchRequired"
-            class="required">
-          </span>
-        </label>
+        Batch / Lot Number
 
-        <input
-          id="receiveBatch"
-          type="text"
-          placeholder="Batch / Lot Number">
+        <span
+          id="batchRequired"
+          class="required">
+        </span>
 
-      </div>
+      </label>
 
 
-      <div id="expiryField">
-
-        <label>
-          Expiry Date
-          <span
-            id="expiryRequired"
-            class="required">
-          </span>
-        </label>
-
-        <input
-          id="receiveExpiry"
-          type="date">
-
-      </div>
+      <input
+        id="receiveBatch"
+        type="text"
+        placeholder="Batch / Lot Number">
 
 
       <label>
-        Storage Location
-        <span class="required">*</span>
+
+        Expiry Date
+
+        <span
+          id="expiryRequired"
+          class="required">
+        </span>
+
       </label>
 
-      <select id="receiveLocation">
+
+      <input
+        id="receiveExpiry"
+        type="date">
+
+
+      <label>
+
+        Storage Location
+        <span class="required">*</span>
+
+      </label>
+
+
+      <select
+        id="receiveLocation">
 
         <option value="">
           Select location
@@ -781,6 +1385,7 @@
       <label>
         Unit Cost
       </label>
+
 
       <input
         id="receiveUnitCost"
@@ -795,9 +1400,11 @@
         Reference No.
       </label>
 
+
       <input
         id="receiveReference"
         type="text"
+        maxlength="100"
         placeholder="PO / DR / Delivery Reference">
 
 
@@ -805,9 +1412,11 @@
         Notes
       </label>
 
+
       <textarea
         id="receiveNotes"
         rows="3"
+        maxlength="300"
         placeholder="Optional notes">
       </textarea>
 
@@ -829,10 +1438,12 @@
 
       </button>
 
+
     </div>
 
 
   </div>
+
 
 </main>
 
@@ -841,19 +1452,15 @@
 
 
 /* =========================================================
-   SETTINGS
+   CONFIG
 ========================================================= */
+
 
 const GOOGLE_CLIENT_ID =
   '717366343479-qjs60uj0gumr9m326phdtjp5kp0o6vrq.apps.googleusercontent.com';
 
 
-/*
-  REPLACE THIS WITH YOUR
-  CURRENT /exec URL
-*/
-
-const _URL =
+const API_URL =
   'https://script.google.com/macros/s/AKfycbwSGG51EMk-47M9QqAfGUosXfslYvrq8MB6sSdVAO8NMFKL3YjzDsLXoLxsO-JvbMKwCA/exec';
 
 
@@ -861,6 +1468,7 @@ const _URL =
 /* =========================================================
    STATE
 ========================================================= */
+
 
 let sessionToken =
   localStorage.getItem(
@@ -898,8 +1506,9 @@ let scanLocked =
 
 
 /* =========================================================
-   START
+   INITIALIZE
 ========================================================= */
+
 
 window.addEventListener(
   'load',
@@ -910,9 +1519,7 @@ window.addEventListener(
 function initialize() {
 
 
-  if (
-    sessionToken
-  ) {
+  if (sessionToken) {
 
     validateStoredSession();
 
@@ -949,6 +1556,7 @@ function initialize() {
    GOOGLE LOGIN
 ========================================================= */
 
+
 function initializeGoogleLogin() {
 
 
@@ -968,11 +1576,13 @@ function initializeGoogleLogin() {
 
   google.accounts.id.renderButton(
 
-    document.getElementById(
-      'googleButton'
-    ),
+    document
+      .getElementById(
+        'googleButton'
+      ),
 
     {
+
       theme:
         'outline',
 
@@ -984,6 +1594,7 @@ function initializeGoogleLogin() {
 
       text:
         'signin_with'
+
     }
 
   );
@@ -1015,8 +1626,9 @@ function handleGoogleCredential(
   );
 
 
-  Call(
+  apiCall(
     'login',
+
     {
       credential:
         response.credential
@@ -1073,11 +1685,13 @@ function handleGoogleCredential(
    SESSION
 ========================================================= */
 
+
 function validateStoredSession() {
 
 
-  Call(
+  apiCall(
     'session',
+
     {
       session:
         sessionToken
@@ -1094,6 +1708,7 @@ function validateStoredSession() {
 
         currentUser =
           result.user;
+
 
         openApp();
 
@@ -1119,8 +1734,7 @@ function openApp() {
     .getElementById(
       'loginCard'
     )
-    .classList
-    .add(
+    .classList.add(
       'hidden'
     );
 
@@ -1129,8 +1743,7 @@ function openApp() {
     .getElementById(
       'appArea'
     )
-    .classList
-    .remove(
+    .classList.remove(
       'hidden'
     );
 
@@ -1181,38 +1794,63 @@ function openApp() {
 }
 
 
+
+/* =========================================================
+   PERMISSIONS
+========================================================= */
+
+
 function renderPermissions() {
 
 
-  const p =
+  const permissions =
     currentUser.permissions || {};
 
 
   const labels = [];
 
 
-  if (p.receive) {
+  if (
+    permissions.receive
+  ) {
+
     labels.push(
       'RECEIVE'
     );
+
   }
 
-  if (p.issue) {
+
+  if (
+    permissions.issue
+  ) {
+
     labels.push(
       'ISSUE'
     );
+
   }
 
-  if (p.transfer) {
+
+  if (
+    permissions.transfer
+  ) {
+
     labels.push(
       'TRANSFER'
     );
+
   }
 
-  if (p.count) {
+
+  if (
+    permissions.count
+  ) {
+
     labels.push(
       'COUNT'
     );
+
   }
 
 
@@ -1227,7 +1865,9 @@ function renderPermissions() {
 
           return (
             '<span class="permission">' +
-            escapeHtml(label) +
+            escapeHtml(
+              label
+            ) +
             '</span>'
           );
 
@@ -1243,23 +1883,25 @@ function renderPermissions() {
    LOGOUT
 ========================================================= */
 
+
 function logout() {
 
 
   stopScanner();
 
 
-  if (
-    sessionToken
-  ) {
+  if (sessionToken) {
 
-    Call(
+    apiCall(
       'logout',
+
       {
         session:
           sessionToken
       },
+
       function() {}
+
     );
 
   }
@@ -1305,11 +1947,13 @@ function clearSession() {
    LOCATIONS
 ========================================================= */
 
+
 function loadLocations() {
 
 
-  Call(
+  apiCall(
     'locations',
+
     {
       session:
         sessionToken
@@ -1332,56 +1976,64 @@ function loadLocations() {
         result.locations || [];
 
 
-      const select =
-        document
-          .getElementById(
-            'receiveLocation'
-          );
-
-
-      select.innerHTML =
-
-        '<option value="">' +
-        'Select location' +
-        '</option>';
-
-
-      locations.forEach(
-        function(location) {
-
-
-          const option =
-            document
-              .createElement(
-                'option'
-              );
-
-
-          option.value =
-            location.locationId;
-
-
-          option.textContent =
-
-            location.locationName +
-
-            (
-              location.locationType
-                ? ' • ' +
-                  location.locationType
-                : ''
-            );
-
-
-          select.appendChild(
-            option
-          );
-
-        }
-      );
+      renderLocationDropdown();
 
     }
 
+  );
+
+}
+
+
+function renderLocationDropdown() {
+
+
+  const select =
+    document
+      .getElementById(
+        'receiveLocation'
+      );
+
+
+  select.innerHTML =
+
+    '<option value="">' +
+    'Select location' +
+    '</option>';
+
+
+  locations.forEach(
+    function(location) {
+
+
+      const option =
+        document
+          .createElement(
+            'option'
+          );
+
+
+      option.value =
+        location.locationId;
+
+
+      option.textContent =
+
+        location.locationName +
+
+        (
+          location.locationType
+            ? ' • ' +
+              location.locationType
+            : ''
+        );
+
+
+      select.appendChild(
+        option
+      );
+
+    }
   );
 
 }
@@ -1391,6 +2043,7 @@ function loadLocations() {
 /* =========================================================
    CAMERA
 ========================================================= */
+
 
 async function openScanner() {
 
@@ -1472,8 +2125,7 @@ async function openScanner() {
 
     if (rear) {
 
-      selected =
-        rear;
+      selected = rear;
 
     }
 
@@ -1520,7 +2172,8 @@ async function openScanner() {
         );
 
 
-    scannerRunning = true;
+    scannerRunning =
+      true;
 
 
     document
@@ -1578,20 +2231,27 @@ async function stopScanner() {
   catch (error) {}
 
 
-  controls = null;
+  controls =
+    null;
 
-  codeReader = null;
 
-  scannerRunning = false;
+  codeReader =
+    null;
+
+
+  scannerRunning =
+    false;
 
 
   const video =
-    document.getElementById(
-      'video'
-    );
+    document
+      .getElementById(
+        'video'
+      );
 
 
   if (
+    video &&
     video.srcObject
   ) {
 
@@ -1644,7 +2304,8 @@ async function handleScannedCode(
   }
 
 
-  scanLocked = true;
+  scanLocked =
+    true;
 
 
   if (
@@ -1672,6 +2333,7 @@ async function handleScannedCode(
 /* =========================================================
    LOOKUP
 ========================================================= */
+
 
 function manualLookup() {
 
@@ -1714,8 +2376,9 @@ function lookupInventory(
   );
 
 
-  Call(
+  apiCall(
     'lookup',
+
     {
       session:
         sessionToken,
@@ -1739,7 +2402,10 @@ function lookupInventory(
           'error'
         );
 
-        scanLocked = false;
+
+        scanLocked =
+          false;
+
 
         return;
 
@@ -1768,7 +2434,10 @@ function lookupInventory(
           'error'
         );
 
-        scanLocked = false;
+
+        scanLocked =
+          false;
+
 
         return;
 
@@ -1794,7 +2463,9 @@ function lookupInventory(
         );
 
 
-        scanLocked = false;
+        scanLocked =
+          false;
+
 
         return;
 
@@ -1810,7 +2481,8 @@ function lookupInventory(
       );
 
 
-      scanLocked = false;
+      scanLocked =
+        false;
 
     }
 
@@ -1824,6 +2496,7 @@ function lookupInventory(
    DISPLAY ITEM
 ========================================================= */
 
+
 function displayItem(
   result
 ) {
@@ -1833,7 +2506,7 @@ function displayItem(
     result.item;
 
 
-  const inv =
+  const inventory =
     result.inventory;
 
 
@@ -1904,7 +2577,7 @@ function displayItem(
       'availableStock'
     )
     .textContent =
-      inv.totalAvailable;
+      inventory.totalAvailable;
 
 
   document
@@ -1912,7 +2585,7 @@ function displayItem(
       'quarantineStock'
     )
     .textContent =
-      inv.totalQuarantined;
+      inventory.totalQuarantined;
 
 
   document
@@ -1920,24 +2593,19 @@ function displayItem(
       'transitStock'
     )
     .textContent =
-      inv.totalInTransit;
+      inventory.totalInTransit;
 
 
   renderThreshold(
-    inv.totalAvailable,
+    inventory.totalAvailable,
     result.threshold
   );
 
 
   renderBatches(
-    inv.batches
+    inventory.batches || []
   );
 
-
-  /*
-    RECEIVE button only
-    when authorized.
-  */
 
   const receiveButton =
     document
@@ -1980,8 +2648,13 @@ function displayItem(
       'itemCard'
     )
     .scrollIntoView({
+
       behavior:
-        'smooth'
+        'smooth',
+
+      block:
+        'start'
+
     });
 
 }
@@ -1991,6 +2664,7 @@ function displayItem(
 /* =========================================================
    RECEIVE FORM
 ========================================================= */
+
 
 function openReceive() {
 
@@ -2006,6 +2680,9 @@ function openReceive() {
 
   const item =
     currentItemResult.item;
+
+
+  clearReceiveForm();
 
 
   document
@@ -2041,12 +2718,9 @@ function openReceive() {
         : '';
 
 
-  clearReceiveForm();
-
-
   /*
-    Preferred location from
-    PCC_ITEMS when configured.
+    Auto-select preferred
+    stockroom if configured.
   */
 
   if (
@@ -2082,8 +2756,13 @@ function openReceive() {
       'receiveCard'
     )
     .scrollIntoView({
+
       behavior:
-        'smooth'
+        'smooth',
+
+      block:
+        'start'
+
     });
 
 }
@@ -2129,6 +2808,13 @@ function clearReceiveForm() {
 
   document
     .getElementById(
+      'receiveLocation'
+    )
+    .value = '';
+
+
+  document
+    .getElementById(
       'receiveUnitCost'
     )
     .value = '';
@@ -2155,7 +2841,8 @@ function clearReceiveForm() {
    SUBMIT RECEIVE
 ========================================================= */
 
-async function submitReceive() {
+
+function submitReceive() {
 
 
   if (
@@ -2207,11 +2894,13 @@ async function submitReceive() {
 
 
   const unitCost =
-    document
-      .getElementById(
-        'receiveUnitCost'
-      )
-      .value;
+    Number(
+      document
+        .getElementById(
+          'receiveUnitCost'
+        )
+        .value || 0
+    );
 
 
   const referenceNo =
@@ -2285,8 +2974,25 @@ async function submitReceive() {
   }
 
 
+  if (
+    !Number.isFinite(
+      unitCost
+    ) ||
+    unitCost < 0
+  ) {
+
+    alert(
+      'Invalid unit cost.'
+    );
+
+    return;
+
+  }
+
+
   const confirmed =
     confirm(
+
       'Receive ' +
       quantity +
       ' ' +
@@ -2296,6 +3002,7 @@ async function submitReceive() {
       ' of ' +
       item.itemName +
       '?'
+
     );
 
 
@@ -2311,29 +3018,26 @@ async function submitReceive() {
 
 
   showLoading(
-    'Posting stock receipt...'
+    'Receiving stock...'
   );
 
 
-  const body =
-    new URLSearchParams({
+  apiCall(
+    'receive',
 
-      action:
-        'receive',
-
-      requestId:
-        requestId,
+    {
 
       session:
         sessionToken,
+
+      requestId:
+        requestId,
 
       itemId:
         item.itemId,
 
       quantity:
-        String(
-          quantity
-        ),
+        quantity,
 
       batchNo:
         batchNo,
@@ -2345,7 +3049,7 @@ async function submitReceive() {
         locationId,
 
       unitCost:
-        unitCost || '0',
+        unitCost,
 
       referenceNo:
         referenceNo,
@@ -2353,195 +3057,91 @@ async function submitReceive() {
       notes:
         notes
 
-    });
+    },
+
+    function(result) {
 
 
-  try {
+      hideLoading();
 
 
-    /*
-      no-cors:
-      POST is sent to Apps Script.
-      Result will be checked separately
-      through writeStatus.
-    */
+      if (!result) {
 
-    await fetch(
-      _URL,
-      {
+        alert(
+          'No response from IMS.'
+        );
 
-        method:
-          'POST',
-
-        mode:
-          'no-cors',
-
-        headers: {
-
-          'Content-Type':
-            'application/x-www-form-urlencoded;charset=UTF-8'
-
-        },
-
-        body:
-          body.toString()
+        return;
 
       }
-    );
 
 
-    pollWriteStatus(
-      requestId,
-      0
-    );
+      if (
+        result.authenticated ===
+        false
+      ) {
 
-  }
+        sessionExpired();
 
-  catch (error) {
+        return;
 
-
-    hideLoading();
-
-
-    alert(
-      'Unable to submit transaction.'
-    );
-
-  }
-
-}
+      }
 
 
+      if (
+        result.success !== true
+      ) {
 
-/* =========================================================
-   POLL WRITE RESULT
-========================================================= */
+        alert(
+          result.message ||
+          'Receive transaction failed.'
+        );
 
-function pollWriteStatus(
-  requestId,
-  attempt
-) {
+        return;
 
-
-  if (
-    attempt > 20
-  ) {
-
-    hideLoading();
+      }
 
 
-    alert(
-      'Transaction status could not be confirmed. Please check the inventory before trying again.'
-    );
+      const transaction =
+        result.result || {};
 
 
-    return;
-
-  }
+      closeReceive();
 
 
-  setTimeout(
-    function() {
+      alert(
 
+        'Stock received successfully.' +
 
-      Call(
-        'writestatus',
-        {
+        (
+          transaction.transactionId
+            ? '\n\nTransaction: ' +
+              transaction.transactionId
+            : ''
+        ) +
 
-          session:
-            sessionToken,
-
-          requestId:
-            requestId
-
-        },
-
-        function(result) {
-
-
-          if (
-            !result
-          ) {
-
-            pollWriteStatus(
-              requestId,
-              attempt + 1
-            );
-
-            return;
-
-          }
-
-
-          if (
-            result.status ===
-              'SUCCESS'
-          ) {
-
-
-            hideLoading();
-
-
-            const transaction =
-              result.result || {};
-
-
-            closeReceive();
-
-
-            alert(
-              transaction.message ||
-              'Stock received successfully.'
-            );
-
-
-            /*
-              Refresh current item.
-            */
-
-            lookupInventory(
-              currentItemResult
-                .item
-                .itemId
-            );
-
-
-            return;
-
-          }
-
-
-          if (
-            result.status ===
-              'ERROR'
-          ) {
-
-
-            hideLoading();
-
-
-            alert(
-              result.message ||
-              'Stock receipt failed.'
-            );
-
-
-            return;
-
-          }
-
-
-          pollWriteStatus(
-            requestId,
-            attempt + 1
-          );
-
-        }
+        (
+          transaction.availableAfter !==
+          undefined
+            ? '\nAvailable stock: ' +
+              transaction.availableAfter
+            : ''
+        )
 
       );
 
-    },
-    600
+
+      /*
+        Automatically refresh
+        stock after successful receipt.
+      */
+
+      lookupInventory(
+        item.itemId
+      );
+
+    }
+
   );
 
 }
@@ -2549,8 +3149,9 @@ function pollWriteStatus(
 
 
 /* =========================================================
-   THRESHOLD
+   STOCK THRESHOLD
 ========================================================= */
+
 
 function renderThreshold(
   available,
@@ -2592,8 +3193,12 @@ function renderThreshold(
 
 
     box.textContent =
-      '⚠ Critical stock level. Available: ' +
+
+      '⚠ Critical stock level. ' +
+
+      'Available: ' +
       available +
+
       ' • Critical: ' +
       threshold.criticalLevel;
 
@@ -2614,8 +3219,12 @@ function renderThreshold(
 
 
     box.textContent =
-      '⚠ Reorder level reached. Available: ' +
+
+      '⚠ Reorder level reached. ' +
+
+      'Available: ' +
       available +
+
       ' • Reorder at: ' +
       threshold.reorderLevel;
 
@@ -2637,8 +3246,9 @@ function renderThreshold(
 
 
 /* =========================================================
-   BATCHES
+   BATCH DISPLAY
 ========================================================= */
+
 
 function renderBatches(
   batches
@@ -2710,7 +3320,9 @@ function renderBatches(
             ${batch.qtyAvailable}
           </b>
 
-          • Quarantine:
+          &nbsp; • &nbsp;
+
+          Quarantine:
           <b>
             ${batch.qtyQuarantined}
           </b>
@@ -2722,6 +3334,15 @@ function renderBatches(
             batch.locationId ||
             '-'
           )}
+
+          ${
+            batch.unitCost
+              ? '<br>Unit Cost: ₱' +
+                Number(
+                  batch.unitCost
+                ).toFixed(2)
+              : ''
+          }
 
         </div>
 
@@ -2739,8 +3360,9 @@ function renderBatches(
 
 
 /* =========================================================
-   SCAN AGAIN
+   SCAN ANOTHER
 ========================================================= */
+
 
 function scanAnother() {
 
@@ -2768,7 +3390,8 @@ function scanAnother() {
     null;
 
 
-  scanLocked = false;
+  scanLocked =
+    false;
 
 
   openScanner();
@@ -2778,37 +3401,25 @@ function scanAnother() {
 
 
 /* =========================================================
-    CALL / JSONP
+   JSONP API
 ========================================================= */
 
-function Call(
+
+function apiCall(
   action,
   params,
   callback
 ) {
 
 
-  if (
-    _URL.includes(
-      'PASTE_YOUR'
-    )
-  ) {
-
-    hideLoading();
-
-    alert(
-      'Set _URL first.'
-    );
-
-    return;
-
-  }
-
-
   const callbackName =
+
     'ims_' +
+
     Date.now() +
+
     '_' +
+
     Math.floor(
       Math.random() *
       100000
@@ -2822,7 +3433,7 @@ function Call(
       );
 
 
-  let done =
+  let completed =
     false;
 
 
@@ -2831,27 +3442,35 @@ function Call(
       function() {
 
 
-        if (done) {
+        if (completed) {
 
           return;
 
         }
 
 
-        done = true;
+        completed =
+          true;
 
 
         cleanup();
 
 
+        hideLoading();
+
+
         callback({
-          success: false,
+
+          success:
+            false,
+
           message:
-            'IMS  timed out.'
+            'IMS API timed out.'
+
         });
 
       },
-      15000
+      20000
     );
 
 
@@ -2894,14 +3513,15 @@ function Call(
     function(result) {
 
 
-      if (done) {
+      if (completed) {
 
         return;
 
       }
 
 
-      done = true;
+      completed =
+        true;
 
 
       cleanup();
@@ -2915,25 +3535,64 @@ function Call(
 
 
   const query =
-    new URLSearchParams({
+    new URLSearchParams();
 
-      action:
-        action,
 
-      ...params,
+  query.set(
+    'action',
+    action
+  );
 
-      callback:
-        callbackName,
 
-      _:
-        Date.now()
+  Object.keys(
+    params || {}
+  ).forEach(
+    function(key) {
 
-    });
+
+      const value =
+        params[key];
+
+
+      if (
+        value !== null &&
+        typeof value !==
+          'undefined'
+      ) {
+
+        query.set(
+          key,
+          String(value)
+        );
+
+      }
+
+    }
+  );
+
+
+  query.set(
+    'callback',
+    callbackName
+  );
+
+
+  /*
+    Prevent browser caching.
+  */
+
+  query.set(
+    '_',
+    Date.now()
+  );
 
 
   script.src =
-    _URL +
+
+    API_URL +
+
     '?' +
+
     query.toString();
 
 
@@ -2941,23 +3600,31 @@ function Call(
     function() {
 
 
-      if (done) {
+      if (completed) {
 
         return;
 
       }
 
 
-      done = true;
+      completed =
+        true;
 
 
       cleanup();
 
 
+      hideLoading();
+
+
       callback({
-        success: false,
+
+        success:
+          false,
+
         message:
-          'Unable to reach IMS .'
+          'Unable to reach IMS API.'
+
       });
 
     };
@@ -2976,6 +3643,7 @@ function Call(
    HELPERS
 ========================================================= */
 
+
 function generateRequestId() {
 
 
@@ -2984,15 +3652,22 @@ function generateRequestId() {
     crypto.randomUUID
   ) {
 
-    return crypto.randomUUID();
+    return (
+      'RCV-' +
+      crypto.randomUUID()
+    );
 
   }
 
 
   return (
 
+    'RCV-' +
+
     Date.now() +
+
     '-' +
+
     Math.random()
       .toString(36)
       .slice(2)
@@ -3057,7 +3732,8 @@ function showLoading(
       'loadingText'
     )
     .textContent =
-      message || 'Loading...';
+      message ||
+      'Loading...';
 
 
   document
@@ -3120,6 +3796,7 @@ function escapeHtml(
     );
 
 }
+
 
 </script>
 
