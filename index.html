@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
@@ -82,34 +81,6 @@ body {
   display: none !important;
 }
 
-.status {
-  padding: 13px 15px;
-  border-radius: 13px;
-  margin-bottom: 15px;
-  font-size: 13px;
-  line-height: 1.5;
-}
-
-.info {
-  background: #edf4ff;
-  color: #2459a9;
-}
-
-.success {
-  background: #e8f7ee;
-  color: #166534;
-}
-
-.error {
-  background: #fff0f0;
-  color: #b42318;
-}
-
-.warning {
-  background: #fff7e8;
-  color: #945b00;
-}
-
 .login-card {
   text-align: center;
   padding: 32px 20px;
@@ -169,6 +140,34 @@ body {
   border-radius: 20px;
   font-size: 10px;
   font-weight: 800;
+}
+
+.status {
+  padding: 13px 15px;
+  border-radius: 13px;
+  margin-bottom: 15px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.info {
+  background: #edf4ff;
+  color: #2459a9;
+}
+
+.success {
+  background: #e8f7ee;
+  color: #166534;
+}
+
+.error {
+  background: #fff0f0;
+  color: #b42318;
+}
+
+.warning {
+  background: #fff7e8;
+  color: #945b00;
 }
 
 .camera-shell {
@@ -233,6 +232,11 @@ button {
 
 .issue {
   background: #e07b15;
+  color: white;
+}
+
+.quarantine {
+  background: #8b5cf6;
   color: white;
 }
 
@@ -375,14 +379,22 @@ label {
   font-size: 13px;
 }
 
-.fefo-note {
+.note {
   padding: 12px;
   margin-bottom: 15px;
-  background: #fff7e8;
-  color: #945b00;
   border-radius: 12px;
   font-size: 12px;
   line-height: 1.5;
+}
+
+.fefo-note {
+  background: #fff7e8;
+  color: #945b00;
+}
+
+.quarantine-note {
+  background: #f3efff;
+  color: #6842bf;
 }
 
 .loading {
@@ -495,6 +507,7 @@ label {
 
     </div>
 
+
     <button
       class="logout"
       onclick="logout()">
@@ -502,6 +515,7 @@ label {
     </button>
 
   </div>
+
 
   <div
     id="permissionList"
@@ -535,12 +549,14 @@ label {
 
   </div>
 
+
   <button
     id="openButton"
     class="primary"
     onclick="openScanner()">
     OPEN SCANNER
   </button>
+
 
   <button
     id="stopButton"
@@ -563,6 +579,7 @@ label {
     ">
     MANUAL SEARCH
   </div>
+
 
   <div class="manual-row">
 
@@ -676,6 +693,14 @@ label {
 
 
   <button
+    id="quarantineButton"
+    class="quarantine hidden"
+    onclick="openQuarantine()">
+    QUARANTINE STOCK
+  </button>
+
+
+  <button
     class="primary"
     onclick="scanAnother()">
     SCAN ANOTHER ITEM
@@ -712,8 +737,7 @@ label {
     <span id="batchRequired"></span>
   </label>
 
-  <input
-    id="receiveBatch">
+  <input id="receiveBatch">
 
   <label>
     Expiry Date
@@ -729,11 +753,9 @@ label {
   </label>
 
   <select id="receiveLocation">
-
     <option value="">
       Select location
     </option>
-
   </select>
 
   <label>
@@ -750,8 +772,7 @@ label {
     Reference No.
   </label>
 
-  <input
-    id="receiveReference">
+  <input id="receiveReference">
 
   <label>
     Notes
@@ -761,6 +782,7 @@ label {
     id="receiveNotes"
     rows="3">
   </textarea>
+
 
   <button
     class="receive"
@@ -795,7 +817,7 @@ label {
 
   <div
     id="fefoPreview"
-    class="fefo-note">
+    class="note fefo-note">
   </div>
 
 
@@ -807,8 +829,7 @@ label {
     id="issueQty"
     type="number"
     min="0.01"
-    step="0.01"
-    inputmode="decimal">
+    step="0.01">
 
 
   <label>
@@ -817,17 +838,14 @@ label {
 
   <input
     id="issueReason"
-    value="Issuance"
-    placeholder="e.g. Clinic consumption">
+    value="Issuance">
 
 
   <label>
     Reference No.
   </label>
 
-  <input
-    id="issueReference"
-    placeholder="Request / Department / Reference">
+  <input id="issueReference">
 
 
   <label>
@@ -850,6 +868,135 @@ label {
   <button
     class="secondary"
     onclick="closeIssue()">
+    CANCEL
+  </button>
+
+</div>
+
+
+<!-- QUARANTINE -->
+
+<div
+  id="quarantineCard"
+  class="card hidden">
+
+  <div class="form-title">
+    Quarantine Stock
+  </div>
+
+  <div
+    id="quarantineItemName"
+    class="form-item">
+  </div>
+
+
+  <div class="note quarantine-note">
+    Quarantined quantity will be removed from available stock and cannot be issued through FEFO.
+  </div>
+
+
+  <label>
+    Batch / Lot *
+  </label>
+
+  <select
+    id="quarantineBatch"
+    onchange="updateQuarantineBatchInfo()">
+
+    <option value="">
+      Select batch
+    </option>
+
+  </select>
+
+
+  <div
+    id="quarantineBatchInfo"
+    class="note info hidden">
+  </div>
+
+
+  <label>
+    Quantity *
+  </label>
+
+  <input
+    id="quarantineQty"
+    type="number"
+    min="0.01"
+    step="0.01">
+
+
+  <label>
+    Reason *
+  </label>
+
+  <select id="quarantineReason">
+
+    <option value="">
+      Select reason
+    </option>
+
+    <option value="Expired">
+      Expired
+    </option>
+
+    <option value="Damaged">
+      Damaged
+    </option>
+
+    <option value="Recalled">
+      Recalled
+    </option>
+
+    <option value="Suspected Defect">
+      Suspected Defect
+    </option>
+
+    <option value="Temperature Excursion">
+      Temperature Excursion
+    </option>
+
+    <option value="For Verification">
+      For Verification
+    </option>
+
+    <option value="Others">
+      Others
+    </option>
+
+  </select>
+
+
+  <label>
+    Reference No.
+  </label>
+
+  <input
+    id="quarantineReference"
+    placeholder="Recall memo / Incident / Reference">
+
+
+  <label>
+    Notes
+  </label>
+
+  <textarea
+    id="quarantineNotes"
+    rows="3">
+  </textarea>
+
+
+  <button
+    class="quarantine"
+    onclick="submitQuarantine()">
+    CONFIRM QUARANTINE
+  </button>
+
+
+  <button
+    class="secondary"
+    onclick="closeQuarantine()">
     CANCEL
   </button>
 
@@ -1007,10 +1154,8 @@ function handleGoogleCredential(
       ) {
 
         alert(
-          result &&
-          result.message
-            ? result.message
-            : 'Access denied.'
+          result?.message ||
+          'Access denied.'
         );
 
         return;
@@ -1155,27 +1300,20 @@ function renderPermissions() {
 
 
   if (p.receive) {
-    labels.push(
-      'RECEIVE'
-    );
+    labels.push('RECEIVE');
   }
 
   if (p.issue) {
-    labels.push(
-      'ISSUE'
-    );
+    labels.push('ISSUE');
+    labels.push('QUARANTINE');
   }
 
   if (p.transfer) {
-    labels.push(
-      'TRANSFER'
-    );
+    labels.push('TRANSFER');
   }
 
   if (p.count) {
-    labels.push(
-      'COUNT'
-    );
+    labels.push('COUNT');
   }
 
 
@@ -1186,15 +1324,10 @@ function renderPermissions() {
     .innerHTML =
 
       labels.map(
-        function(label) {
-
-          return (
-            '<span class="permission">' +
-            escapeHtml(label) +
-            '</span>'
-          );
-
-        }
+        label =>
+          '<span class="permission">' +
+          escapeHtml(label) +
+          '</span>'
       )
       .join('');
 
@@ -1217,8 +1350,10 @@ function logout() {
 
 
   try {
+
     google.accounts.id
       .disableAutoSelect();
+
   }
   catch (error) {}
 
@@ -1414,9 +1549,11 @@ async function openScanner() {
 
 
               if (value) {
+
                 handleScannedCode(
                   value
                 );
+
               }
 
             }
@@ -1542,7 +1679,9 @@ async function handleScannedCode(
   scanLocked = true;
 
 
-  if (navigator.vibrate) {
+  if (
+    navigator.vibrate
+  ) {
     navigator.vibrate(100);
   }
 
@@ -1582,7 +1721,9 @@ function manualLookup() {
   }
 
 
-  lookupInventory(value);
+  lookupInventory(
+    value
+  );
 
 }
 
@@ -1619,10 +1760,8 @@ function lookupInventory(
       ) {
 
         showStatus(
-          result &&
-          result.message
-            ? result.message
-            : 'IMS lookup failed.',
+          result?.message ||
+          'IMS lookup failed.',
           'error'
         );
 
@@ -1663,7 +1802,9 @@ function lookupInventory(
         result;
 
 
-      displayItem(result);
+      displayItem(
+        result
+      );
 
 
       scanLocked = false;
@@ -1675,7 +1816,9 @@ function lookupInventory(
 }
 
 
-function displayItem(result) {
+function displayItem(
+  result
+) {
 
   const item =
     result.item;
@@ -1792,6 +1935,17 @@ function displayItem(result) {
     );
 
 
+  document
+    .getElementById(
+      'quarantineButton'
+    )
+    .classList.toggle(
+      'hidden',
+      !currentUser.permissions.issue ||
+      inv.totalAvailable <= 0
+    );
+
+
   showStatus(
     'Item found.',
     'success'
@@ -1875,15 +2029,6 @@ function openReceive() {
     .classList.remove(
       'hidden'
     );
-
-
-  document
-    .getElementById(
-      'receiveCard'
-    )
-    .scrollIntoView({
-      behavior: 'smooth'
-    });
 
 }
 
@@ -2094,10 +2239,8 @@ function submitReceive() {
       ) {
 
         alert(
-          result &&
-          result.message
-            ? result.message
-            : 'Receive failed.'
+          result?.message ||
+          'Receive failed.'
         );
 
         return;
@@ -2109,9 +2252,7 @@ function submitReceive() {
 
 
       alert(
-        'Stock received successfully.\n\n' +
-        'Transaction: ' +
-        result.result.transactionId
+        'Stock received successfully.'
       );
 
 
@@ -2153,14 +2294,6 @@ function openIssue() {
 
   document
     .getElementById(
-      'issueReason'
-    )
-    .value =
-      'Issuance';
-
-
-  document
-    .getElementById(
       'issueReference'
     )
     .value = '';
@@ -2183,15 +2316,6 @@ function openIssue() {
     .classList.remove(
       'hidden'
     );
-
-
-  document
-    .getElementById(
-      'issueCard'
-    )
-    .scrollIntoView({
-      behavior: 'smooth'
-    });
 
 }
 
@@ -2249,12 +2373,12 @@ function renderFefoPreview() {
     )
     .innerHTML =
 
-      '<b>FEFO:</b> The system will automatically issue from the earliest-expiring batch first.<br><br>' +
+      '<b>FEFO:</b> Earliest-expiring batch will be issued first.<br><br>' +
 
       'First batch: <b>' +
       escapeHtml(
         first.batchNo ||
-        'No Batch'
+        first.batchStockId
       ) +
       '</b><br>' +
 
@@ -2316,9 +2440,7 @@ function submitIssue() {
   ) {
 
     alert(
-      'Insufficient stock.\n\n' +
-      'Available: ' +
-      available
+      'Insufficient stock.'
     );
 
     return;
@@ -2326,18 +2448,8 @@ function submitIssue() {
   }
 
 
-  const reason =
-    document
-      .getElementById(
-        'issueReason'
-      )
-      .value
-      .trim();
-
-
-  const confirmed =
-    confirm(
-
+  if (
+    !confirm(
       'Issue ' +
       quantity +
       ' ' +
@@ -2346,20 +2458,15 @@ function submitIssue() {
       ) +
       ' of ' +
       item.itemName +
-      '?\n\n' +
-
-      'The system will use FEFO automatically.'
-
-    );
-
-
-  if (!confirmed) {
+      ' using FEFO?'
+    )
+  ) {
     return;
   }
 
 
   showLoading(
-    'Issuing stock using FEFO...'
+    'Issuing stock...'
   );
 
 
@@ -2384,8 +2491,12 @@ function submitIssue() {
         quantity,
 
       reason:
-        reason ||
-        'Issuance',
+        document
+          .getElementById(
+            'issueReason'
+          )
+          .value
+          .trim(),
 
       referenceNo:
         document
@@ -2416,10 +2527,8 @@ function submitIssue() {
       ) {
 
         alert(
-          result &&
-          result.message
-            ? result.message
-            : 'Issue transaction failed.'
+          result?.message ||
+          'Issue failed.'
         );
 
         return;
@@ -2430,53 +2539,437 @@ function submitIssue() {
       closeIssue();
 
 
-      const r =
-        result.result;
+      alert(
+        'Stock issued successfully.'
+      );
 
 
-      let message =
+      lookupInventory(
+        item.itemId
+      );
 
-        'Stock issued successfully.\n\n' +
+    }
 
-        'Total issued: ' +
-        r.totalIssued +
+  );
 
-        '\nAvailable after: ' +
-        r.availableAfter;
+}
+
+
+/* QUARANTINE */
+
+function openQuarantine() {
+
+  const item =
+    currentItemResult.item;
+
+
+  document
+    .getElementById(
+      'quarantineItemName'
+    )
+    .textContent =
+      item.itemName +
+      ' • ' +
+      item.itemId;
+
+
+  document
+    .getElementById(
+      'quarantineQty'
+    )
+    .value = '';
+
+
+  document
+    .getElementById(
+      'quarantineReason'
+    )
+    .value = '';
+
+
+  document
+    .getElementById(
+      'quarantineReference'
+    )
+    .value = '';
+
+
+  document
+    .getElementById(
+      'quarantineNotes'
+    )
+    .value = '';
+
+
+  const select =
+    document
+      .getElementById(
+        'quarantineBatch'
+      );
+
+
+  select.innerHTML =
+    '<option value="">Select batch</option>';
+
+
+  currentItemResult
+    .inventory
+    .batches
+    .filter(
+      b =>
+        Number(
+          b.qtyAvailable || 0
+        ) > 0
+    )
+    .forEach(
+      function(batch) {
+
+        const option =
+          document
+            .createElement(
+              'option'
+            );
+
+
+        option.value =
+          batch.batchStockId;
+
+
+        option.textContent =
+
+          (
+            batch.batchNo ||
+            batch.batchStockId
+          ) +
+
+          ' • Exp ' +
+
+          (
+            batch.expiryDate ||
+            'N/A'
+          ) +
+
+          ' • Available ' +
+
+          batch.qtyAvailable;
+
+
+        select.appendChild(
+          option
+        );
+
+      }
+    );
+
+
+  document
+    .getElementById(
+      'quarantineBatchInfo'
+    )
+    .classList.add(
+      'hidden'
+    );
+
+
+  document
+    .getElementById(
+      'quarantineCard'
+    )
+    .classList.remove(
+      'hidden'
+    );
+
+
+  document
+    .getElementById(
+      'quarantineCard'
+    )
+    .scrollIntoView({
+      behavior: 'smooth'
+    });
+
+}
+
+
+function closeQuarantine() {
+
+  document
+    .getElementById(
+      'quarantineCard'
+    )
+    .classList.add(
+      'hidden'
+    );
+
+}
+
+
+function updateQuarantineBatchInfo() {
+
+  const id =
+    document
+      .getElementById(
+        'quarantineBatch'
+      )
+      .value;
+
+
+  const box =
+    document
+      .getElementById(
+        'quarantineBatchInfo'
+      );
+
+
+  if (!id) {
+
+    box.classList.add(
+      'hidden'
+    );
+
+    return;
+
+  }
+
+
+  const batch =
+    currentItemResult
+      .inventory
+      .batches
+      .find(
+        b =>
+          b.batchStockId ===
+          id
+      );
+
+
+  if (!batch) {
+    return;
+  }
+
+
+  box.innerHTML =
+
+    'Batch: <b>' +
+    escapeHtml(
+      batch.batchNo ||
+      batch.batchStockId
+    ) +
+    '</b><br>' +
+
+    'Expiry: ' +
+    escapeHtml(
+      batch.expiryDate ||
+      'N/A'
+    ) +
+    '<br>' +
+
+    'Available: <b>' +
+    batch.qtyAvailable +
+    '</b><br>' +
+
+    'Already Quarantined: <b>' +
+    batch.qtyQuarantined +
+    '</b>';
+
+
+  box.classList.remove(
+    'hidden'
+  );
+
+}
+
+
+function submitQuarantine() {
+
+  const item =
+    currentItemResult.item;
+
+
+  const batchStockId =
+    document
+      .getElementById(
+        'quarantineBatch'
+      )
+      .value;
+
+
+  const quantity =
+    Number(
+      document
+        .getElementById(
+          'quarantineQty'
+        )
+        .value
+    );
+
+
+  const reason =
+    document
+      .getElementById(
+        'quarantineReason'
+      )
+      .value;
+
+
+  if (!batchStockId) {
+
+    alert(
+      'Select a batch.'
+    );
+
+    return;
+
+  }
+
+
+  if (
+    !quantity ||
+    quantity <= 0
+  ) {
+
+    alert(
+      'Enter a valid quantity.'
+    );
+
+    return;
+
+  }
+
+
+  const batch =
+    currentItemResult
+      .inventory
+      .batches
+      .find(
+        b =>
+          b.batchStockId ===
+          batchStockId
+      );
+
+
+  if (
+    !batch ||
+    quantity >
+      Number(
+        batch.qtyAvailable || 0
+      )
+  ) {
+
+    alert(
+      'Quantity exceeds available stock in this batch.'
+    );
+
+    return;
+
+  }
+
+
+  if (!reason) {
+
+    alert(
+      'Select a quarantine reason.'
+    );
+
+    return;
+
+  }
+
+
+  if (
+    !confirm(
+      'Move ' +
+      quantity +
+      ' ' +
+      (
+        item.uom || ''
+      ) +
+      ' to quarantine?\n\n' +
+      'Batch: ' +
+      (
+        batch.batchNo ||
+        batch.batchStockId
+      ) +
+      '\nReason: ' +
+      reason
+    )
+  ) {
+    return;
+  }
+
+
+  showLoading(
+    'Moving stock to quarantine...'
+  );
+
+
+  apiCall(
+
+    'quarantine',
+
+    {
+
+      session:
+        sessionToken,
+
+      requestId:
+        generateRequestId(
+          'QTN'
+        ),
+
+      batchStockId:
+        batchStockId,
+
+      quantity:
+        quantity,
+
+      reason:
+        reason,
+
+      referenceNo:
+        document
+          .getElementById(
+            'quarantineReference'
+          )
+          .value
+          .trim(),
+
+      notes:
+        document
+          .getElementById(
+            'quarantineNotes'
+          )
+          .value
+          .trim()
+
+    },
+
+    function(result) {
+
+      hideLoading();
 
 
       if (
-        r.deductions &&
-        r.deductions.length
+        !result ||
+        result.success !== true
       ) {
 
-        message +=
-          '\n\nFEFO batches used:';
-
-
-        r.deductions.forEach(
-          function(batch) {
-
-            message +=
-
-              '\n• ' +
-
-              (
-                batch.batchNo ||
-                batch.batchStockId
-              ) +
-
-              ': ' +
-
-              batch.quantityIssued;
-
-          }
+        alert(
+          result?.message ||
+          'Quarantine transaction failed.'
         );
+
+        return;
 
       }
 
 
-      alert(message);
+      closeQuarantine();
+
+
+      alert(
+        'Stock moved to quarantine successfully.'
+      );
 
 
       lookupInventory(
@@ -2553,6 +3046,14 @@ function renderBatches(
           <b>
             ${b.qtyQuarantined}
           </b>
+
+          <br>
+
+          Status:
+          ${escapeHtml(
+            b.status ||
+            '-'
+          )}
 
           <br>
 
@@ -2656,6 +3157,8 @@ function scanAnother() {
 
   closeIssue();
 
+  closeQuarantine();
+
 
   document
     .getElementById(
@@ -2707,8 +3210,7 @@ function apiCall(
     );
 
 
-  let completed =
-    false;
+  let completed = false;
 
 
   const timeout =
@@ -2746,9 +3248,11 @@ function apiCall(
 
 
     try {
+
       delete window[
         callbackName
       ];
+
     }
     catch (error) {}
 
