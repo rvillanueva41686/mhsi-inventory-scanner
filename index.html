@@ -1,326 +1,1404 @@
 <!DOCTYPE html>
-<html>
+
+<html lang="en">
+
 <head>
+
   <meta charset="UTF-8">
 
   <meta
     name="viewport"
-    content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    content="
+      width=device-width,
+      initial-scale=1,
+      maximum-scale=1,
+      user-scalable=no
+    ">
 
-  <title>MHSI Inventory Scanner</title>
+  <title>
+    MHSI Inventory Scanner
+  </title>
 
-  <script src="https://unpkg.com/@zxing/browser@latest"></script>
+
+  <script
+    src="https://unpkg.com/@zxing/browser@latest">
+  </script>
+
 
   <style>
+
     * {
-      box-sizing: border-box;
+      box-sizing:
+        border-box;
     }
+
+
+    html,
+    body {
+
+      margin: 0;
+
+      padding: 0;
+
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+      background:
+        #f3f6fb;
+
+      color:
+        #172033;
+
+    }
+
 
     body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f3f6fb;
-      color: #172033;
+
+      min-height:
+        100vh;
+
     }
+
 
     .header {
-      background: linear-gradient(135deg, #1555b6, #3277df);
-      color: white;
-      padding: 26px 20px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #1555b6,
+          #3277df
+        );
+
+      color:
+        white;
+
+      padding:
+        27px 20px;
+
     }
+
 
     .header h1 {
+
       margin: 0;
-      font-size: 25px;
+
+      font-size:
+        25px;
+
+      font-weight:
+        800;
+
     }
+
 
     .header p {
-      margin: 7px 0 0;
-      opacity: .9;
+
+      margin:
+        7px 0 0;
+
+      opacity:
+        .9;
+
+      font-size:
+        14px;
+
     }
+
 
     .container {
-      max-width: 650px;
-      margin: auto;
-      padding: 18px;
+
+      width:
+        100%;
+
+      max-width:
+        650px;
+
+      margin:
+        auto;
+
+      padding:
+        17px;
+
     }
+
 
     .card {
-      background: white;
-      border-radius: 20px;
-      padding: 18px;
-      margin-bottom: 16px;
-      box-shadow: 0 4px 18px rgba(0,0,0,.06);
+
+      background:
+        white;
+
+      border-radius:
+        20px;
+
+      padding:
+        18px;
+
+      margin-bottom:
+        15px;
+
+      box-shadow:
+        0 4px 18px
+        rgba(
+          0,
+          0,
+          0,
+          .055
+        );
+
     }
 
-    .camera-shell {
-      background: #111;
-      border-radius: 16px;
-      overflow: hidden;
-      position: relative;
+
+    .section-title {
+
+      font-size:
+        12px;
+
+      font-weight:
+        800;
+
+      color:
+        #687386;
+
+      margin-bottom:
+        7px;
+
     }
 
-    video {
-      width: 100%;
-      min-height: 280px;
-      max-height: 420px;
-      object-fit: cover;
-      display: block;
-      background: #111;
+
+    /* =============================
+       PCC
+    ============================= */
+
+
+    .pcc-name {
+
+      font-size:
+        19px;
+
+      font-weight:
+        800;
+
     }
 
-    .scan-line {
-      position: absolute;
-      left: 8%;
-      right: 8%;
-      top: 50%;
-      height: 2px;
-      background: rgba(255,255,255,.9);
-      pointer-events: none;
+
+    .pcc-id {
+
+      margin-top:
+        4px;
+
+      font-size:
+        12px;
+
+      color:
+        #687386;
+
     }
 
-    .scan-box {
-      position: absolute;
-      left: 8%;
-      right: 8%;
-      top: 30%;
-      height: 40%;
-      border: 2px solid rgba(255,255,255,.85);
-      border-radius: 12px;
-      pointer-events: none;
-    }
 
-    button {
-      width: 100%;
-      border: none;
-      border-radius: 12px;
-      padding: 14px;
-      font-size: 15px;
-      font-weight: 800;
-      margin-top: 10px;
-      cursor: pointer;
-    }
+    /* =============================
+       STATUS
+    ============================= */
 
-    .primary {
-      background: #2d6ed5;
-      color: white;
-    }
-
-    .secondary {
-      background: #edf4ff;
-      color: #2764c5;
-    }
-
-    .danger {
-      background: #fff0f0;
-      color: #b42318;
-    }
 
     .status {
-      padding: 13px;
-      border-radius: 12px;
-      margin-bottom: 15px;
-      font-size: 13px;
-      line-height: 1.5;
+
+      padding:
+        13px 15px;
+
+      margin-bottom:
+        15px;
+
+      border-radius:
+        13px;
+
+      font-size:
+        13px;
+
+      line-height:
+        1.5;
+
     }
+
 
     .info {
-      background: #edf4ff;
-      color: #2459a9;
+
+      background:
+        #edf4ff;
+
+      color:
+        #2459a9;
+
     }
+
 
     .success {
-      background: #e8f7ee;
-      color: #166534;
+
+      background:
+        #e8f7ee;
+
+      color:
+        #166534;
+
     }
+
 
     .error {
-      background: #fff0f0;
-      color: #b42318;
+
+      background:
+        #fff0f0;
+
+      color:
+        #b42318;
+
     }
 
-    .result-label {
-      font-size: 11px;
-      color: #687386;
-      font-weight: bold;
-      margin-bottom: 6px;
+
+    .warning {
+
+      background:
+        #fff7e8;
+
+      color:
+        #945b00;
+
     }
 
-    .result-code {
-      font-size: 22px;
-      font-weight: 800;
-      word-break: break-word;
+
+    /* =============================
+       CAMERA
+    ============================= */
+
+
+    .camera-shell {
+
+      position:
+        relative;
+
+      overflow:
+        hidden;
+
+      background:
+        #111;
+
+      border-radius:
+        16px;
+
     }
 
-    .result-format {
-      margin-top: 8px;
-      font-size: 13px;
-      color: #687386;
+
+    #video {
+
+      display:
+        block;
+
+      width:
+        100%;
+
+      height:
+        340px;
+
+      background:
+        #111;
+
+      object-fit:
+        cover;
+
     }
 
-    .hidden {
-      display: none;
+
+    .scan-frame {
+
+      position:
+        absolute;
+
+      left:
+        7%;
+
+      right:
+        7%;
+
+      top:
+        34%;
+
+      height:
+        32%;
+
+      border:
+        2px solid
+        rgba(
+          255,
+          255,
+          255,
+          .9
+        );
+
+      border-radius:
+        12px;
+
+      pointer-events:
+        none;
+
     }
+
+
+    .scan-line {
+
+      position:
+        absolute;
+
+      left:
+        10%;
+
+      right:
+        10%;
+
+      top:
+        50%;
+
+      height:
+        2px;
+
+      background:
+        white;
+
+      box-shadow:
+        0 0 8px
+        rgba(
+          255,
+          255,
+          255,
+          .8
+        );
+
+      pointer-events:
+        none;
+
+    }
+
+
+    /* =============================
+       BUTTONS
+    ============================= */
+
+
+    button {
+
+      width:
+        100%;
+
+      border:
+        none;
+
+      border-radius:
+        12px;
+
+      padding:
+        14px 16px;
+
+      margin-top:
+        10px;
+
+      font-size:
+        15px;
+
+      font-weight:
+        800;
+
+      cursor:
+        pointer;
+
+      -webkit-tap-highlight-color:
+        transparent;
+
+    }
+
+
+    button:active {
+
+      transform:
+        scale(.985);
+
+    }
+
+
+    .primary {
+
+      background:
+        #2d6ed5;
+
+      color:
+        white;
+
+    }
+
+
+    .secondary {
+
+      background:
+        #edf4ff;
+
+      color:
+        #2764c5;
+
+    }
+
+
+    .danger {
+
+      background:
+        #fff0f0;
+
+      color:
+        #b42318;
+
+    }
+
+
+    /* =============================
+       MANUAL
+    ============================= */
+
+
+    .manual-row {
+
+      display:
+        grid;
+
+      grid-template-columns:
+        1fr auto;
+
+      gap:
+        8px;
+
+      align-items:
+        stretch;
+
+    }
+
 
     input {
-      width: 100%;
-      border: 1px solid #d7dee8;
-      border-radius: 12px;
-      padding: 13px;
-      font-size: 16px;
-      margin-top: 8px;
+
+      width:
+        100%;
+
+      border:
+        1px solid
+        #d7dee8;
+
+      border-radius:
+        12px;
+
+      padding:
+        13px;
+
+      font-size:
+        16px;
+
+      outline:
+        none;
+
     }
 
-    .tip {
-      font-size: 12px;
-      line-height: 1.5;
-      color: #667085;
-      margin-top: 12px;
+
+    input:focus {
+
+      border-color:
+        #3277df;
+
+      box-shadow:
+        0 0 0 3px
+        rgba(
+          50,
+          119,
+          223,
+          .10
+        );
+
     }
+
+
+    .manual-row button {
+
+      width:
+        auto;
+
+      margin:
+        0;
+
+      min-width:
+        90px;
+
+    }
+
+
+    /* =============================
+       ITEM
+    ============================= */
+
+
+    .item-code {
+
+      color:
+        #687386;
+
+      font-size:
+        12px;
+
+      font-weight:
+        700;
+
+      margin-bottom:
+        5px;
+
+    }
+
+
+    .item-name {
+
+      font-size:
+        23px;
+
+      line-height:
+        1.25;
+
+      font-weight:
+        800;
+
+    }
+
+
+    .item-details {
+
+      margin-top:
+        12px;
+
+      font-size:
+        13px;
+
+      line-height:
+        1.75;
+
+      color:
+        #667085;
+
+    }
+
+
+    .item-details b {
+
+      color:
+        #344054;
+
+    }
+
+
+    /* =============================
+       STOCK SUMMARY
+    ============================= */
+
+
+    .stock-grid {
+
+      display:
+        grid;
+
+      grid-template-columns:
+        repeat(
+          3,
+          1fr
+        );
+
+      gap:
+        9px;
+
+      margin-top:
+        17px;
+
+    }
+
+
+    .stock-box {
+
+      background:
+        #f5f8fc;
+
+      border-radius:
+        14px;
+
+      padding:
+        14px 7px;
+
+      text-align:
+        center;
+
+    }
+
+
+    .stock-number {
+
+      font-size:
+        24px;
+
+      font-weight:
+        800;
+
+      color:
+        #2868c9;
+
+    }
+
+
+    .stock-label {
+
+      margin-top:
+        3px;
+
+      font-size:
+        9px;
+
+      font-weight:
+        800;
+
+      color:
+        #697386;
+
+    }
+
+
+    /* =============================
+       LEVEL
+    ============================= */
+
+
+    .level {
+
+      margin-top:
+        14px;
+
+      border-radius:
+        12px;
+
+      padding:
+        12px;
+
+      font-size:
+        12px;
+
+      font-weight:
+        700;
+
+    }
+
+
+    .level-good {
+
+      background:
+        #ebf8ef;
+
+      color:
+        #166534;
+
+    }
+
+
+    .level-reorder {
+
+      background:
+        #fff7e8;
+
+      color:
+        #945b00;
+
+    }
+
+
+    .level-critical {
+
+      background:
+        #fff0f0;
+
+      color:
+        #b42318;
+
+    }
+
+
+    /* =============================
+       BATCHES
+    ============================= */
+
+
+    .batch-heading {
+
+      margin-top:
+        20px;
+
+      font-size:
+        11px;
+
+      font-weight:
+        800;
+
+      color:
+        #687386;
+
+    }
+
+
+    .batch {
+
+      padding:
+        12px 0;
+
+      border-top:
+        1px solid
+        #edf0f4;
+
+      font-size:
+        12px;
+
+      line-height:
+        1.6;
+
+    }
+
+
+    .batch:first-of-type {
+
+      margin-top:
+        7px;
+
+    }
+
+
+    .batch-name {
+
+      font-weight:
+        800;
+
+      color:
+        #344054;
+
+    }
+
+
+    .batch-expiring {
+
+      color:
+        #b42318;
+
+      font-weight:
+        700;
+
+    }
+
+
+    /* =============================
+       LOADING
+    ============================= */
+
+
+    .loading-overlay {
+
+      position:
+        fixed;
+
+      inset:
+        0;
+
+      display:
+        flex;
+
+      flex-direction:
+        column;
+
+      align-items:
+        center;
+
+      justify-content:
+        center;
+
+      z-index:
+        9999;
+
+      background:
+        rgba(
+          255,
+          255,
+          255,
+          .92
+        );
+
+      color:
+        #2868c9;
+
+      font-weight:
+        800;
+
+    }
+
+
+    .spinner {
+
+      width:
+        38px;
+
+      height:
+        38px;
+
+      border:
+        4px solid
+        #dce8f8;
+
+      border-top-color:
+        #2868c9;
+
+      border-radius:
+        50%;
+
+      animation:
+        spin .8s linear
+        infinite;
+
+      margin-bottom:
+        12px;
+
+    }
+
+
+    @keyframes spin {
+
+      to {
+
+        transform:
+          rotate(
+            360deg
+          );
+
+      }
+
+    }
+
+
+    .hidden {
+
+      display:
+        none !important;
+
+    }
+
+
+    .tip {
+
+      margin-top:
+        12px;
+
+      font-size:
+        11px;
+
+      line-height:
+        1.5;
+
+      color:
+        #7b8493;
+
+    }
+
+
+    @media (
+      max-width: 480px
+    ) {
+
+      #video {
+
+        height:
+          320px;
+
+      }
+
+
+      .stock-number {
+
+        font-size:
+          21px;
+
+      }
+
+    }
+
   </style>
+
 </head>
+
 
 <body>
 
-  <div class="header">
-    <h1>MHSI Inventory Scanner</h1>
-    <p>ZXing Barcode & QR Scanner</p>
+
+<!-- ===============================
+     LOADING
+================================ -->
+
+
+<div
+  id="loading"
+  class="loading-overlay hidden">
+
+  <div
+    class="spinner">
   </div>
 
-  <div class="container">
+  <div id="loadingText">
+    Loading...
+  </div>
 
-    <div id="statusBox" class="status info">
-      Tap OPEN SCANNER to begin.
-    </div>
+</div>
 
-    <div class="card">
 
-      <div class="camera-shell">
+<!-- ===============================
+     HEADER
+================================ -->
 
-        <video
-          id="video"
-          autoplay
-          muted
-          playsinline>
-        </video>
 
-        <div class="scan-box"></div>
-        <div class="scan-line"></div>
+<header
+  class="header">
 
-      </div>
+  <h1>
+    MHSI Inventory Scanner
+  </h1>
 
-      <button
-        id="openButton"
-        class="primary"
-        onclick="openScanner()">
-        OPEN SCANNER
-      </button>
+  <p>
+    QR • Barcode • Inventory Lookup
+  </p>
 
-      <button
-        id="stopButton"
-        class="secondary hidden"
-        onclick="stopScanner()">
-        STOP SCANNER
-      </button>
+</header>
 
-      <div class="tip">
-        For 1D barcodes, hold the phone horizontally if needed and keep the full barcode inside the box. Avoid glare and move slightly closer or farther until the bars are sharp.
-      </div>
 
+<main
+  class="container">
+
+
+  <!-- =============================
+       PCC
+  ============================== -->
+
+
+  <div
+    class="card">
+
+    <div
+      class="section-title">
+      CURRENT LOCATION
     </div>
 
     <div
-      id="resultCard"
-      class="card hidden">
+      id="pccName"
+      class="pcc-name">
+      Filinvest Alabang
+    </div>
 
-      <div class="result-label">
-        SCANNED VALUE
-      </div>
+    <div
+      id="pccIdText"
+      class="pcc-id">
+      PCC-001
+    </div>
+
+  </div>
+
+
+  <!-- =============================
+       STATUS
+  ============================== -->
+
+
+  <div
+    id="statusBox"
+    class="status info">
+
+    Tap OPEN SCANNER to begin.
+
+  </div>
+
+
+  <!-- =============================
+       SCANNER
+  ============================== -->
+
+
+  <div
+    class="card">
+
+
+    <div
+      class="camera-shell">
+
+      <video
+        id="video"
+        autoplay
+        muted
+        playsinline>
+      </video>
+
 
       <div
-        id="scannedValue"
-        class="result-code">
+        class="scan-frame">
       </div>
+
 
       <div
-        id="scannedFormat"
-        class="result-format">
+        class="scan-line">
       </div>
-
-      <button
-        class="primary"
-        onclick="scanAgain()">
-        SCAN ANOTHER ITEM
-      </button>
 
     </div>
 
-    <div class="card">
 
-      <div class="result-label">
-        MANUAL CODE
-      </div>
+    <button
+      id="openButton"
+      class="primary"
+      onclick="
+        openScanner()
+      ">
+
+      OPEN SCANNER
+
+    </button>
+
+
+    <button
+      id="stopButton"
+      class="secondary hidden"
+      onclick="
+        stopScanner()
+      ">
+
+      STOP SCANNER
+
+    </button>
+
+
+    <div
+      class="tip">
+
+      Keep the full barcode inside
+      the box. For long barcodes,
+      turning the phone sideways may
+      help.
+
+    </div>
+
+  </div>
+
+
+  <!-- =============================
+       MANUAL SEARCH
+  ============================== -->
+
+
+  <div
+    class="card">
+
+    <div
+      class="section-title">
+
+      MANUAL SEARCH
+
+    </div>
+
+
+    <div
+      class="manual-row">
 
       <input
         id="manualCode"
         type="text"
-        placeholder="Barcode / Item ID">
+        autocomplete="off"
+        autocorrect="off"
+        autocapitalize="characters"
+        placeholder="
+          Barcode / Item ID">
+
 
       <button
-        class="secondary"
-        onclick="manualTest()">
-        USE CODE
+        class="primary"
+        onclick="
+          manualLookup()
+        ">
+
+        SEARCH
+
       </button>
 
     </div>
 
   </div>
 
+
+  <!-- =============================
+       ITEM RESULT
+  ============================== -->
+
+
+  <div
+    id="itemCard"
+    class="card hidden">
+
+
+    <div
+      id="itemCode"
+      class="item-code">
+    </div>
+
+
+    <div
+      id="itemName"
+      class="item-name">
+    </div>
+
+
+    <div
+      id="itemDetails"
+      class="item-details">
+    </div>
+
+
+    <div
+      class="stock-grid">
+
+
+      <div
+        class="stock-box">
+
+        <div
+          id="availableStock"
+          class="stock-number">
+
+          0
+
+        </div>
+
+        <div
+          class="stock-label">
+
+          AVAILABLE
+
+        </div>
+
+      </div>
+
+
+      <div
+        class="stock-box">
+
+        <div
+          id="quarantineStock"
+          class="stock-number">
+
+          0
+
+        </div>
+
+        <div
+          class="stock-label">
+
+          QUARANTINE
+
+        </div>
+
+      </div>
+
+
+      <div
+        class="stock-box">
+
+        <div
+          id="transitStock"
+          class="stock-number">
+
+          0
+
+        </div>
+
+        <div
+          class="stock-label">
+
+          IN TRANSIT
+
+        </div>
+
+      </div>
+
+
+    </div>
+
+
+    <div
+      id="stockLevel"
+      class="level hidden">
+    </div>
+
+
+    <div
+      id="batchContainer">
+    </div>
+
+
+    <button
+      class="primary"
+      onclick="
+        scanAnother()
+      ">
+
+      SCAN ANOTHER ITEM
+
+    </button>
+
+  </div>
+
+
+</main>
+
+
 <script>
 
-let codeReader = null;
-let controls = null;
-let scannerRunning = false;
-let scanLocked = false;
+
+/* =========================================================
+   IMPORTANT SETTINGS
+========================================================= */
 
 
-/* =====================================
-   STATUS
-===================================== */
+/*
+  PASTE YOUR APPS SCRIPT
+  /exec URL HERE
+*/
 
-function showStatus(message, type) {
-
-  const box =
-    document.getElementById('statusBox');
-
-  box.className =
-    'status ' + type;
-
-  box.innerHTML =
-    message;
-}
+const API_URL =
+  'https://script.google.com/macros/s/AKfycbwSGG51EMk-47M9QqAfGUosXfslYvrq8MB6sSdVAO8NMFKL3YjzDsLXoLxsO-JvbMKwCA/exec';
 
 
-/* =====================================
-   OPEN SCANNER
-===================================== */
+/*
+  PILOT PCC:
+
+  PCC-001 =
+  Filinvest Alabang
+
+  Later, this will be based
+  on authenticated user.
+*/
+
+const PCC_ID =
+  'PCC-001';
+
+
+const PCC_NAME =
+  'Filinvest Alabang';
+
+
+
+/* =========================================================
+   GLOBAL VARIABLES
+========================================================= */
+
+
+let codeReader =
+  null;
+
+
+let controls =
+  null;
+
+
+let scannerRunning =
+  false;
+
+
+let scanLocked =
+  false;
+
+
+let lastScannedValue =
+  '';
+
+
+
+/* =========================================================
+   INITIALIZE
+========================================================= */
+
+
+window.addEventListener(
+  'load',
+  function() {
+
+
+    document
+      .getElementById(
+        'pccName'
+      )
+      .textContent =
+        PCC_NAME;
+
+
+    document
+      .getElementById(
+        'pccIdText'
+      )
+      .textContent =
+        PCC_ID;
+
+
+    /*
+      Optional health test.
+      Uncomment later if needed.
+    */
+
+    // testApi();
+
+
+  }
+);
+
+
+
+/* =========================================================
+   OPEN ZXING SCANNER
+========================================================= */
+
 
 async function openScanner() {
 
-  if (scannerRunning) {
+
+  if (
+    scannerRunning
+  ) {
+
     return;
+
   }
+
+
+  scanLocked =
+    false;
+
+
+  lastScannedValue =
+    '';
+
 
   try {
 
+
     showStatus(
-      'Requesting camera...',
+      'Opening camera...',
       'info'
     );
 
 
     codeReader =
-      new ZXingBrowser.BrowserMultiFormatReader();
+      new ZXingBrowser
+        .BrowserMultiFormatReader();
 
 
     const devices =
@@ -337,45 +1415,65 @@ async function openScanner() {
       throw new Error(
         'No camera detected.'
       );
+
     }
 
-
-    /*
-      Prefer rear/back camera
-    */
 
     let selectedDevice =
       devices[0];
 
 
-    const rear =
+    /*
+      Prefer rear/back camera.
+    */
+
+    const rearCamera =
       devices.find(
-        device => {
+        function(device) {
+
 
           const label =
             String(
               device.label || ''
-            ).toLowerCase();
+            )
+            .toLowerCase();
+
 
           return (
-            label.includes('back') ||
-            label.includes('rear') ||
-            label.includes('environment')
+
+            label.includes(
+              'back'
+            ) ||
+
+            label.includes(
+              'rear'
+            ) ||
+
+            label.includes(
+              'environment'
+            )
+
           );
+
         }
       );
 
 
-    if (rear) {
-      selectedDevice = rear;
+    if (
+      rearCamera
+    ) {
+
+      selectedDevice =
+        rearCamera;
+
     }
 
 
     const video =
-      document.getElementById('video');
-
-
-    scanLocked = false;
+      document
+        .getElementById(
+          'video'
+        );
 
 
     controls =
@@ -392,13 +1490,31 @@ async function openScanner() {
             control
           ) {
 
+
             if (
               result &&
               !scanLocked
             ) {
 
-              handleResult(
-                result
+
+              const value =
+                String(
+                  result.getText
+                    ? result.getText()
+                    : result.text || ''
+                )
+                .trim();
+
+
+              if (!value) {
+
+                return;
+
+              }
+
+
+              handleScannedCode(
+                value
               );
 
             }
@@ -408,19 +1524,28 @@ async function openScanner() {
         );
 
 
-    scannerRunning = true;
+    scannerRunning =
+      true;
 
 
     document
-      .getElementById('openButton')
+      .getElementById(
+        'openButton'
+      )
       .classList
-      .add('hidden');
+      .add(
+        'hidden'
+      );
 
 
     document
-      .getElementById('stopButton')
+      .getElementById(
+        'stopButton'
+      )
       .classList
-      .remove('hidden');
+      .remove(
+        'hidden'
+      );
 
 
     showStatus(
@@ -428,75 +1553,71 @@ async function openScanner() {
       'success'
     );
 
+
   }
 
   catch (error) {
 
-    console.error(error);
 
-    scannerRunning = false;
+    console.error(
+      error
+    );
+
+
+    scannerRunning =
+      false;
+
 
     showStatus(
-      'Scanner error:<br><b>' +
-      (error.name || 'Error') +
-      '</b><br>' +
-      (error.message || error),
+      'Camera error: ' +
+      (
+        error.message ||
+        String(error)
+      ),
       'error'
     );
+
   }
+
 }
 
 
-/* =====================================
-   RESULT
-===================================== */
 
-async function handleResult(
-  result
+/* =========================================================
+   HANDLE SCANNED CODE
+========================================================= */
+
+
+async function handleScannedCode(
+  value
 ) {
 
-  if (scanLocked) {
-    return;
-  }
 
-
-  scanLocked = true;
-
-
-  const text =
-    String(
-      result.getText
-        ? result.getText()
-        : result.text || ''
-    ).trim();
-
-
-  if (!text) {
-
-    scanLocked = false;
+  if (
+    scanLocked
+  ) {
 
     return;
+
+  }
+
+
+  if (
+    value ===
+    lastScannedValue
+  ) {
+
+    return;
+
   }
 
 
-  let format = 'Unknown';
+  scanLocked =
+    true;
 
 
-  try {
-
-    if (
-      result.getBarcodeFormat
-    ) {
-
-      format =
-        String(
-          result.getBarcodeFormat()
-        );
-
-    }
-
-  }
-  catch (e) {}
+  lastScannedValue =
+    value;
 
 
   if (
@@ -510,81 +1631,78 @@ async function handleResult(
   }
 
 
-  document
-    .getElementById(
-      'scannedValue'
-    )
-    .textContent =
-      text;
-
-
-  document
-    .getElementById(
-      'scannedFormat'
-    )
-    .textContent =
-      'Format: ' + format;
-
-
-  document
-    .getElementById(
-      'resultCard'
-    )
-    .classList
-    .remove('hidden');
-
-
-  showStatus(
-    '✅ Barcode detected successfully.',
-    'success'
-  );
-
+  /*
+    Stop camera so it won't
+    scan repeatedly.
+  */
 
   await stopScanner();
 
 
-  document
-    .getElementById(
-      'resultCard'
-    )
-    .scrollIntoView({
-      behavior: 'smooth',
-      block: 'start'
-    });
+  showStatus(
+    'Barcode detected. Looking up item...',
+    'info'
+  );
+
+
+  lookupInventory(
+    value
+  );
+
 }
 
 
-/* =====================================
+
+/* =========================================================
    STOP SCANNER
-===================================== */
+========================================================= */
+
 
 async function stopScanner() {
 
+
   try {
 
-    if (controls) {
+
+    if (
+      controls
+    ) {
 
       controls.stop();
 
     }
 
+
   }
 
   catch (error) {
 
-    console.log(error);
+
+    console.log(
+      error
+    );
+
 
   }
 
 
-  controls = null;
-  codeReader = null;
+  controls =
+    null;
 
-  scannerRunning = false;
+
+  codeReader =
+    null;
+
+
+  scannerRunning =
+    false;
 
 
   const video =
-    document.getElementById('video');
+    document
+      .getElementById(
+        'video'
+      );
 
 
   if (
@@ -592,12 +1710,17 @@ async function stopScanner() {
     video.srcObject
   ) {
 
+
     video.srcObject
       .getTracks()
       .forEach(
-        track =>
-          track.stop()
+        function(track) {
+
+          track.stop();
+
+        }
       );
+
 
     video.srcObject =
       null;
@@ -606,110 +1729,1225 @@ async function stopScanner() {
 
 
   document
-    .getElementById('openButton')
+    .getElementById(
+      'openButton'
+    )
     .classList
-    .remove('hidden');
+    .remove(
+      'hidden'
+    );
 
 
   document
-    .getElementById('stopButton')
+    .getElementById(
+      'stopButton'
+    )
     .classList
-    .add('hidden');
+    .add(
+      'hidden'
+    );
+
 }
 
 
-/* =====================================
-   SCAN AGAIN
-===================================== */
 
-async function scanAgain() {
-
-  document
-    .getElementById(
-      'resultCard'
-    )
-    .classList
-    .add('hidden');
+/* =========================================================
+   MANUAL LOOKUP
+========================================================= */
 
 
-  document
-    .getElementById(
-      'scannedValue'
-    )
-    .textContent = '';
+function manualLookup() {
 
-
-  document
-    .getElementById(
-      'scannedFormat'
-    )
-    .textContent = '';
-
-
-  scanLocked = false;
-
-
-  await openScanner();
-}
-
-
-/* =====================================
-   MANUAL
-===================================== */
-
-function manualTest() {
 
   const value =
-    document
-      .getElementById(
-        'manualCode'
-      )
-      .value
-      .trim();
+    String(
+      document
+        .getElementById(
+          'manualCode'
+        )
+        .value || ''
+    )
+    .trim();
 
 
   if (!value) {
 
+
     showStatus(
-      'Enter a code first.',
+      'Enter a Barcode or Item ID.',
       'error'
     );
 
+
     return;
+
+  }
+
+
+  lookupInventory(
+    value
+  );
+
+}
+
+
+
+/* =========================================================
+   IMS API LOOKUP
+========================================================= */
+
+
+function lookupInventory(
+  scannedCode
+) {
+
+
+  if (
+    !API_URL ||
+    API_URL.includes(
+      'PASTE_YOUR'
+    )
+  ) {
+
+
+    showStatus(
+      'Apps Script API URL has not been configured yet.',
+      'error'
+    );
+
+
+    return;
+
+  }
+
+
+  showLoading(
+    'Looking up inventory...'
+  );
+
+
+  const callbackName =
+    'imsCallback_' +
+    Date.now() +
+    '_' +
+    Math.floor(
+      Math.random() *
+      100000
+    );
+
+
+  const script =
+    document
+      .createElement(
+        'script'
+      );
+
+
+  let completed =
+    false;
+
+
+  const timeout =
+    setTimeout(
+      function() {
+
+
+        if (
+          completed
+        ) {
+
+          return;
+
+        }
+
+
+        completed =
+          true;
+
+
+        cleanup();
+
+
+        hideLoading();
+
+
+        showStatus(
+          'Unable to connect to the IMS database. Please check the Apps Script deployment.',
+          'error'
+        );
+
+
+        scanLocked =
+          false;
+
+
+      },
+      15000
+    );
+
+
+  function cleanup() {
+
+
+    clearTimeout(
+      timeout
+    );
+
+
+    try {
+
+
+      delete window[
+        callbackName
+      ];
+
+
+    }
+
+    catch (error) {
+
+
+      window[
+        callbackName
+      ] =
+        undefined;
+
+
+    }
+
+
+    if (
+      script.parentNode
+    ) {
+
+
+      script.parentNode
+        .removeChild(
+          script
+        );
+
+
+    }
+
+  }
+
+
+  window[
+    callbackName
+  ] =
+    function(result) {
+
+
+      if (
+        completed
+      ) {
+
+        return;
+
+      }
+
+
+      completed =
+        true;
+
+
+      cleanup();
+
+
+      hideLoading();
+
+
+      processLookupResult(
+        result,
+        scannedCode
+      );
+
+  };
+
+
+  script.onerror =
+    function() {
+
+
+      if (
+        completed
+      ) {
+
+        return;
+
+      }
+
+
+      completed =
+        true;
+
+
+      cleanup();
+
+
+      hideLoading();
+
+
+      showStatus(
+        'Unable to reach the IMS API.',
+        'error'
+      );
+
+
+      scanLocked =
+        false;
+
+  };
+
+
+  script.src =
+
+    API_URL +
+
+    '?action=lookup' +
+
+    '&code=' +
+    encodeURIComponent(
+      scannedCode
+    ) +
+
+    '&pcc=' +
+    encodeURIComponent(
+      PCC_ID
+    ) +
+
+    '&callback=' +
+    encodeURIComponent(
+      callbackName
+    ) +
+
+    '&_=' +
+    Date.now();
+
+
+  document.body
+    .appendChild(
+      script
+    );
+
+}
+
+
+
+/* =========================================================
+   PROCESS LOOKUP RESULT
+========================================================= */
+
+
+function processLookupResult(
+  result,
+  scannedCode
+) {
+
+
+  if (
+    !result ||
+    result.success !== true
+  ) {
+
+
+    hideItemCard();
+
+
+    showStatus(
+      result &&
+      result.message
+        ? result.message
+        : 'IMS lookup failed.',
+      'error'
+    );
+
+
+    scanLocked =
+      false;
+
+
+    return;
+
+  }
+
+
+  if (
+    result.found !== true
+  ) {
+
+
+    hideItemCard();
+
+
+    showStatus(
+      'Barcode scanned successfully, but "' +
+      escapeHtml(
+        scannedCode
+      ) +
+      '" is not registered in ITEM_MASTER.',
+      'warning'
+    );
+
+
+    scanLocked =
+      false;
+
+
+    return;
+
+  }
+
+
+  displayInventoryItem(
+    result
+  );
+
+
+  showStatus(
+    'Item found in IMS.',
+    'success'
+  );
+
+
+  scanLocked =
+    false;
+
+}
+
+
+
+/* =========================================================
+   DISPLAY ITEM
+========================================================= */
+
+
+function displayInventoryItem(
+  result
+) {
+
+
+  const item =
+    result.item;
+
+
+  const inventory =
+    result.inventory;
+
+
+  const threshold =
+    result.threshold;
+
+
+  const itemCard =
+    document
+      .getElementById(
+        'itemCard'
+      );
+
+
+  itemCard
+    .classList
+    .remove(
+      'hidden'
+    );
+
+
+  document
+    .getElementById(
+      'itemCode'
+    )
+    .textContent =
+
+      item.itemId +
+      (
+        item.barcode
+          ? ' • ' +
+            item.barcode
+          : ''
+      );
+
+
+  document
+    .getElementById(
+      'itemName'
+    )
+    .textContent =
+
+      item.itemName ||
+      'Unnamed Item';
+
+
+  let details = '';
+
+
+  if (
+    item.category
+  ) {
+
+
+    details +=
+
+      'Category: <b>' +
+
+      escapeHtml(
+        item.category
+      ) +
+
+      '</b><br>';
+
+  }
+
+
+  if (
+    item.brand
+  ) {
+
+
+    details +=
+
+      'Brand: <b>' +
+
+      escapeHtml(
+        item.brand
+      ) +
+
+      '</b><br>';
+
+  }
+
+
+  if (
+    item.uom
+  ) {
+
+
+    details +=
+
+      'UOM: <b>' +
+
+      escapeHtml(
+        item.uom
+      ) +
+
+      '</b>';
+
+  }
+
+
+  if (
+    item.description
+  ) {
+
+
+    details +=
+
+      '<br>Description: ' +
+
+      escapeHtml(
+        item.description
+      );
+
   }
 
 
   document
     .getElementById(
-      'scannedValue'
+      'itemDetails'
     )
-    .textContent =
-      value;
+    .innerHTML =
+      details;
 
 
   document
     .getElementById(
-      'scannedFormat'
+      'availableStock'
     )
     .textContent =
-      'Format: Manual Entry';
+
+      formatQty(
+        inventory
+          .totalAvailable
+      );
 
 
   document
     .getElementById(
-      'resultCard'
+      'quarantineStock'
     )
+    .textContent =
+
+      formatQty(
+        inventory
+          .totalQuarantined
+      );
+
+
+  document
+    .getElementById(
+      'transitStock'
+    )
+    .textContent =
+
+      formatQty(
+        inventory
+          .totalInTransit
+      );
+
+
+  renderStockLevel(
+    Number(
+      inventory
+        .totalAvailable || 0
+    ),
+    threshold
+  );
+
+
+  renderBatches(
+    inventory.batches ||
+    []
+  );
+
+
+  itemCard
+    .scrollIntoView({
+
+      behavior:
+        'smooth',
+
+      block:
+        'start'
+
+    });
+
+}
+
+
+
+/* =========================================================
+   STOCK LEVEL
+========================================================= */
+
+
+function renderStockLevel(
+  available,
+  threshold
+) {
+
+
+  const box =
+    document
+      .getElementById(
+        'stockLevel'
+      );
+
+
+  if (
+    !threshold
+  ) {
+
+
+    box
+      .classList
+      .add(
+        'hidden'
+      );
+
+
+    return;
+
+  }
+
+
+  box
     .classList
-    .remove('hidden');
+    .remove(
+      'hidden'
+    );
+
+
+  const critical =
+    Number(
+      threshold
+        .criticalLevel || 0
+    );
+
+
+  const reorder =
+    Number(
+      threshold
+        .reorderLevel || 0
+    );
+
+
+  const safety =
+    Number(
+      threshold
+        .safetyStock || 0
+    );
+
+
+  if (
+    critical > 0 &&
+    available <= critical
+  ) {
+
+
+    box.className =
+      'level level-critical';
+
+
+    box.innerHTML =
+
+      '⚠️ Critical stock level. ' +
+
+      'Available: ' +
+      formatQty(
+        available
+      ) +
+
+      ' • Critical level: ' +
+      formatQty(
+        critical
+      );
+
+
+    return;
+
+  }
+
+
+  if (
+    reorder > 0 &&
+    available <= reorder
+  ) {
+
+
+    box.className =
+      'level level-reorder';
+
+
+    box.innerHTML =
+
+      '⚠️ Reorder level reached. ' +
+
+      'Available: ' +
+      formatQty(
+        available
+      ) +
+
+      ' • Reorder at: ' +
+      formatQty(
+        reorder
+      );
+
+
+    return;
+
+  }
+
+
+  box.className =
+    'level level-good';
+
+
+  box.innerHTML =
+
+    '✓ Stock level is within configured threshold. ' +
+
+    (
+      safety
+        ? 'Safety stock: ' +
+          formatQty(
+            safety
+          )
+        : ''
+    );
+
+}
+
+
+
+/* =========================================================
+   BATCHES
+========================================================= */
+
+
+function renderBatches(
+  batches
+) {
+
+
+  const container =
+    document
+      .getElementById(
+        'batchContainer'
+      );
+
+
+  if (
+    !batches ||
+    batches.length === 0
+  ) {
+
+
+    container.innerHTML = `
+
+      <div
+        class="batch-heading">
+
+        BATCH INVENTORY
+
+      </div>
+
+
+      <div
+        class="batch">
+
+        No current batch inventory
+        for this PCC.
+
+      </div>
+
+    `;
+
+
+    return;
+
+  }
+
+
+  let html = `
+
+    <div
+      class="batch-heading">
+
+      BATCH INVENTORY • FEFO
+
+    </div>
+
+  `;
+
+
+  batches.forEach(
+    function(batch) {
+
+
+      const expiryText =
+        batch.expiryDate
+          ? batch.expiryDate
+          : 'No expiry';
+
+
+      const expiryClass =
+        isNearExpiry(
+          batch.expiryDate,
+          90
+        )
+          ? 'batch-expiring'
+          : '';
+
+
+      html += `
+
+        <div
+          class="batch">
+
+
+          <div
+            class="batch-name">
+
+            ${escapeHtml(
+              batch.batchNo ||
+              'No Batch'
+            )}
+
+          </div>
+
+
+          Expiry:
+
+          <span
+            class="${expiryClass}">
+
+            ${escapeHtml(
+              expiryText
+            )}
+
+          </span>
+
+
+          <br>
+
+
+          Available:
+          <b>
+
+            ${formatQty(
+              batch.qtyAvailable
+            )}
+
+          </b>
+
+
+          &nbsp; • &nbsp;
+
+
+          Quarantine:
+          <b>
+
+            ${formatQty(
+              batch.qtyQuarantined
+            )}
+
+          </b>
+
+
+          <br>
+
+
+          Location:
+          ${escapeHtml(
+            batch.locationId ||
+            '-'
+          )}
+
+
+          ${
+            batch.status
+              ? '<br>Status: ' +
+                escapeHtml(
+                  batch.status
+                )
+              : ''
+          }
+
+
+        </div>
+
+      `;
+
+    }
+  );
+
+
+  container.innerHTML =
+    html;
+
+}
+
+
+
+/* =========================================================
+   NEAR EXPIRY
+========================================================= */
+
+
+function isNearExpiry(
+  dateString,
+  days
+) {
+
+
+  if (!dateString) {
+
+    return false;
+
+  }
+
+
+  const expiry =
+    new Date(
+      dateString +
+      'T23:59:59'
+    );
+
+
+  if (
+    isNaN(
+      expiry.getTime()
+    )
+  ) {
+
+    return false;
+
+  }
+
+
+  const now =
+    new Date();
+
+
+  const difference =
+    expiry.getTime() -
+    now.getTime();
+
+
+  const daysRemaining =
+    difference /
+    (
+      1000 *
+      60 *
+      60 *
+      24
+    );
+
+
+  return (
+    daysRemaining <= days
+  );
+
+}
+
+
+
+/* =========================================================
+   SCAN ANOTHER
+========================================================= */
+
+
+function scanAnother() {
+
+
+  hideItemCard();
+
+
+  document
+    .getElementById(
+      'manualCode'
+    )
+    .value =
+      '';
+
+
+  scanLocked =
+    false;
+
+
+  lastScannedValue =
+    '';
 
 
   showStatus(
-    'Manual code accepted.',
-    'success'
+    'Ready for next item.',
+    'info'
   );
+
+
+  openScanner();
+
 }
+
+
+
+/* =========================================================
+   HIDE ITEM
+========================================================= */
+
+
+function hideItemCard() {
+
+
+  document
+    .getElementById(
+      'itemCard'
+    )
+    .classList
+    .add(
+      'hidden'
+    );
+
+}
+
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+
+function showStatus(
+  message,
+  type
+) {
+
+
+  const box =
+    document
+      .getElementById(
+        'statusBox'
+      );
+
+
+  box.className =
+    'status ' +
+    (
+      type || 'info'
+    );
+
+
+  box.innerHTML =
+    message;
+
+}
+
+
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+
+function showLoading(
+  message
+) {
+
+
+  const overlay =
+    document
+      .getElementById(
+        'loading'
+      );
+
+
+  document
+    .getElementById(
+      'loadingText'
+    )
+    .textContent =
+
+      message ||
+      'Loading...';
+
+
+  overlay
+    .classList
+    .remove(
+      'hidden'
+    );
+
+}
+
+
+function hideLoading() {
+
+
+  document
+    .getElementById(
+      'loading'
+    )
+    .classList
+    .add(
+      'hidden'
+    );
+
+}
+
+
+
+/* =========================================================
+   FORMAT QUANTITY
+========================================================= */
+
+
+function formatQty(
+  value
+) {
+
+
+  const number =
+    Number(
+      value || 0
+    );
+
+
+  if (
+    Number.isInteger(
+      number
+    )
+  ) {
+
+
+    return String(
+      number
+    );
+
+  }
+
+
+  return number
+    .toFixed(2)
+    .replace(
+      /\.?0+$/,
+      ''
+    );
+
+}
+
+
+
+/* =========================================================
+   HTML ESCAPE
+========================================================= */
+
+
+function escapeHtml(
+  value
+) {
+
+
+  return String(
+    value || ''
+  )
+
+    .replace(
+      /&/g,
+      '&amp;'
+    )
+
+    .replace(
+      /</g,
+      '&lt;'
+    )
+
+    .replace(
+      />/g,
+      '&gt;'
+    )
+
+    .replace(
+      /"/g,
+      '&quot;'
+    )
+
+    .replace(
+      /'/g,
+      '&#039;'
+    );
+
+}
+
+
+
+/* =========================================================
+   OPTIONAL API TEST
+========================================================= */
+
+
+function testApi() {
+
+
+  lookupInventory(
+    'MED-0001'
+  );
+
+}
+
 
 </script>
 
+
 </body>
+
 </html>
